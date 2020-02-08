@@ -6,5 +6,5 @@ Feature: App usage workflows
   Background:
     Given User launch app from device home screen
 
-  Scenario App preferences changed
+  Scenario: App preferences changed
     And User navigates to settings screen

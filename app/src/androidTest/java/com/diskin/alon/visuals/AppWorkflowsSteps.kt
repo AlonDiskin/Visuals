@@ -1,8 +1,18 @@
 package com.diskin.alon.visuals
 
+import android.app.ActivityManager
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers
+import com.diskin.alon.visuals.settings.presentation.SettingsActivity
+import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
+
 
 /**
  * Step definitions for application usage workflow scenarios
@@ -16,20 +26,22 @@ class AppWorkflowsSteps : GreenCoffeeSteps() {
 
         // launch app
         DeviceUtil.launchApp()
-
-        // TODO create home screen for application, so app could be launched
-
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     @And("^User navigates to settings screen$")
     fun userNavigatesToSettingsScreen() {
-        // TODO create a navigation menu for settings screen from home screen
+        // navigate to settings screen
+        openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext())
+        Espresso.onView(ViewMatchers.withText(R.string.action_settings))
+            .perform(ViewActions.click())
 
-        // TODO create an app navigator that will navigate user to settings screen
+        // verify settings screen displayed
+        val am = ApplicationProvider.getApplicationContext<Context>()
+            .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val tasks = am.getRunningTasks(1)
+        val foregroundActivityName =  tasks.first().topActivity.className
+        val expectedForeGroundActivityName = SettingsActivity::class.java.name
 
-        // TODO create empty settings screen
-
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        assertThat(foregroundActivityName).isEqualTo(expectedForeGroundActivityName)
     }
 }
