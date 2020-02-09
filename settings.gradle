@@ -1,2 +1,4 @@
-include ':app'
+include ':app',
+        ':features:home:presentation',
+        ':features:settings:presentation'
 rootProject.name='Visuals'
