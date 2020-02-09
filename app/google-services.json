@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "987002178529",
+    "firebase_url": "https://visuals-c2cc6.firebaseio.com",
+    "project_id": "visuals-c2cc6",
+    "storage_bucket": "visuals-c2cc6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987002178529:android:6ca54b56d93b091f6e60a0",
+        "android_client_info": {
+          "package_name": "com.diskin.alon.visuals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987002178529-2p3eao5il769oufrl7fp4u05n9kvgsjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_mEuIz90ZC6BDXh-QqDxlAvl6SFqmwlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987002178529-2p3eao5il769oufrl7fp4u05n9kvgsjt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
