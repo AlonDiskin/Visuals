@@ -1,4 +1,5 @@
 include ':app',
+        ':features:common:presentation',
         ':features:home:presentation',
         ':features:settings:presentation'
 rootProject.name='Visuals'
