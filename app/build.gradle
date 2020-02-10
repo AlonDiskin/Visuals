@@ -53,6 +53,7 @@ dependencies {
     // Project modules
     implementation project(':features:home:presentation')
     implementation project(':features:settings:presentation')
+    implementation project(':features:common:presentation')
 
     // Kotlin
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
