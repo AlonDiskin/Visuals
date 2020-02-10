@@ -56,6 +56,13 @@ object DeviceUtil {
             .setOrientationNatural()
     }
 
+    /**
+     * Performs back press on test device.
+     */
+    fun pressBack() {
+        UiDevice.getInstance(getInstrumentation()).pressBack()
+    }
+
     private fun getLaunchPackageName(): String {
         // Create launcher Intent
         val intent = Intent(Intent.ACTION_MAIN)
