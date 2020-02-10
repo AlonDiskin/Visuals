@@ -3,7 +3,9 @@
     package="com.diskin.alon.visuals.settings.presentation">
 
     <application>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/settings_label"/>
     </application>
 
 </manifest>
