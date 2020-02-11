@@ -19,7 +19,7 @@ class AppNavigator @Inject constructor(private val app: Application) : MainNavig
         app.startActivity(intent)
     }
 
-    override fun getPhotosNavGraph(): Int {
-        return R.navigation.photos_nav_graph
+    override fun getPicturesNavGraph(): Int {
+        return R.navigation.pictures_nav_graph
     }
 }

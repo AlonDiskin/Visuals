@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/photos"
+        android:id="@+id/pictures"
         android:icon="@drawable/ic_photos_white_24dp"
-        android:contentDescription="@string/nav_photos_description"
-        android:title="@string/nav_photos" />
+        android:contentDescription="@string/nav_pictures_description"
+        android:title="@string/nav_pictures" />
 
 <!--    <item-->
 <!--        android:id="@+id/stub1"-->

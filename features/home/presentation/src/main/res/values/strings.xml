@@ -1,6 +1,7 @@
 <resources>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="nav_photos">Photos</string>
-    <string name="nav_photos_description">Open photos browser</string>
+    <string name="nav_pictures">Pictures</string>
+    <string name="nav_pictures_description">Open pictures browser</string>
+    <string name="permission_deny_message">Can not access media without permission!</string>
 </resources>

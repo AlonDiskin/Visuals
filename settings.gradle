@@ -1,5 +1,7 @@
 include ':app',
-        ':features:photos:presentation',
+        ':features:pictures:data',
+        ':features:pictures:featureTest',
+        ':features:pictures:presentation',
         ':features:common:presentation',
         ':features:home:presentation',
         ':features:settings:presentation'

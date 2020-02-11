@@ -17,6 +17,7 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.diskin.alon.visuals.home.presentation.MainActivity
 import com.diskin.alon.visuals.settings.presentation.SettingsActivity
+import com.diskin.alon.visuals.util.DeviceUtil
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given
