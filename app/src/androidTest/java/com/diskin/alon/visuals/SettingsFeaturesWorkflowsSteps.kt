@@ -26,9 +26,9 @@ import org.hamcrest.CoreMatchers.equalTo
 
 
 /**
- * Step definitions for application usage workflow scenarios
+ * Step definitions for application usage workflow scenarios.
  */
-class AppWorkflowsSteps : GreenCoffeeSteps() {
+class SettingsFeaturesWorkflowsSteps : GreenCoffeeSteps() {
 
     @Given("^User launch app from device home screen$")
     fun userLaunchAppFromDeviceHomeScreen() {

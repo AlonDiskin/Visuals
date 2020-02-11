@@ -53,6 +53,7 @@ dependencies {
     // Project modules
     implementation project(':features:home:presentation')
     implementation project(':features:settings:presentation')
+    implementation project(':features:photos:presentation')
     implementation project(':features:common:presentation')
 
     // Kotlin

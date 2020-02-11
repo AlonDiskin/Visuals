@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/photos"
+        android:icon="@drawable/ic_photos_white_24dp"
+        android:contentDescription="@string/nav_photos_description"
+        android:title="@string/nav_photos" />
+
+<!--    <item-->
+<!--        android:id="@+id/stub1"-->
+<!--        android:icon="@drawable/ic_stub"-->
+<!--        android:title="Stub1" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/stub2"-->
+<!--        android:icon="@drawable/ic_stub"-->
+<!--        android:title="Stub2" />-->
+</menu>
