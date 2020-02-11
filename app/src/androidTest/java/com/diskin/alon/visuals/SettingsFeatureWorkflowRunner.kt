@@ -9,11 +9,11 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 /**
- * Step definitions runner for application usage workflow scenarios
+ * Step definitions runner for application usage workflow scenarios.
  */
 @RunWith(Parameterized::class)
 @LargeTest
-class AppWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class SettingsFeatureWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
         @JvmStatic
@@ -21,12 +21,13 @@ class AppWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
         fun scenarios(): Iterable<ScenarioConfig> {
             return GreenCoffeeConfig()
                 .withFeatureFromAssets("assets/feature/app_usage.feature")
+                .withTags("@settings-features")
                 .scenarios()
         }
     }
 
     @Test
     fun test() {
-        start(AppWorkflowsSteps())
+        start(SettingsFeaturesWorkflowsSteps())
     }
 }

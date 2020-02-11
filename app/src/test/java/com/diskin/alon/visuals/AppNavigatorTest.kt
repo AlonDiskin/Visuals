@@ -5,6 +5,7 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.diskin.alon.visuals.settings.presentation.SettingsActivity
+import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,5 +39,10 @@ class AppNavigatorTest {
         // Then navigator should start the settings activity
         Intents.intended(IntentMatchers.hasComponent(SettingsActivity::class.java.name))
         Intents.release()
+    }
+
+    @Test
+    fun returnPhotosNavGraph_whenAskedFor() {
+        assertThat(appNavigator.getPhotosNavGraph()).isEqualTo(R.navigation.photos_nav_graph)
     }
 }
