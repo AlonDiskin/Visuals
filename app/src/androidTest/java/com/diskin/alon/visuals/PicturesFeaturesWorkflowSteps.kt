@@ -8,10 +8,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import com.diskin.alon.visuals.photos.presentation.PicturesAdapter.PictureViewHolder
 import com.diskin.alon.visuals.util.DeviceUtil
+import com.diskin.alon.visuals.util.RecyclerViewMatcher.withRecyclerView
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -43,6 +42,9 @@ class PicturesFeaturesWorkflowSteps : GreenCoffeeSteps() {
         )
 
         testBitMaps.forEachIndexed { index, bitmap ->
+            // Since content provider stamp image adding date in seconds(not milliseconds),
+            // due to processor speed, we need to space adding, or all images will have same stamp
+            Thread.sleep(2000)
             val uri = MediaStore.Images.Media.insertImage(
                 ApplicationProvider.getApplicationContext<Context>().contentResolver,
                 bitmap,
@@ -79,15 +81,16 @@ class PicturesFeaturesWorkflowSteps : GreenCoffeeSteps() {
             .check(matches(isDisplayed()))
     }
 
-    @Then("^All user device public pictures are shown by date in ascend order$")
+    @Then("^All user device public pictures are shown by date in descended order$")
     fun allUserDevicePublicPictuesAreShownByDateInAscendOrder() {
-        // Verify all test pictures are shown
+        // Verify all test pictures are shown sorted by date added in descending order
+        testPictures.reverse()
         testPictures.forEachIndexed { index, uri ->
-            onView(withId(R.id.pictures_list))
-                .perform(RecyclerViewActions.scrollToPosition<PictureViewHolder>(index))
-
-            onView(allOf(withId(R.id.picture), withTagValue(`is`(uri.toString()))))
-                .check(matches(isDisplayed()))
+            onView(withRecyclerView(R.id.pictures_list).atPosition(index))
+                .check(matches(allOf(
+                    withId(R.id.picture),
+                    withTagValue(`is`(uri.toString())),
+                    isDisplayed())))
         }
 
         // Delete test pictures from test device storage(if needed)

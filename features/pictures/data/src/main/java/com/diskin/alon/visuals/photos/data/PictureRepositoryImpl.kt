@@ -11,10 +11,10 @@ class PictureRepositoryImpl @Inject constructor(
 
     override fun getAll(): Observable<List<Picture>> {
         return photosProvider.getAll()
-            .map { devicePhotos ->
-                devicePhotos.map { devicePhoto ->
-                    Picture(devicePhoto.uri)
-                }
+            .map { devicePictures ->
+                devicePictures
+                    .sortedByDescending { it.added }
+                    .map { devicePicture -> Picture(devicePicture.uri) }
             }
     }
 }

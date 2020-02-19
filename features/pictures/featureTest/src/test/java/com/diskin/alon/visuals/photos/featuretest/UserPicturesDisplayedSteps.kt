@@ -18,6 +18,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import org.robolectric.Shadows.shadowOf
 import io.mockk.mockkObject
 import io.mockk.verify
+import io.mockk.verifyOrder
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
@@ -30,9 +31,10 @@ class UserPicturesDisplayedSteps(
 
     private lateinit var scenario: FragmentScenario<PicturesFragment>
     private val testPictures: MutableList<MediaStorePicture> = mutableListOf(
-        MediaStorePicture(Uri.parse("test uri 1")),
-        MediaStorePicture(Uri.parse("test uri 2")),
-        MediaStorePicture(Uri.parse("test uri 3"))
+        MediaStorePicture(Uri.parse("test uri 1"),100L),
+        MediaStorePicture(Uri.parse("test uri 2"),10L),
+        MediaStorePicture(Uri.parse("test uri 3"),90L),
+        MediaStorePicture(Uri.parse("test uri 4"),900L)
     )
     private val devicePicturesSubject: Subject<List<MediaStorePicture>> =
         BehaviorSubject.createDefault(testPictures)
@@ -56,12 +58,15 @@ class UserPicturesDisplayedSteps(
         shadowOf(getMainLooper()).idle()
     }
 
-    @Then("^Pictures browser screen should display pictures$")
-    fun picturesBrowserScreenShouldDisplayPictures() {
-        // Verify all test pictures are displayed
-        testPictures
-            .map { Picture(it.uri) }
-            .forEach { verify { ImageLoader.loadImage(any(),it) } }
+    @Then("^Pictures browser screen should display pictures by date in descending order$")
+    fun picturesBrowserScreenShouldDisplayPicturesByDateInDescendingOrder() {
+        // Verify all test pictures are displayed in sorted descending order
+        verifyOrder {
+            testPictures
+                .sortedByDescending { it.added }
+                .map { Picture(it.uri) }
+                .forEach { ImageLoader.loadImage(any(),it) }
+        }
     }
 
     @When("^User removes one of test pictures from device$")

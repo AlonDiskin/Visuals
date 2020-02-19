@@ -16,4 +16,4 @@ Feature: App usage workflows
     Given User has public pictures on device
     And User launch app from device home screen
     When User navigates to pictures browser screen
-    Then All user device public pictures are shown by date in ascend order
+    Then All user device public pictures are shown by date in descended order

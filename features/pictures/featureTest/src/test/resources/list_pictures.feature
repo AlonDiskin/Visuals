@@ -11,7 +11,7 @@ Feature: List user pictures
   Scenario: User device pictures displayed
     Given User has test pictures on device
     And User opens pictures browser screen
-    Then Pictures browser screen should display pictures
+    Then Pictures browser screen should display pictures by date in descending order
     When User removes one of test pictures from device
     Then Pictures browser screen should update displayed data
 

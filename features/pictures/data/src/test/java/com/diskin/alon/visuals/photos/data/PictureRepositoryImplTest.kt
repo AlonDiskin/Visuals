@@ -33,24 +33,27 @@ class PictureRepositoryImplTest {
     }
 
     @Test
-    fun returnMappedProviderPhotos_whenPhotosQueried() {
+    fun returnSortedDescendingPictures_whenPicturesQueried() {
         // Test case fixture
         val testDevicePhotos = listOf(
-            MediaStorePicture(mock {  }),
-            MediaStorePicture(mock {  }),
-            MediaStorePicture(mock {  })
+            MediaStorePicture(mock {  },100L),
+            MediaStorePicture(mock {  },20L),
+            MediaStorePicture(mock {  },400L),
+            MediaStorePicture(mock {  },10L)
         )
+        val expectedPhotos = testDevicePhotos
+            .sortedByDescending { it.added }
+            .map { Picture(it.uri) }
 
         whenever(photosProvider.getAll()).doReturn(Observable.just(testDevicePhotos))
 
         // Given an initialized repository
 
         // When repository is queried for photos
-        val expectedPhotos = testDevicePhotos.map { Picture(it.uri) }
         val actualPhotos = repository.getAll().blockingFirst()!!
 
         // Then repository should fetch photos observable from provider, and return
-        // a mapped observable, that emits presentation photos
+        // a mapped observable, that emits pictures sorted by date in decs order
         assertThat(actualPhotos).isEqualTo(expectedPhotos)
     }
 }

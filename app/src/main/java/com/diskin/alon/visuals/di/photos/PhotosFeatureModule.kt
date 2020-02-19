@@ -5,7 +5,7 @@ import android.content.ContentResolver
 import androidx.lifecycle.ViewModelProvider
 import com.diskin.alon.visuals.photos.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
-import com.diskin.alon.visuals.photos.data.MediaStorePicturesProvider
+import com.diskin.alon.visuals.photos.data.MediaStorePictureProvider
 import com.diskin.alon.visuals.photos.data.PictureRepositoryImpl
 import com.diskin.alon.visuals.photos.presentation.PictureRepository
 import com.diskin.alon.visuals.photos.presentation.PicturesFragment
@@ -38,7 +38,7 @@ abstract class PhotosFeatureModule {
     }
 
     @Binds
-    abstract fun bindPhotosProvider(mediaStorePhotoProvider: MediaStorePicturesProvider): DeviceDataProvider<MediaStorePicture>
+    abstract fun bindPhotosProvider(mediaStorePhotoProvider: MediaStorePictureProvider): DeviceDataProvider<MediaStorePicture>
 
     @Binds
     abstract fun bindPhotoRepository(photoRepositoryImpl: PictureRepositoryImpl): PictureRepository

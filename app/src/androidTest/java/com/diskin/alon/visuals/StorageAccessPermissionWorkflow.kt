@@ -17,7 +17,6 @@ import com.google.common.truth.Truth
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.regex.Pattern
 
 /**
  * Storage access runtime permission test.
@@ -33,6 +32,9 @@ class StorageAccessPermissionWorkflow {
     fun setUp() {
         device = DeviceUtil.getDevice()
         scenario = ActivityScenario.launch(MainActivity::class.java)
+
+        // Wait for dialog window to appear
+        Thread.sleep(500)
     }
 
     @Test
