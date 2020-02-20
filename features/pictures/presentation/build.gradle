@@ -68,6 +68,8 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
 
     // Navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_component_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_component_version"
     implementation "androidx.navigation:navigation-runtime-ktx:$nav_component_version"
 
     // Dagger 2

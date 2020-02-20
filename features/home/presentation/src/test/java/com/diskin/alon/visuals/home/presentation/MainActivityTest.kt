@@ -48,9 +48,10 @@ class MainActivityTest {
     fun setUp() {
         // Setup stub data
 
-        whenever(navigator.getPicturesNavGraph()).doReturn(R.navigation.photos_test_nav_graph)
+        whenever(navigator.getPicturesNavGraph()).doReturn(R.navigation.pictures_test_nav_graph)
+        whenever(navigator.getVideosNavGraph()).doReturn(R.navigation.videos_test_nav_graph)
 
-        // Currently(Feb 2020), robolectric has no capability to unit test run time permissions, so
+        // Currently(Feb 2020), robolectric has no capability to unit test or configure run time permissions, so
         // we just going to stub a granted permission, while user run time permission flow will be
         // tested separately.
         mockkStatic(ContextCompat::class)
@@ -90,17 +91,32 @@ class MainActivityTest {
     }
 
     @Test
-    fun navToPhotosBrowserScreen_whenClickingOnPhotosNavMenu() {
+    fun navToPicturesBrowserScreen_whenClickingOnPicturesNavMenu() {
         // Given a resumed activity
-        //verify(this.navigator).getPicturesNavGraph()
 
-        // When user click on 'photos' menu item
+        // When user click on 'pictures' menu item
         onView(allOf(withText(R.string.nav_pictures),isDisplayed()))
             .perform(click())
 
-        // Then nav controller should navigate to photos browser destination
-        onView(withText(R.string.hello_blank_fragment))
-            .check(matches(isDisplayed()))
+        // Then nav controller should navigate to pictures browser destination
+        verify(this.navigator).getPicturesNavGraph()
 
+        onView(withText(R.string.hello_pictures_fragment))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun navToVideosBrowserScreen_whenClickingOnVideosNavMenu() {
+        // Given a resumed activity
+
+        // When user click on 'videos' menu item
+        onView(allOf(withText(R.string.nav_videos),isDisplayed()))
+            .perform(click())
+
+        // Then nav controller should navigate to pictures browser destination
+        verify(this.navigator).getVideosNavGraph()
+
+        onView(withText(R.string.hello_videos_fragment))
+            .check(matches(isDisplayed()))
     }
 }

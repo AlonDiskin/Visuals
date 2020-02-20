@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 /**
- * Step definitions runner for vidoes browser workflow scenario.
+ * Step definitions runner for videos browser workflow scenario.
  */
 @RunWith(Parameterized::class)
 @LargeTest
@@ -30,6 +30,6 @@ class VideosFeaturesWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(s
     @Test
     fun test() {
         DeviceUtil.grantStorageAccessPermission()
-        start(PicturesFeaturesWorkflowSteps())
+        start(VideosFeaturesWorkflowSteps())
     }
 }

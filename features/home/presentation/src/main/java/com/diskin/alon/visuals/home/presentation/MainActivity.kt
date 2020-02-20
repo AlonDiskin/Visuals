@@ -69,7 +69,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)!!
-        val navGraphIds = listOf(mNavigator.getPicturesNavGraph())
+        val navGraphIds = listOf(
+            mNavigator.getPicturesNavGraph(),
+            mNavigator.getVideosNavGraph()
+        )
 
         // Setup the bottom navigation view with a list of navigation graphs
         navController = bottomNavigationView.setupWithNavController(
