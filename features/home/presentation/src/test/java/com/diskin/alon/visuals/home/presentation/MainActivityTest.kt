@@ -1,5 +1,8 @@
 package com.diskin.alon.visuals.home.presentation
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -14,6 +17,8 @@ import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
+import io.mockk.mockkStatic
 import kotlinx.android.synthetic.main.activity_main.*
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Before
@@ -42,7 +47,16 @@ class MainActivityTest {
     @Before
     fun setUp() {
         // Setup stub data
-        whenever(navigator.getPhotosNavGraph()).doReturn(R.navigation.photos_test_nav_graph)
+
+        whenever(navigator.getPicturesNavGraph()).doReturn(R.navigation.photos_test_nav_graph)
+
+        // Currently(Feb 2020), robolectric has no capability to unit test run time permissions, so
+        // we just going to stub a granted permission, while user run time permission flow will be
+        // tested separately.
+        mockkStatic(ContextCompat::class)
+        every { ContextCompat.checkSelfPermission(
+            any(),
+            Manifest.permission.READ_EXTERNAL_STORAGE) } returns PackageManager.PERMISSION_GRANTED
 
         // Launch main activity
         scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -78,9 +92,10 @@ class MainActivityTest {
     @Test
     fun navToPhotosBrowserScreen_whenClickingOnPhotosNavMenu() {
         // Given a resumed activity
+        //verify(this.navigator).getPicturesNavGraph()
 
         // When user click on 'photos' menu item
-        onView(allOf(withText(R.string.nav_photos),isDisplayed()))
+        onView(allOf(withText(R.string.nav_pictures),isDisplayed()))
             .perform(click())
 
         // Then nav controller should navigate to photos browser destination

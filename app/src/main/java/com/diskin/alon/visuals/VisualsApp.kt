@@ -2,9 +2,10 @@ package com.diskin.alon.visuals
 
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatDelegate
-import com.diskin.alon.visuals.di.DaggerAppComponent
+import com.diskin.alon.visuals.di.app.DaggerAppComponent
 import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import dagger.android.support.DaggerApplication
+
 
 class VisualsApp : DaggerApplication() {
 

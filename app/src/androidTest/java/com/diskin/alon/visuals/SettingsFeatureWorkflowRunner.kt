@@ -1,6 +1,7 @@
 package com.diskin.alon.visuals
 
 import androidx.test.filters.LargeTest
+import com.diskin.alon.visuals.util.DeviceUtil
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.ScenarioConfig
@@ -28,6 +29,7 @@ class SettingsFeatureWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(
 
     @Test
     fun test() {
+        DeviceUtil.grantStorageAccessPermission()
         start(SettingsFeaturesWorkflowsSteps())
     }
 }

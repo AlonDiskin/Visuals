@@ -11,7 +11,7 @@ interface MainNavigator {
     fun openSettings()
 
     /**
-     * Get the photos features navigation graph resource.
+     * Get the pictures features navigation graph resource.
      */
-    fun getPhotosNavGraph(): Int
+    fun getPicturesNavGraph(): Int
 }

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="photo_height" type="dimen">175dp</item>
+    <item name="photo_margin" type="dimen">0.5dp</item>
+</resources>
