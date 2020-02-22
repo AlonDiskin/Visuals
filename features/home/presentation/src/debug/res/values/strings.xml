@@ -1,6 +1,7 @@
 <resources>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_pictures_fragment">Hello Pictures fragment</string>
+    <string name="hello_videos_fragment">Hello Videos fragment</string>
 
 </resources>

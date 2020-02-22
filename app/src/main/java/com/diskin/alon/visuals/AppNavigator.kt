@@ -22,4 +22,8 @@ class AppNavigator @Inject constructor(private val app: Application) : MainNavig
     override fun getPicturesNavGraph(): Int {
         return R.navigation.pictures_nav_graph
     }
+
+    override fun getVideosNavGraph(): Int {
+        return R.navigation.videos_nav_graph
+    }
 }

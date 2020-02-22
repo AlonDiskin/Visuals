@@ -45,4 +45,9 @@ class AppNavigatorTest {
     fun returnPicturesNavGraph_whenAskedFor() {
         assertThat(appNavigator.getPicturesNavGraph()).isEqualTo(R.navigation.pictures_nav_graph)
     }
+
+    @Test
+    fun returnVideosNavGraph_whenAskedFor() {
+        assertThat(appNavigator.getVideosNavGraph()).isEqualTo(R.navigation.videos_nav_graph)
+    }
 }

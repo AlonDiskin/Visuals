@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals.util;
+package com.diskin.alon.visuals.home.presentation;
 
 import android.os.IBinder;
 import android.view.WindowManager;

@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/pictures"
-        android:icon="@drawable/ic_photos_white_24dp"
+        android:icon="@drawable/ic_photos_24dp"
         android:contentDescription="@string/nav_pictures_description"
         android:title="@string/nav_pictures" />
 
-<!--    <item-->
-<!--        android:id="@+id/stub1"-->
-<!--        android:icon="@drawable/ic_stub"-->
-<!--        android:title="Stub1" />-->
+    <item
+        android:id="@+id/videos"
+        android:icon="@drawable/ic_video_library_24dp"
+        android:title="@string/nav_videos" />
 
 <!--    <item-->
 <!--        android:id="@+id/stub2"-->

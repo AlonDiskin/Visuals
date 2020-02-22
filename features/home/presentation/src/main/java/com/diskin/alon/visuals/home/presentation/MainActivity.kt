@@ -56,7 +56,9 @@ class MainActivity : AppCompatActivity() {
         // Resolve menu selection
         when(item?.itemId) {
             // Navigate to settings screen
-            R.id.action_settings -> mNavigator.openSettings()
+            R.id.action_settings -> {
+                mNavigator.openSettings()
+            }
         }
 
         return true
@@ -69,7 +71,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)!!
-        val navGraphIds = listOf(mNavigator.getPicturesNavGraph())
+        val navGraphIds = listOf(
+            mNavigator.getPicturesNavGraph(),
+            mNavigator.getVideosNavGraph()
+        )
 
         // Setup the bottom navigation view with a list of navigation graphs
         navController = bottomNavigationView.setupWithNavController(
