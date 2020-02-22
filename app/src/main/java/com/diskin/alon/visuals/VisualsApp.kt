@@ -15,6 +15,8 @@ class VisualsApp : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Restore night mode according to app preference
         val sp = PreferenceManager.getDefaultSharedPreferences(this)
         val themeKey = getString(R.string.pref_theme_key)
         val themeDefault = getString(R.string.pref_theme_default_value)

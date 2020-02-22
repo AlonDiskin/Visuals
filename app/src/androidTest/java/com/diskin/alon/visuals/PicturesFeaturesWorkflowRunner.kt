@@ -34,10 +34,4 @@ class PicturesFeaturesWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest
         DeviceUtil.grantStorageAccessPermission()
         start(PicturesFeaturesWorkflowSteps())
     }
-
-    override fun afterScenarioEnds(scenario: Scenario?, locale: Locale?) {
-        super.afterScenarioEnds(scenario, locale)
-        // TODO Delete test pictures from test device
-    }
-
 }

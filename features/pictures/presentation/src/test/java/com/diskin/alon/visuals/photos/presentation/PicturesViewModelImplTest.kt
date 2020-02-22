@@ -3,10 +3,9 @@ package com.diskin.alon.visuals.photos.presentation
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.ViewModel
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -15,8 +14,6 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 
 /**
  * [PicturesViewModelImpl] unit test class.
@@ -37,8 +34,7 @@ class PicturesViewModelImplTest {
     private lateinit var viewModel: PicturesViewModelImpl
 
     // Mocked collaborator
-    @Mock
-    lateinit var repository: PictureRepository
+    private val repository: PictureRepository = mockk()
 
     // Collaborators stubs
     private val photosSubject: Subject<List<Picture>> = PublishSubject.create()
@@ -50,11 +46,8 @@ class PicturesViewModelImplTest {
 
     @Before
     fun setUp() {
-        // Init mocks
-        MockitoAnnotations.initMocks(this)
-
         // Stub mocks
-        whenever(repository.getAll()).doReturn(photosSubject)
+        every{ repository.getAll() } returns  photosSubject
 
         // Init SUT
         viewModel = PicturesViewModelImpl((repository))
@@ -65,7 +58,7 @@ class PicturesViewModelImplTest {
         // Given an initialized view model
 
         // Then view model should have created a subscription to repository photos observable
-        verify(repository).getAll()
+        verify {repository.getAll() }
         assertThat(photosSubject.hasObservers()).isTrue()
     }
 
@@ -100,9 +93,9 @@ class PicturesViewModelImplTest {
 
         // When repository photos are updated
         val testPhotos = arrayListOf(
-            Picture(mock {  }),
-            Picture(mock {  }),
-            Picture(mock {  })
+            Picture(mockk {  }),
+            Picture(mockk {  }),
+            Picture(mockk {  })
         )
 
         photosSubject.onNext(testPhotos)

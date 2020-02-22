@@ -2,25 +2,21 @@ package com.diskin.alon.visuals.photos.presentation
 
 import android.net.Uri
 import android.os.Looper.getMainLooper
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.diskin.alon.visuals.common.presentation.SingleLiveEvent
-import com.diskin.alon.visuals.photos.presentation.di.TestApp
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.whenever
-import io.mockk.mockkObject
-import io.mockk.verify
+import dagger.android.support.AndroidSupportInjection
+import io.mockk.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Shadows.shadowOf
-import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import org.robolectric.shadows.ShadowToast
-import javax.inject.Inject
 
 /**
  * [PicturesFragment] unit test class.
@@ -28,26 +24,33 @@ import javax.inject.Inject
 @RunWith(AndroidJUnit4::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @SmallTest
-@Config(application = TestApp::class)
 class PicturesFragmentTest {
 
     // System under test
     private lateinit var scenario: FragmentScenario<PicturesFragment>
 
     // Mocked SUT collaborator
-    @Inject
-    lateinit var viewModel: PicturesViewModel
+    private val viewModel: PicturesViewModel = mockk()
 
     // Collaborator stubs
     private val photosLiveData = MutableLiveData<List<Picture>>()
-    private val photosUpdateError =
-        SingleLiveEvent<String>()
+    private val photosUpdateError = SingleLiveEvent<String>()
 
     @Before
     fun setUp() {
-        // Stub collaborators
-        whenever(viewModel.photos).doReturn(photosLiveData)
-        whenever(viewModel.photosUpdateError).doReturn(photosUpdateError)
+        // Mock out dagger injection
+        mockkStatic(AndroidSupportInjection::class)
+
+        val fragmentSlot = slot<Fragment>()
+
+        every { AndroidSupportInjection.inject(capture(fragmentSlot)) } answers {
+            val picturesFragment = fragmentSlot.captured as PicturesFragment
+            picturesFragment.viewModel = viewModel
+        }
+
+        // Stub mocked collaborator behaviour
+        every{ viewModel.photos } returns photosLiveData
+        every { viewModel.photosUpdateError } returns  photosUpdateError
 
         // Launch fragment under test
         scenario = FragmentScenario.launchInContainer(PicturesFragment::class.java)

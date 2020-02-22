@@ -15,6 +15,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -25,6 +27,8 @@ android {
     }
 
     testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+
         unitTests {
             includeAndroidResources = true
         }
@@ -41,8 +45,12 @@ dependencies {
     def dagger_version = "2.25.4"
     def nav_component_version = "2.2.0-rc02"
     def lifecycle_version = "2.2.0"
+    def uiautomator_version = "2.2.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     // Project modules
     implementation project(':features:common:presentation')
@@ -70,6 +78,19 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    // Instrumentation tests
+    androidTestImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    androidTestImplementation "com.google.truth:truth:1.0"
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiautomator_version"
+    androidTestImplementation "io.mockk:mockk-android:1.9.3.kotlin12"
+
+    androidTestUtil 'androidx.test:orchestrator:1.2.0'
+
     // Local testing
     testImplementation 'junit:junit:4.12'
     testImplementation 'androidx.test:core:1.2.0'
@@ -79,9 +100,6 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     testImplementation "com.google.truth:truth:1.0"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     testImplementation "io.mockk:mockk:1.9.3.kotlin12"
     testImplementation "org.robolectric:robolectric:$robolectric_version"
-    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
-    kaptTest "com.google.dagger:dagger-android-processor:$dagger_version"
 }

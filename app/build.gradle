@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments clearPackageData: 'true'
+
     }
     buildTypes {
         release {
@@ -29,7 +29,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
 
         unitTests {
             includeAndroidResources = true
@@ -84,8 +83,6 @@ dependencies {
     androidTestImplementation "com.google.truth:truth:1.0"
     androidTestImplementation "com.mauriciotogneri:greencoffee:$greencoffee_version"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiautomator_version"
-
-    androidTestUtil 'androidx.test:orchestrator:1.2.0'
 
     // Local testing
     testImplementation 'junit:junit:4.12'

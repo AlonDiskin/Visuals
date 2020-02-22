@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
@@ -71,12 +70,12 @@ object DeviceUtil {
     }
 
     fun grantStorageAccessPermission() {
-        InstrumentationRegistry.getInstrumentation().uiAutomation.grantRuntimePermission(
-            InstrumentationRegistry.getInstrumentation().targetContext.packageName,
+        getInstrumentation().uiAutomation.grantRuntimePermission(
+            getInstrumentation().targetContext.packageName,
             Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        InstrumentationRegistry.getInstrumentation().uiAutomation.grantRuntimePermission(
-            InstrumentationRegistry.getInstrumentation().targetContext.packageName,
+        getInstrumentation().uiAutomation.grantRuntimePermission(
+            getInstrumentation().targetContext.packageName,
             Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 

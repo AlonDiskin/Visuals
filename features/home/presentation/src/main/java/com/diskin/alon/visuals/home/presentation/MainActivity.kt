@@ -56,7 +56,9 @@ class MainActivity : AppCompatActivity() {
         // Resolve menu selection
         when(item?.itemId) {
             // Navigate to settings screen
-            R.id.action_settings -> mNavigator.openSettings()
+            R.id.action_settings -> {
+                mNavigator.openSettings()
+            }
         }
 
         return true
