@@ -7,14 +7,16 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
 
 object ImageLoader {
 
     fun loadImage(imageView: ImageView, photo: Picture) {
+        EspressoIdlingResource.increment()
         Glide
             .with(imageView.context)
             .load(photo.uri)
-            .centerCrop()
+            //.centerCrop()
             .addListener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -22,6 +24,7 @@ object ImageLoader {
                     target: Target<Drawable?>?,
                     isFirstResource: Boolean
                 ): Boolean {
+                    EspressoIdlingResource.decrement()
                     return false
                 }
 
@@ -33,6 +36,7 @@ object ImageLoader {
                     isFirstResource: Boolean
                 ): Boolean {
                     imageView.tag = photo.uri.toString()
+                    EspressoIdlingResource.decrement()
                     return false
                 }
             })

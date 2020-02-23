@@ -5,9 +5,10 @@ Feature: List user pictures
   I want have a listing of all my pictures
 
   acceptance criteria:
-  - observe device pictures
+  - list device pictures
+  - pictures should be listed sorted by dare in descending order
 
-  @observe-device-pictures-happy-path
+  @show-pictures-happy-path
   Scenario: User device pictures displayed
     Given User has test pictures on device
     And User opens pictures browser screen
@@ -15,7 +16,7 @@ Feature: List user pictures
     When User removes one of test pictures from device
     Then Pictures browser screen should update displayed data
 
-  @observe-device-pictures-sad-path
+  @show-pictures-sad-path
   Scenario: App fail to fetch device pictures
     Given User opens pictures browser screen
     When App fail to fetch device pictures

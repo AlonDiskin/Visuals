@@ -40,7 +40,7 @@ class PicturesFragment : Fragment() {
         pictures_list.adapter = photosAdapter
 
         // Observe view model state
-        viewModel.photos.observe(this, Observer {
+        viewModel.photos.observe(viewLifecycleOwner, Observer {
             // Submit list update
             photosAdapter.submitList(it)
         })

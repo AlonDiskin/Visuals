@@ -1,5 +1,6 @@
 package com.diskin.alon.visuals.photos.data
 
+import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.presentation.Picture
 import com.diskin.alon.visuals.photos.presentation.PictureRepository
 import io.reactivex.Observable

@@ -3,7 +3,7 @@ package com.diskin.alon.visuals.di.photos
 import android.app.Application
 import android.content.ContentResolver
 import androidx.lifecycle.ViewModelProvider
-import com.diskin.alon.visuals.photos.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import com.diskin.alon.visuals.photos.data.MediaStorePictureProvider
 import com.diskin.alon.visuals.photos.data.PictureRepositoryImpl

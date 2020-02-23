@@ -3,6 +3,8 @@ package com.diskin.alon.visuals.photos.data
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.MediaStore
+import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.RxContentProvider
 import io.reactivex.Observable
 import javax.inject.Inject
 

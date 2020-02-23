@@ -94,11 +94,9 @@ class PicturesFeaturesWorkflowSteps : GreenCoffeeSteps() {
         }
 
         // Delete test pictures from test device storage(if needed)
-        if (testPictures.isNotEmpty()) {
-            testPictures.forEach {
-                ApplicationProvider.getApplicationContext<Context>().contentResolver
-                    .delete(it,null,null)
-            }
+        testPictures.forEach {
+            ApplicationProvider.getApplicationContext<Context>().contentResolver
+                .delete(it,null,null)
         }
     }
 }

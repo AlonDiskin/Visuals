@@ -50,11 +50,11 @@ class PicturesViewModelImplTest {
         every{ repository.getAll() } returns  photosSubject
 
         // Init SUT
-        viewModel = PicturesViewModelImpl((repository))
+        viewModel = PicturesViewModelImpl(repository)
     }
 
     @Test
-    fun subscribeToRepoPhotos_whenCreated() {
+    fun subscribeToPhotosStream_whenCreated() {
         // Given an initialized view model
 
         // Then view model should have created a subscription to repository photos observable
@@ -88,7 +88,7 @@ class PicturesViewModelImplTest {
     }
 
     @Test
-    fun updatePhotosState_whenRepoPhotosUpdate() {
+    fun updatePicturesState_whenPicturesUpdate() {
         // Given an initialized view model
 
         // When repository photos are updated
