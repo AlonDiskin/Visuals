@@ -2,7 +2,7 @@ package com.diskin.alon.visuals.photos.featuretest
 
 import android.os.Looper
 import androidx.fragment.app.testing.FragmentScenario
-import com.diskin.alon.visuals.photos.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import com.diskin.alon.visuals.photos.presentation.PicturesFragment
 import com.google.common.truth.Truth.assertThat

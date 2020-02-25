@@ -1,6 +1,8 @@
 package com.diskin.alon.visuals
 
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.filters.LargeTest
+import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
 import com.diskin.alon.visuals.util.DeviceUtil
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
@@ -32,6 +34,15 @@ class PicturesFeaturesWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest
     @Test
     fun test() {
         DeviceUtil.grantStorageAccessPermission()
+
+        // Register idling resource for espresso
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+
         start(PicturesFeaturesWorkflowSteps())
+    }
+
+    override fun afterScenarioEnds(scenario: Scenario?, locale: Locale?) {
+        // Unregister espresso idling resource
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
     }
 }

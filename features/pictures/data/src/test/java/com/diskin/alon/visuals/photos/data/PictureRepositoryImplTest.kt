@@ -1,5 +1,6 @@
 package com.diskin.alon.visuals.photos.data
 
+import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.presentation.Picture
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.doReturn
@@ -35,25 +36,25 @@ class PictureRepositoryImplTest {
     @Test
     fun returnSortedDescendingPictures_whenPicturesQueried() {
         // Test case fixture
-        val testDevicePhotos = listOf(
+        val testDevicePictures = listOf(
             MediaStorePicture(mock {  },100L),
             MediaStorePicture(mock {  },20L),
             MediaStorePicture(mock {  },400L),
             MediaStorePicture(mock {  },10L)
         )
-        val expectedPhotos = testDevicePhotos
+        val expectedPictures = testDevicePictures
             .sortedByDescending { it.added }
             .map { Picture(it.uri) }
 
-        whenever(photosProvider.getAll()).doReturn(Observable.just(testDevicePhotos))
+        whenever(photosProvider.getAll()).doReturn(Observable.just(testDevicePictures))
 
         // Given an initialized repository
 
         // When repository is queried for photos
         val actualPhotos = repository.getAll().blockingFirst()!!
 
-        // Then repository should fetch photos observable from provider, and return
+        // Then repository should fetch pictures observable from provider, and return
         // a mapped observable, that emits pictures sorted by date in decs order
-        assertThat(actualPhotos).isEqualTo(expectedPhotos)
+        assertThat(actualPhotos).isEqualTo(expectedPictures)
     }
 }

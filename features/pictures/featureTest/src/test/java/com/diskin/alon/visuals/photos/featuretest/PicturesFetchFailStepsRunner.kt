@@ -28,7 +28,7 @@ class PicturesFetchFailStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(s
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
                 .withFeatureFromAssets("list_pictures.feature")
-                .withTags("@observe-device-pictures-sad-path")
+                .withTags("@show-pictures-sad-path")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {

@@ -16,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
 
     }
     buildTypes {
@@ -39,7 +40,9 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/presentation_debug.kotlin_module'
+        exclude 'META-INF/data_debug.kotlin_module'
         exclude 'META-INF/presentation_release.kotlin_module'
+        exclude 'META-INF/data_release.kotlin_module'
     }
 }
 
@@ -52,13 +55,18 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    // Multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
+
     // Project modules
     implementation project(':features:home:presentation')
     implementation project(':features:settings:presentation')
     implementation project(':features:pictures:presentation')
     implementation project(':features:pictures:data')
     implementation project(':features:videos:presentation')
+    implementation project(':features:videos:data')
     implementation project(':features:common:presentation')
+    implementation project(':features:common:data')
 
     // Kotlin
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

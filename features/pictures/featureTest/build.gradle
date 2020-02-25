@@ -48,6 +48,7 @@ dependencies {
     implementation project(':features:pictures:data')
     implementation project(':features:pictures:presentation')
     implementation project(':features:common:presentation')
+    implementation project(':features:common:data')
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

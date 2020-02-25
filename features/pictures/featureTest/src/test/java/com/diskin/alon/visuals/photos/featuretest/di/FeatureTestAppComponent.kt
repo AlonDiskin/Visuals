@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.photos.featuretest.di
 
-import com.diskin.alon.visuals.photos.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import dagger.Component
 import dagger.android.AndroidInjectionModule

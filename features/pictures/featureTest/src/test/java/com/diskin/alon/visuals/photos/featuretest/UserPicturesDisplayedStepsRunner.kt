@@ -28,7 +28,7 @@ class UserPicturesDisplayedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTe
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
                 .withFeatureFromAssets("list_pictures.feature")
-                .withTags("@observe-device-pictures-happy-path")
+                .withTags("@show-pictures-happy-path")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {

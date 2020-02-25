@@ -4,6 +4,7 @@ import android.app.Application
 import com.diskin.alon.visuals.VisualsApp
 import com.diskin.alon.visuals.di.home.MainActivityInjectionModule
 import com.diskin.alon.visuals.di.photos.PhotosFragmentInjectionModule
+import com.diskin.alon.visuals.di.videos.VideosFragmentInjectionModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -15,7 +16,8 @@ import javax.inject.Singleton
     AndroidInjectionModule::class,
     NavigationModule::class,
     MainActivityInjectionModule::class,
-    PhotosFragmentInjectionModule::class
+    PhotosFragmentInjectionModule::class,
+    VideosFragmentInjectionModule::class
 ])
 interface AppComponent : AndroidInjector<VisualsApp> {
 

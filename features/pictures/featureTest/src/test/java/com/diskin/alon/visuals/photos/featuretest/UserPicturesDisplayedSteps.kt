@@ -4,7 +4,7 @@ import android.net.Uri
 import android.os.Looper.getMainLooper
 import androidx.fragment.app.testing.FragmentScenario
 import com.diskin.alon.visuals.photos.presentation.ImageLoader
-import com.diskin.alon.visuals.photos.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import com.diskin.alon.visuals.photos.presentation.Picture
 import com.diskin.alon.visuals.photos.presentation.PicturesFragment
