@@ -17,6 +17,8 @@ Feature: App usage workflows
     And User launch app from device home screen
     When User navigates to pictures browser screen
     Then All user device public pictures are shown by date in descended order
+    When User rotates device
+    Then Pictures are displayed as before
 
   @videos-browser-features
   Scenario: Videos browser usage workflow
@@ -24,3 +26,5 @@ Feature: App usage workflows
     And User launch app from device home screen
     When User navigates to videos browser screen
     Then All user device public videos should be shown by date in descending order
+    When User rotates device
+    Then Videos are displayed as before

@@ -58,6 +58,10 @@ object DeviceUtil {
             .setOrientationNatural()
     }
 
+    fun rotateDevice() {
+        UiDevice.getInstance(getInstrumentation()).setOrientationLeft()
+    }
+
     /**
      * Performs back press on test device.
      */

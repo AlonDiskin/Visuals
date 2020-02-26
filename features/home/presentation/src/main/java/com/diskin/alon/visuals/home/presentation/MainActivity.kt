@@ -38,8 +38,14 @@ class MainActivity : AppCompatActivity() {
         // Setup toolbar
         setSupportActionBar(toolbar)
 
-        // Check run time permissions
-        checkStorageAccessPermission()
+        if (savedInstanceState == null) {
+            initNavigation()
+        }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        initNavigation()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -85,10 +91,11 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun checkStorageAccessPermission() {
+    private fun initNavigation() {
+        // Check runtime permission for storage access since app feature all require this permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
             == PackageManager.PERMISSION_GRANTED) {
-            // Permission is granted
+            // Permission is granted, setup bottom navigation
             setupBottomNavigation()
 
         } else {
@@ -109,12 +116,12 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == READ_EXTERNAL_STORAGE_REQUEST) {
             // If request is cancelled, the result arrays are empty.
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                // permission was granted!
+                // permission was granted, setupbottom navigation
                 setupBottomNavigation()
 
             } else {
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
+                // permission denied, Disable the
+                // navigation to app features setup that depends on this permission.
                 Toast.makeText(this,getString(R.string.permission_deny_message), Toast.LENGTH_LONG)
                     .show()
             }

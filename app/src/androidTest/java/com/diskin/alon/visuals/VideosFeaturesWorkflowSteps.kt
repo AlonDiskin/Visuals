@@ -17,6 +17,7 @@ import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
 import com.mauriciotogneri.greencoffee.annotations.Then
+import com.mauriciotogneri.greencoffee.annotations.When
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
 import java.io.File
@@ -109,6 +110,38 @@ class VideosFeaturesWorkflowSteps : GreenCoffeeSteps() {
         // Verify all test videos are shown sorted by date added in descending order
         testVideosUri.reverse()
         testDurations.reverse()
+        testVideosUri.forEachIndexed { index, uri ->
+            onView(withRecyclerView(R.id.videosList).atPosition(index))
+                .check(
+                    matches(
+                        allOf(
+                            hasDescendant(
+                                allOf(
+                                    withId(R.id.videoThumb),
+                                    withTagValue(`is`(uri.toString())),
+                                    isDisplayed())
+                            ),
+                            hasDescendant(
+                                allOf(
+                                    withId(R.id.videoDuration),
+                                    withText(testDurations[index].getFormattedDuration()),
+                                    isDisplayed())
+                            )
+                        )
+                    )
+                )
+        }
+    }
+
+    @When("^User rotates device$")
+    fun userRotatesDevice() {
+        // Rotate test device
+        DeviceUtil.rotateDevice()
+    }
+
+    @Then("^Videos are displayed as before$")
+    fun picturesAreDisplayedAsBefore() {
+        // Verify all test videos are shown sorted by date added in descending order
         testVideosUri.forEachIndexed { index, uri ->
             onView(withRecyclerView(R.id.videosList).atPosition(index))
                 .check(
