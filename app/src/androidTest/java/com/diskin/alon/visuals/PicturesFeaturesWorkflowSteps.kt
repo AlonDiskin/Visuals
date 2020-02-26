@@ -82,9 +82,27 @@ class PicturesFeaturesWorkflowSteps : GreenCoffeeSteps() {
     }
 
     @Then("^All user device public pictures are shown by date in descended order$")
-    fun allUserDevicePublicPictuesAreShownByDateInAscendOrder() {
+    fun allUserDevicePublicPicturesAreShownByDateInAscendOrder() {
         // Verify all test pictures are shown sorted by date added in descending order
         testPictures.reverse()
+        testPictures.forEachIndexed { index, uri ->
+            onView(withRecyclerView(R.id.pictures_list).atPosition(index))
+                .check(matches(allOf(
+                    withId(R.id.picture),
+                    withTagValue(`is`(uri.toString())),
+                    isDisplayed())))
+        }
+    }
+
+    @When("^User rotates device$")
+    fun userRotatesDevice() {
+        // Rotate test device
+        DeviceUtil.rotateDevice()
+    }
+
+    @Then("^Pictures are displayed as before$")
+    fun picturesAreDisplayedAsBefore() {
+        // Verify all test pictures are shown sorted by date added in descending order
         testPictures.forEachIndexed { index, uri ->
             onView(withRecyclerView(R.id.pictures_list).atPosition(index))
                 .check(matches(allOf(
