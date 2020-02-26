@@ -28,3 +28,5 @@ Feature: App usage workflows
     Then All user device public videos should be shown by date in descending order
     When User rotates device
     Then Videos are displayed as before
+    When User selects the first listed video for sharing
+    Then App should share video

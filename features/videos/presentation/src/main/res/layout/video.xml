@@ -28,4 +28,9 @@
         android:layout_gravity="center|bottom"
         tools:text="00:37" />
 
+    <include
+        android:id="@+id/selectable_foreground"
+        layout="@layout/selectable_foreground"
+        android:visibility="invisible" />
+
 </FrameLayout>

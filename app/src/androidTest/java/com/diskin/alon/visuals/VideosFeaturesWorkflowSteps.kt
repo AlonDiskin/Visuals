@@ -2,17 +2,26 @@ package com.diskin.alon.visuals
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.diskin.alon.visuals.util.DeviceUtil
 import com.diskin.alon.visuals.util.RecyclerViewMatcher.withRecyclerView
 import com.diskin.alon.visuals.videos.presentation.VideoDuration
+import com.diskin.alon.visuals.videos.presentation.VideosAdapter.VideoViewHolder
+import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -28,6 +37,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Step definitions for videos browser workflow scenario.
  */
+@Suppress("unused")
 class VideosFeaturesWorkflowSteps : GreenCoffeeSteps() {
 
     private val testVideosUri = mutableListOf<Uri>()
@@ -136,7 +146,7 @@ class VideosFeaturesWorkflowSteps : GreenCoffeeSteps() {
     @When("^User rotates device$")
     fun userRotatesDevice() {
         // Rotate test device
-        DeviceUtil.rotateDevice()
+        DeviceUtil.rotateDeviceLand()
     }
 
     @Then("^Videos are displayed as before$")
@@ -163,11 +173,42 @@ class VideosFeaturesWorkflowSteps : GreenCoffeeSteps() {
                     )
                 )
         }
+    }
+
+    @When("^User selects the first listed video for sharing$")
+    fun userSelectsFirstListedVideoForSharing() {
+        // Select first listed video
+        onView(withId(R.id.videosList))
+            .perform(actionOnItemAtPosition<VideoViewHolder>(0,longClick()))
+
+        // Click on share menu item
+        onView(withContentDescription(R.string.action_share_title))
+            .perform(ViewActions.click())
+    }
+
+    @Then("^App should share video$")
+    fun appShouldShareVideo() {
+        // Verify sharing intent is using the android sharing ui sheet
+        val expectedIntentPosition = 1
+
+        intended(hasAction(Intent.ACTION_CHOOSER))
+        intended(hasExtraWithKey(Intent.EXTRA_INTENT))
+
+        // Verify selected video uri is included in sharing intent
+        val intent = Intents.getIntents()[expectedIntentPosition].extras.get(Intent.EXTRA_INTENT) as Intent
+        val intentUri = intent.extras.getParcelable<Uri>(Intent.EXTRA_STREAM)!!
+
+        assertThat(intent.action).isEqualTo(Intent.ACTION_SEND)
+        assertThat(intent.type).isEqualTo("video/mp4")
+        assertThat(intentUri).isEqualTo(testVideosUri.first())
 
         // Delete test pictures from test device storage(if needed)
         testVideosUri.forEach {
             ApplicationProvider.getApplicationContext<Context>().contentResolver
                 .delete(it,null,null)
         }
+
+        // Exit from android share sheet ui
+        DeviceUtil.pressBack()
     }
 }

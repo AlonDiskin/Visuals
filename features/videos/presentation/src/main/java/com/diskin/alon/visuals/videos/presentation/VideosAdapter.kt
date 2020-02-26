@@ -1,8 +1,10 @@
 package com.diskin.alon.visuals.videos.presentation
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -12,7 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * [Video]s UI adapter.
  */
-class VideosAdapter : ListAdapter<Video, VideosAdapter.VideoViewHolder>(DIFF_CALLBACK){
+class VideosAdapter(
+    private val longClickListener: (Uri,View) -> Boolean,
+    private val clickListener: (Uri,View) -> Unit,
+    private val selectedVideoUri: List<Uri>,
+    var isMultiSelect: Boolean = false
+) : ListAdapter<Video, VideosAdapter.VideoViewHolder>(DIFF_CALLBACK){
 
     companion object {
 
@@ -29,22 +36,48 @@ class VideosAdapter : ListAdapter<Video, VideosAdapter.VideoViewHolder>(DIFF_CAL
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.video,parent,false)
 
-        return VideoViewHolder(view)
+        return VideoViewHolder(
+            view,
+            longClickListener,
+            clickListener,
+            selectedVideoUri)
     }
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position),isMultiSelect)
     }
 
-    class VideoViewHolder(videoView: View) : RecyclerView.ViewHolder(videoView) {
+    class VideoViewHolder(
+        videoView: View,
+        private val longClickListener: (Uri,View) -> Boolean,
+        private val clickListener: (Uri,View) -> Unit,
+        private val selectedVideoUri: List<Uri>
+    ) : RecyclerView.ViewHolder(videoView) {
 
+        private lateinit var video: Video
         private val videoImageView: ImageView = videoView.findViewById(R.id.videoThumb)
         private val videoDuration: TextView = videoView.findViewById(R.id.videoDuration)
+        private val selectableForeground: View = videoView.findViewById(R.id.selectable_foreground)
+        private val selectCheckBox: CheckBox =  videoView.findViewById(R.id.select_item_checkBox)
 
-        fun bind(video: Video) {
+        init {
+            videoView.setOnLongClickListener { longClickListener.invoke(video.uri,it) }
+            videoView.setOnClickListener { clickListener.invoke(video.uri,it) }
+        }
+
+        fun bind(video: Video,isMultiSelect: Boolean) {
             // Bind video info to view holder
-            videoDuration.text = video.duration.getFormattedDuration()
+            this.video = video
+            this.videoDuration.text = video.duration.getFormattedDuration()
             ThumbnailLoader.load(videoImageView,video.uri)
+
+            if (isMultiSelect) {
+                this.selectableForeground.visibility =  View.VISIBLE
+                this.selectCheckBox.isChecked = selectedVideoUri.contains(video.uri)
+            } else {
+                this.selectableForeground.visibility =  View.INVISIBLE
+                this.selectCheckBox.isChecked = false
+            }
         }
     }
 }

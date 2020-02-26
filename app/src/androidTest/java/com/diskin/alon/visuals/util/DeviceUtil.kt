@@ -58,8 +58,12 @@ object DeviceUtil {
             .setOrientationNatural()
     }
 
-    fun rotateDevice() {
+    fun rotateDeviceLand() {
         UiDevice.getInstance(getInstrumentation()).setOrientationLeft()
+    }
+
+    fun rotateDevicePort() {
+        UiDevice.getInstance(getInstrumentation()).setOrientationNatural()
     }
 
     /**
