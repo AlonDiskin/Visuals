@@ -91,6 +91,7 @@ dependencies {
     testImplementation 'androidx.test.ext:junit:1.1.1'
     testImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    testImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
     testImplementation "com.google.truth:truth:1.0"
     testImplementation "io.mockk:mockk:1.9.3.kotlin12"
     testImplementation "androidx.arch.core:core-testing:2.1.0"

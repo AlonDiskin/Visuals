@@ -97,7 +97,7 @@ class PicturesFeaturesWorkflowSteps : GreenCoffeeSteps() {
     @When("^User rotates device$")
     fun userRotatesDevice() {
         // Rotate test device
-        DeviceUtil.rotateDevice()
+        DeviceUtil.rotateDeviceLand()
     }
 
     @Then("^Pictures are displayed as before$")

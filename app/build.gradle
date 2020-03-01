@@ -88,6 +88,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
     androidTestImplementation "com.google.truth:truth:1.0"
     androidTestImplementation "com.mauriciotogneri:greencoffee:$greencoffee_version"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiautomator_version"
