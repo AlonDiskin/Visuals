@@ -1,9 +1,10 @@
 version: 2
 jobs:
-  build_and_test_local:
+  test_local:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-28
+    parallelism: 4
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -18,8 +19,17 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Build and run local tests
-          command: ./gradlew assembleDebug testDebug
+          name: Test home feature
+          command: ./gradlew :features:home:presentation:assembleDebugUnitTest
+      - run:
+          name: Test settings feature
+          command: ./gradlew :features:settings:presentation:assembleDebugUnitTest
+      - run:
+          name: Test videos feature
+          command: ./gradlew :features:videos:presentation:assembleDebugUnitTest :features:videos:data:assembleDebugUnitTest :features:videos:featureTest:assembleDebugUnitTest
+      - run:
+          name: Test pictures feature
+          command: ./gradlew :features:pictures:presentation:assembleDebugUnitTest :features:pictures:data:assembleDebugUnitTest :features:pictures:featureTest:assembleDebugUnitTest
       - store_artifacts:
           path: app/build/reports
           destination: reports
@@ -70,10 +80,10 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_and_test_local
+      - test_local
       - e2e_tests:
           requires:
-            - build_and_test_local
+            - test_local
           filters:
             branches:
               only:
