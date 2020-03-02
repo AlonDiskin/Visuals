@@ -84,8 +84,3 @@ workflows:
       - e2e_tests:
           requires:
             - test_local
-          filters:
-            branches:
-              only:
-                - master
-                - dev
