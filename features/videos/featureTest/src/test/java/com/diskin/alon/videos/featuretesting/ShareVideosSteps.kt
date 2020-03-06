@@ -4,18 +4,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Looper
 import androidx.fragment.app.testing.FragmentScenario
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers
@@ -23,10 +19,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.visuals.videos.presentation.R
-import com.diskin.alon.visuals.videos.presentation.VideosAdapter
 import com.diskin.alon.visuals.videos.presentation.VideosAdapter.VideoViewHolder
 import com.diskin.alon.visuals.videos.presentation.VideosFragment
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
@@ -72,7 +66,6 @@ class ShareVideosSteps(
     private val testSelectedVideosUri: MutableList<Uri> = mutableListOf()
     private val deviceVideosSubject: Subject<List<MediaStoreVideo>> =
         BehaviorSubject.createDefault(testDeviceVideos)
-    private var selectedNum: Int = 0
 
     @Given("^User has public videos on device$")
     fun userHasPublicVideosOnDevice() {

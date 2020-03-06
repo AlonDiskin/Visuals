@@ -199,7 +199,7 @@ class VideosFeaturesWorkflowSteps : GreenCoffeeSteps() {
         val intentUri = intent.extras.getParcelable<Uri>(Intent.EXTRA_STREAM)!!
 
         assertThat(intent.action).isEqualTo(Intent.ACTION_SEND)
-        assertThat(intent.type).isEqualTo("video/mp4")
+        assertThat(intent.type).isEqualTo("video/*")
         assertThat(intentUri).isEqualTo(testVideosUri.first())
 
         // Delete test pictures from test device storage(if needed)

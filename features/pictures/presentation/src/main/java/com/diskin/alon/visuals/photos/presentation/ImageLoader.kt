@@ -11,11 +11,11 @@ import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
 
 object ImageLoader {
 
-    fun loadImage(imageView: ImageView, photo: Picture) {
+    fun loadImage(imageView: ImageView, picture: Picture) {
         EspressoIdlingResource.increment()
         Glide
             .with(imageView.context)
-            .load(photo.uri)
+            .load(picture.uri)
             //.centerCrop()
             .addListener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(
@@ -35,7 +35,7 @@ object ImageLoader {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    imageView.tag = photo.uri.toString()
+                    imageView.tag = picture.uri.toString()
                     EspressoIdlingResource.decrement()
                     return false
                 }

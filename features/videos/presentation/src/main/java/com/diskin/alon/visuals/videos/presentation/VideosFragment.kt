@@ -101,7 +101,6 @@ class VideosFragment : Fragment(), ActionMode.Callback {
 
     private fun onVideoLongClick(uri: Uri,view: View): Boolean {
         if (!multiSelect) {
-            println("activity:${activity}")
             actionMode =  activity?.startActionMode(this)
             view.findViewById<CheckBox>(R.id.select_item_checkBox).isChecked = true
             selectedVideosUri.add(uri)
@@ -115,7 +114,7 @@ class VideosFragment : Fragment(), ActionMode.Callback {
             if (videoUri.isNotEmpty()) {
                 val intentBuilder = ShareCompat.IntentBuilder
                     .from(activity)
-                    .setType("video/mp4")
+                    .setType("video/*")
                     .setChooserTitle("Share videos")
 
                 videoUri.forEach { uri ->

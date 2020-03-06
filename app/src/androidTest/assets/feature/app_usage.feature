@@ -19,6 +19,8 @@ Feature: App usage workflows
     Then All user device public pictures are shown by date in descended order
     When User rotates device
     Then Pictures are displayed as before
+    When User selects the first listed picture for sharing
+    Then App should share picture
 
   @videos-browser-features
   Scenario: Videos browser usage workflow

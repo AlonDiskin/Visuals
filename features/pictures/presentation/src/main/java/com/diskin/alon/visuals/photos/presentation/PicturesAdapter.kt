@@ -1,8 +1,10 @@
 package com.diskin.alon.visuals.photos.presentation
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,7 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * [Picture]s UI adapter.
  */
-class PicturesAdapter : ListAdapter<Picture, PicturesAdapter.PictureViewHolder>(DIFF_CALLBACK){
+class PicturesAdapter(
+    private val longClickListener: (Uri, View) -> Boolean,
+    private val clickListener: (Uri,View) -> Unit,
+    private val selectedVideoUri: List<Uri>
+    ) : ListAdapter<Picture, PicturesAdapter.PictureViewHolder>(DIFF_CALLBACK){
+
+    var isMultiSelect: Boolean = false
 
     companion object {
 
@@ -28,20 +36,50 @@ class PicturesAdapter : ListAdapter<Picture, PicturesAdapter.PictureViewHolder>(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.picture,parent,false)
 
-        return PictureViewHolder(view)
+        return PictureViewHolder(
+            view,
+            longClickListener,
+            clickListener,
+            selectedVideoUri
+        )
     }
 
     override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), isMultiSelect)
     }
 
-    class PictureViewHolder(photoItemView: View) : RecyclerView.ViewHolder(photoItemView) {
+    class PictureViewHolder(
+        pictureItemView: View,
+        private val longClickListener: (Uri,View) -> Boolean,
+        private val clickListener: (Uri,View) -> Unit,
+        private val selectedVideoUri: List<Uri>
+    ) : RecyclerView.ViewHolder(pictureItemView) {
 
-        private val photoImageView = photoItemView as ImageView
+        private lateinit var picture: Picture
+        private val pictureImageView: ImageView = pictureItemView.findViewById(R.id.pictureImage)
+        private val selectableForeground: View = pictureItemView.findViewById(R.id.selectable_foreground)
+        private val selectCheckBox: CheckBox =  pictureItemView.findViewById(R.id.select_item_checkBox)
 
-        fun bind(photo: Picture) {
+        init {
+            pictureItemView.setOnLongClickListener { longClickListener.invoke(picture.uri,it) }
+            pictureItemView.setOnClickListener { clickListener.invoke(picture.uri,it) }
+        }
+
+        fun bind(picture: Picture,isMultiSelect: Boolean) {
+            // Bind picture value
+            this.picture = picture
+
             // Load picture into image view
-            ImageLoader.loadImage(this.photoImageView,photo)
+            ImageLoader.loadImage(pictureImageView,picture)
+
+            // Resolve multi select ui if needed
+            if (isMultiSelect) {
+                this.selectableForeground.visibility =  View.VISIBLE
+                this.selectCheckBox.isChecked = selectedVideoUri.contains(picture.uri)
+            } else {
+                this.selectableForeground.visibility =  View.INVISIBLE
+                this.selectCheckBox.isChecked = false
+            }
         }
     }
 }

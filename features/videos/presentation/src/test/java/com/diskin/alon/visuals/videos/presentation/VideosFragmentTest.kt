@@ -268,7 +268,7 @@ class VideosFragmentTest {
         val intentUris = intent.extras.getParcelableArrayList<Uri>(Intent.EXTRA_STREAM)!!
 
         assertThat(intent.action).isEqualTo(Intent.ACTION_SEND_MULTIPLE)
-        assertThat(intent.type).isEqualTo("video/mp4")
+        assertThat(intent.type).isEqualTo("video/*")
         assertThat(intentUris.size).isEqualTo(selectedVideosIndex.size)
         selectedVideosIndex.forEachIndexed { _, testVideosIndex ->
             assertThat(intentUris.contains(testVideos[testVideosIndex].uri))
