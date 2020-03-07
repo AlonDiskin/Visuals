@@ -10,8 +10,7 @@ import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given
 import com.mauriciotogneri.greencoffee.annotations.Then
 import com.mauriciotogneri.greencoffee.annotations.When
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import org.robolectric.Shadows
@@ -31,7 +30,7 @@ class PicturesFetchFailSteps(
     @Given("^User opens pictures browser screen$")
     fun userOPensPicturesBrowserScreen() {
         // Stub pictures provider mock
-        whenever(mockedPicturesProvider.getAll()).doReturn(devicePicturesSubject)
+        every { mockedPicturesProvider.getAll() } returns devicePicturesSubject
 
         // Launch photos fragment
         scenario = FragmentScenario.launchInContainer(PicturesFragment::class.java)

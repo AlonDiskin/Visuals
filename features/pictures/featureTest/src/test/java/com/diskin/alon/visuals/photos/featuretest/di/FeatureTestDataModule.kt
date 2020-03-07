@@ -2,9 +2,9 @@ package com.diskin.alon.visuals.photos.featuretest.di
 
 import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
-import com.nhaarman.mockitokotlin2.mock
 import dagger.Module
 import dagger.Provides
+import io.mockk.mockk
 import javax.inject.Singleton
 
 @Module
@@ -14,6 +14,6 @@ object FeatureTestDataModule {
     @Singleton
     @Provides
     fun provideDevicePhotosProvider(): DeviceDataProvider<MediaStorePicture> {
-        return mock {  }
+        return mockk {  }
     }
 }

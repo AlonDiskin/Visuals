@@ -13,8 +13,7 @@ import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
 import com.mauriciotogneri.greencoffee.annotations.Then
 import com.mauriciotogneri.greencoffee.annotations.When
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
 import org.robolectric.Shadows.shadowOf
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -42,8 +41,7 @@ class UserPicturesDisplayedSteps(
     @Given("^User has test pictures on device$")
     fun userHasTestPicturesOnDevice() {
         // Mock out provider for test, and stub it with test pictures data
-        whenever(mockedPicturesProvider.getAll())
-            .doReturn(devicePicturesSubject)
+        every { mockedPicturesProvider.getAll() } returns devicePicturesSubject
     }
 
     @And("^User opens pictures browser screen$")

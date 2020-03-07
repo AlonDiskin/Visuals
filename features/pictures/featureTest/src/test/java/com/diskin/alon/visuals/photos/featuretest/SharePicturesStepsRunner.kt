@@ -1,9 +1,9 @@
-package com.diskin.alon.videos.featuretesting
+package com.diskin.alon.visuals.photos.featuretest
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.intent.Intents
-import com.diskin.alon.videos.featuretesting.di.FeatureTestApp
+import com.diskin.alon.visuals.photos.featuretest.di.FeatureTestApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.Scenario
@@ -16,12 +16,12 @@ import org.robolectric.annotation.LooperMode
 import java.util.*
 
 /**
- * Step definitions runner for the 'User share videos' scenario.
+ * Step definitions runner for the 'User share pictures' scenario.
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = FeatureTestApp::class)
-class ShareVideosStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class SharePicturesStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
         @ParameterizedRobolectricTestRunner.Parameters
@@ -29,7 +29,7 @@ class ShareVideosStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenari
         fun data(): Collection<Array<Any>> {
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
-                .withFeatureFromAssets("share_videos.feature")
+                .withFeatureFromAssets("share_pictures.feature")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {
@@ -49,7 +49,7 @@ class ShareVideosStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenari
             .getApplicationContext<Context>() as FeatureTestApp)
 
         // Launch scenario test
-        start(ShareVideosSteps(featureTestApp.getMockedVideosProvider()))
+        start(SharePicturesSteps(featureTestApp.getMockedPicturesProvider()))
     }
 
     override fun afterScenarioEnds(scenario: Scenario?, locale: Locale?) {
