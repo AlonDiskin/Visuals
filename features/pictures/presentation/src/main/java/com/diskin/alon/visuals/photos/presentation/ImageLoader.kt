@@ -1,6 +1,7 @@
 package com.diskin.alon.visuals.photos.presentation
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -11,11 +12,11 @@ import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
 
 object ImageLoader {
 
-    fun loadImage(imageView: ImageView, picture: Picture) {
+    fun loadImage(imageView: ImageView, uri: Uri) {
         EspressoIdlingResource.increment()
         Glide
             .with(imageView.context)
-            .load(picture.uri)
+            .load(uri)
             //.centerCrop()
             .addListener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(
@@ -35,7 +36,7 @@ object ImageLoader {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    imageView.tag = picture.uri.toString()
+                    imageView.tag = uri.toString()
                     EspressoIdlingResource.decrement()
                     return false
                 }

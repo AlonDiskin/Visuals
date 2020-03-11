@@ -63,7 +63,7 @@ class UserPicturesDisplayedSteps(
             testPictures
                 .sortedByDescending { it.added }
                 .map { Picture(it.uri) }
-                .forEach { ImageLoader.loadImage(any(),it) }
+                .forEach { ImageLoader.loadImage(any(),it.uri) }
         }
     }
 
@@ -78,6 +78,6 @@ class UserPicturesDisplayedSteps(
         // Verify displayed pictures are updated
         testPictures
             .map { Picture(it.uri) }
-            .forEach { verify { ImageLoader.loadImage(any(),it) } }
+            .forEach { verify { ImageLoader.loadImage(any(),it.uri) } }
     }
 }

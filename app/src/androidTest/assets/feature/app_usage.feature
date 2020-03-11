@@ -22,6 +22,14 @@ Feature: App usage workflows
     When User selects the first listed picture for sharing
     Then App should share picture
 
+ @picture-viewer-features
+ Scenario: Pictures viewer usage workflow
+   Given User has public pictures on device
+   And User launch app from device home screen
+   When User navigates to pictures browser screen
+   And Open the first shown picture
+   Then Picture should be displayed in full view in own screen
+
   @videos-browser-features
   Scenario: Videos browser usage workflow
     Given User has public videos on his device

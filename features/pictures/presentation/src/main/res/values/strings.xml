@@ -3,4 +3,6 @@
     <string name="action_share_pictures">Share pictures</string>
     <string name="share_pictures_sheet_title">Share pictures</string>
     <string name="mime_type_image">image/*</string>
+    <string name="extra_pic_uri">pic uri</string>
+    <string name="picture_detail_toolbar_title"> </string>
 </resources>

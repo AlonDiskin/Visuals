@@ -19,8 +19,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
@@ -99,7 +98,7 @@ class PicturesFragmentTest {
         displayTestPictures()
 
         // Then fragment should show updated photos in layout
-        testPictures.forEach { verify { ImageLoader.loadImage(any(),it) } }
+        testPictures.forEach { verify { ImageLoader.loadImage(any(),it.uri) } }
     }
 
     @Test
@@ -339,6 +338,30 @@ class PicturesFragmentTest {
                 )
             )
         }
+    }
+
+    @Test
+    fun openPictureDetail_whenPictureClicked() {
+        // Test case fixture
+        Intents.init()
+
+        // Given a resumed fragment
+
+        // And displayed pictures
+        displayTestPictures()
+
+        // When user click on displayed picture
+        val selectedIndex = 0
+        scrollToPictureAndPerform(selectedIndex, click())
+
+        // Then fragment should start picture activity, with clicked picture url as extra
+        val context = ApplicationProvider.getApplicationContext<Context>()
+
+        intended(hasComponent(PictureDetailActivity::class.java.name))
+        intended(hasExtra(context.getString(R.string.extra_pic_uri),
+            testPictures[selectedIndex].uri))
+
+        Intents.release()
     }
 
     private fun selectDisplayedPictures(selectedIndex: List<Int>) {

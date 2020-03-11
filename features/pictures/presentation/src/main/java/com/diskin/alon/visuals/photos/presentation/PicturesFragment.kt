@@ -1,7 +1,9 @@
 package com.diskin.alon.visuals.photos.presentation
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.CheckBox
 import androidx.fragment.app.Fragment
@@ -109,6 +111,13 @@ class PicturesFragment : Fragment(), ActionMode.Callback {
             if (selectedPicturesUri.isEmpty()) {
                 actionMode?.finish()
             }
+
+        } else {
+            val intent = Intent(activity, PictureDetailActivity::class.java).apply {
+                putExtra(getString(R.string.extra_pic_uri), uri)
+            }
+
+            startActivity(intent)
         }
     }
 

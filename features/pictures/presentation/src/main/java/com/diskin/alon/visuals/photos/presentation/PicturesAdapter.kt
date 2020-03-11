@@ -70,7 +70,7 @@ class PicturesAdapter(
             this.picture = picture
 
             // Load picture into image view
-            ImageLoader.loadImage(pictureImageView,picture)
+            ImageLoader.loadImage(pictureImageView,picture.uri)
 
             // Resolve multi select ui if needed
             if (isMultiSelect) {

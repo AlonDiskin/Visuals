@@ -1,2 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.diskin.alon.visuals.photos.presentation" />
+    package="com.diskin.alon.visuals.photos.presentation">
+
+    <application>
+        <activity
+            android:name=".PictureDetailActivity"
+            android:label="@string/picture_detail_toolbar_title"
+            android:launchMode="singleTop"
+            android:theme="@style/PicActivityTheme" />
+    </application>
+
+</manifest>
