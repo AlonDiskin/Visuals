@@ -15,6 +15,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+        javaCompileOptions.annotationProcessorOptions.includeCompileClasspath = true
     }
 
     buildTypes {
@@ -32,6 +33,10 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -60,6 +65,15 @@ dependencies {
     // Fragment Testing
     implementation "androidx.fragment:fragment-testing:$fragment_version"
 
+    // Currently (28.320) due to a bug in kotlin\gradle plugin, annotation processing is
+    // not working in test source set,so dagger is unable to generate test dependencies graph for tests
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation "org.robolectric:robolectric:$robolectric_version"
+    implementation "io.mockk:mockk:1.9.3.kotlin12"
+
     // Local testing
     testImplementation 'junit:junit:4.12'
     testImplementation 'androidx.test:core:1.2.0'
@@ -69,14 +83,10 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     testImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
-    testImplementation "com.google.truth:truth:1.0"
-    testImplementation "org.robolectric:robolectric:$robolectric_version"
+    testImplementation "com.google.truth:truth:1.0.1"
     testImplementation "com.mauriciotogneri:greencoffee:$greencoffee_version"
-    testImplementation "com.google.dagger:dagger-android:$dagger_version"
-    testImplementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
-    kaptTest "com.google.dagger:dagger-android-processor:$dagger_version"
     testImplementation 'io.reactivex.rxjava2:rxjava:2.2.13'
     testImplementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
-    testImplementation "io.mockk:mockk:1.9.3.kotlin12"
+    testImplementation 'androidx.viewpager2:viewpager2:1.0.0'
+    kaptTest "androidx.databinding:databinding-compiler:3.6.1"
 }

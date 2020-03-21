@@ -57,31 +57,41 @@ class MediaStorePictureProviderTest {
     fun fetchPicturesFromDevice_whenContentObservableInvokesFetchingFunction() {
         // Test case fixture
         val fetchFuncSlot = slot<() -> List<MediaStorePicture>>()
-        val added = Calendar.getInstance().timeInMillis
+        val added = Calendar.getInstance().timeInMillis / 1000L // convert to seconds,as media store value
+        val size = 10000L
+        val title = "title"
+        val path = "path"
+        val width = 200L
+        val height = 300L
         val expectedColumns = arrayOf(
             MediaStore.Images.ImageColumns._ID,
-            MediaStore.Images.ImageColumns.DATE_ADDED
+            MediaStore.Images.ImageColumns.DATE_ADDED,
+            MediaStore.Images.ImageColumns.SIZE,
+            MediaStore.Images.ImageColumns.TITLE,
+            MediaStore.Images.ImageColumns.DATA,
+            MediaStore.Images.ImageColumns.WIDTH,
+            MediaStore.Images.ImageColumns.HEIGHT
         )
         val expectedPictures = listOf(
             MediaStorePicture(Uri.parse(
                 MediaStorePictureProvider.PICTURES_PROVIDER_URI.toString().plus("/1")),
-                added),
+                added * 1000L, size, title, path, width, height),
             MediaStorePicture(
                 Uri.parse(MediaStorePictureProvider.PICTURES_PROVIDER_URI.toString().plus("/2")),
-                added),
+                added * 1000L, size, title, path, width, height),
             MediaStorePicture(
                 Uri.parse(MediaStorePictureProvider.PICTURES_PROVIDER_URI.toString().plus("/3")),
-                added),
+                added * 1000L, size, title, path, width, height),
             MediaStorePicture(
                 Uri.parse(MediaStorePictureProvider.PICTURES_PROVIDER_URI.toString().plus("/4")),
-                added)
+                added * 1000L, size, title, path, width, height)
         )
         val cursor = MatrixCursor(expectedColumns)
 
-        cursor.addRow(arrayOf(1,added))
-        cursor.addRow(arrayOf(2,added))
-        cursor.addRow(arrayOf(3,added))
-        cursor.addRow(arrayOf(4,added))
+        cursor.addRow(arrayOf(1,added,size,title,path,width,height))
+        cursor.addRow(arrayOf(2,added,size,title,path,width,height))
+        cursor.addRow(arrayOf(3,added,size,title,path,width,height))
+        cursor.addRow(arrayOf(4,added,size,title,path,width,height))
 
         mockkObject(RxContentProvider)
 

@@ -1,9 +1,11 @@
 package com.diskin.alon.videos.featuretesting
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Looper
 import androidx.fragment.app.testing.FragmentScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
@@ -116,6 +118,7 @@ class ShareVideosSteps(
 
         // Verify selected videos uris are included in sharing intent, taking into account
         // that intent should be build differently for sharing single video, or multiple
+        val context = ApplicationProvider.getApplicationContext<Context>()
         val intent = Intents.getIntents().first().extras.get(Intent.EXTRA_INTENT) as Intent
         val intentUris = if (testSelectedVideosUri.size > 1) {
             intent.extras.getParcelableArrayList(Intent.EXTRA_STREAM)!!
@@ -129,7 +132,7 @@ class ShareVideosSteps(
             assertThat(intent.action).isEqualTo(Intent.ACTION_SEND)
         }
 
-        assertThat(intent.type).isEqualTo("video/mp4")
+        assertThat(intent.type).isEqualTo(context.getString(R.string.video_uri_mime_type))
         assertThat(intentUris.size).isEqualTo(testSelectedVideosUri.size)
         testSelectedVideosUri.forEach { assertThat(intentUris.contains(it)).isTrue() }
     }

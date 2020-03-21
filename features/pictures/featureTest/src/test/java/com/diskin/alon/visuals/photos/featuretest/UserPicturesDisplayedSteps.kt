@@ -3,11 +3,11 @@ package com.diskin.alon.visuals.photos.featuretest
 import android.net.Uri
 import android.os.Looper.getMainLooper
 import androidx.fragment.app.testing.FragmentScenario
-import com.diskin.alon.visuals.photos.presentation.ImageLoader
+import com.diskin.alon.visuals.photos.presentation.util.ImageLoader
 import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
-import com.diskin.alon.visuals.photos.presentation.Picture
-import com.diskin.alon.visuals.photos.presentation.PicturesFragment
+import com.diskin.alon.visuals.photos.presentation.model.Picture
+import com.diskin.alon.visuals.photos.presentation.controller.PicturesBrowserFragment
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -28,12 +28,12 @@ class UserPicturesDisplayedSteps(
     private val  mockedPicturesProvider: DeviceDataProvider<MediaStorePicture>
 ) : GreenCoffeeSteps() {
 
-    private lateinit var scenario: FragmentScenario<PicturesFragment>
+    private lateinit var scenario: FragmentScenario<PicturesBrowserFragment>
     private val testPictures: MutableList<MediaStorePicture> = mutableListOf(
-        MediaStorePicture(Uri.parse("test uri 1"),100L),
-        MediaStorePicture(Uri.parse("test uri 2"),10L),
-        MediaStorePicture(Uri.parse("test uri 3"),90L),
-        MediaStorePicture(Uri.parse("test uri 4"),900L)
+        MediaStorePicture(Uri.parse("test uri 1"),100L,0L,"","",0L,0L),
+        MediaStorePicture(Uri.parse("test uri 2"),10L,0L,"","",0L,0L),
+        MediaStorePicture(Uri.parse("test uri 3"),90L,0L,"","",0L,0L),
+        MediaStorePicture(Uri.parse("test uri 4"),900L,0L,"","",0L,0L)
     )
     private val devicePicturesSubject: Subject<List<MediaStorePicture>> =
         BehaviorSubject.createDefault(testPictures)
@@ -50,7 +50,7 @@ class UserPicturesDisplayedSteps(
         mockkObject(ImageLoader)
 
         // Launch pictures fragment
-        scenario = FragmentScenario.launchInContainer(PicturesFragment::class.java)
+        scenario = FragmentScenario.launchInContainer(PicturesBrowserFragment::class.java)
 
         // Wait for main looper to idle
         shadowOf(getMainLooper()).idle()
@@ -62,7 +62,11 @@ class UserPicturesDisplayedSteps(
         verifyOrder {
             testPictures
                 .sortedByDescending { it.added }
-                .map { Picture(it.uri) }
+                .map {
+                    Picture(
+                        it.uri
+                    )
+                }
                 .forEach { ImageLoader.loadImage(any(),it.uri) }
         }
     }

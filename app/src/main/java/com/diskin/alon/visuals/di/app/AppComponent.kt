@@ -3,21 +3,28 @@ package com.diskin.alon.visuals.di.app
 import android.app.Application
 import com.diskin.alon.visuals.VisualsApp
 import com.diskin.alon.visuals.di.home.MainActivityInjectionModule
-import com.diskin.alon.visuals.di.photos.PhotosFragmentInjectionModule
+import com.diskin.alon.visuals.di.pictures.PicturesBrowserFragmentInjectionModule
+import com.diskin.alon.visuals.di.pictures.PictureDetailFragmentInjectionModule
+import com.diskin.alon.visuals.di.pictures.PictureViewerActivityInjectionModule
 import com.diskin.alon.visuals.di.videos.VideosFragmentInjectionModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
     AndroidInjectionModule::class,
+    AndroidSupportInjectionModule::class,
     NavigationModule::class,
+    DataModule::class,
     MainActivityInjectionModule::class,
-    PhotosFragmentInjectionModule::class,
-    VideosFragmentInjectionModule::class
+    PicturesBrowserFragmentInjectionModule::class,
+    VideosFragmentInjectionModule::class,
+    PictureViewerActivityInjectionModule::class,
+    PictureDetailFragmentInjectionModule::class
 ])
 interface AppComponent : AndroidInjector<VisualsApp> {
 

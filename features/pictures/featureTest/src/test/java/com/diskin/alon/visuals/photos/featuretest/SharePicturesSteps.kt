@@ -20,8 +20,8 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
-import com.diskin.alon.visuals.photos.presentation.PicturesAdapter.PictureViewHolder
-import com.diskin.alon.visuals.photos.presentation.PicturesFragment
+import com.diskin.alon.visuals.photos.presentation.controller.PicturesAdapter.PictureViewHolder
+import com.diskin.alon.visuals.photos.presentation.controller.PicturesBrowserFragment
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
@@ -40,23 +40,43 @@ class SharePicturesSteps(
     private val mockedPicturesProvider: DeviceDataProvider<MediaStorePicture>
 ) : GreenCoffeeSteps() {
 
-    private lateinit var scenario: FragmentScenario<PicturesFragment>
+    private lateinit var scenario: FragmentScenario<PicturesBrowserFragment>
     private val testDevicePictures = mutableListOf(
         MediaStorePicture(
             Uri.parse("test uri 1"),
-            10L
+            10L,
+            0L,
+            "",
+            "",
+            0L,
+            0L
         ),
         MediaStorePicture(
             Uri.parse("test uri 2"),
-            900L
+            900L,
+            0L,
+            "",
+            "",
+            0L,
+            0L
         ),
         MediaStorePicture(
             Uri.parse("test uri 3"),
-            30L
+            30L,
+            0L,
+            "",
+            "",
+            0L,
+            0L
         ),
         MediaStorePicture(
             Uri.parse("test uri 4"),
-            140L
+            140L,
+            0L,
+            "",
+            "",
+            0L,
+            0L
         )
     )
     private val testSelectedPicturesUri: MutableList<Uri> = mutableListOf()
@@ -71,7 +91,7 @@ class SharePicturesSteps(
     @And("^User opened the pictures browser screen$")
     fun userOpenedThePicturesBrowserScreen() {
         // Launch pictures fragment
-        scenario = FragmentScenario.launchInContainer(PicturesFragment::class.java)
+        scenario = FragmentScenario.launchInContainer(PicturesBrowserFragment::class.java)
 
         // Wait for main looper to idle
         Shadows.shadowOf(Looper.getMainLooper()).idle()

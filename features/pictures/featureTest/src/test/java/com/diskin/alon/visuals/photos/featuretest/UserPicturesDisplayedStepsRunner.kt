@@ -2,7 +2,6 @@ package com.diskin.alon.visuals.photos.featuretest
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.diskin.alon.visuals.photos.featuretest.di.FeatureTestApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.ScenarioConfig
@@ -18,7 +17,7 @@ import java.util.ArrayList
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-@Config(application = FeatureTestApp::class)
+@Config(application = TestApp::class)
 class UserPicturesDisplayedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
@@ -42,7 +41,7 @@ class UserPicturesDisplayedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTe
     @Test
     fun test() {
         val featureTestApp = (ApplicationProvider
-            .getApplicationContext<Context>() as FeatureTestApp)
+            .getApplicationContext<Context>() as TestApp)
 
         start(UserPicturesDisplayedSteps(featureTestApp.getMockedPicturesProvider()))
     }

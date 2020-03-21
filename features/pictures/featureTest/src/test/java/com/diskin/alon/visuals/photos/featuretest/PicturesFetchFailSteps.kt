@@ -4,7 +4,7 @@ import android.os.Looper
 import androidx.fragment.app.testing.FragmentScenario
 import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
-import com.diskin.alon.visuals.photos.presentation.PicturesFragment
+import com.diskin.alon.visuals.photos.presentation.controller.PicturesBrowserFragment
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -23,7 +23,7 @@ class PicturesFetchFailSteps(
     private val  mockedPicturesProvider: DeviceDataProvider<MediaStorePicture>
 ) : GreenCoffeeSteps() {
 
-    private lateinit var scenario: FragmentScenario<PicturesFragment>
+    private lateinit var scenario: FragmentScenario<PicturesBrowserFragment>
     private val devicePicturesSubject: Subject<List<MediaStorePicture>> = BehaviorSubject.create()
     private val errorMessage = "pictures loading fail!"
 
@@ -33,7 +33,7 @@ class PicturesFetchFailSteps(
         every { mockedPicturesProvider.getAll() } returns devicePicturesSubject
 
         // Launch photos fragment
-        scenario = FragmentScenario.launchInContainer(PicturesFragment::class.java)
+        scenario = FragmentScenario.launchInContainer(PicturesBrowserFragment::class.java)
 
         // Wait for main looper to idle
         Shadows.shadowOf(Looper.getMainLooper()).idle()
