@@ -21,8 +21,8 @@ class SettingsFeatureWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(
         @Parameterized.Parameters(name = "{0}")
         fun scenarios(): Iterable<ScenarioConfig> {
             return GreenCoffeeConfig()
-                .withFeatureFromAssets("assets/feature/app_usage.feature")
-                .withTags("@settings-features")
+                .withFeatureFromAssets("assets/feature/app_workflow.feature")
+                .withTags("@settings-feature")
                 .scenarios()
         }
     }
@@ -30,6 +30,6 @@ class SettingsFeatureWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(
     @Test
     fun test() {
         DeviceUtil.grantStorageAccessPermission()
-        start(SettingsFeaturesWorkflowsSteps())
+        start(SettingsFeatureWorkflowsSteps())
     }
 }

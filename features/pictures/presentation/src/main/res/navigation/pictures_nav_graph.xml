@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/picturesFragment"
-        android:name="com.diskin.alon.visuals.photos.presentation.PicturesFragment"
+        android:name="com.diskin.alon.visuals.photos.presentation.controller.PicturesBrowserFragment"
         android:label="fragment_pictures"
-        tools:layout="@layout/fragment_pictures" />
+        tools:layout="@layout/fragment_pictures_browser" />
 </navigation>

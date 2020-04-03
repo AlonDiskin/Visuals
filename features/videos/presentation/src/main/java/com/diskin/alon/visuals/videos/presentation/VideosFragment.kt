@@ -114,8 +114,8 @@ class VideosFragment : Fragment(), ActionMode.Callback {
             if (videoUri.isNotEmpty()) {
                 val intentBuilder = ShareCompat.IntentBuilder
                     .from(activity)
-                    .setType("video/*")
-                    .setChooserTitle("Share videos")
+                    .setType(getString(R.string.video_uri_mime_type))
+                    .setChooserTitle(getString(R.string.share_sheet_title))
 
                 videoUri.forEach { uri ->
                     intentBuilder

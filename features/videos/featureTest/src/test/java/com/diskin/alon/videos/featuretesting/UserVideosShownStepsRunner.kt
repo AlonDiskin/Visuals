@@ -2,7 +2,7 @@ package com.diskin.alon.videos.featuretesting
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.diskin.alon.videos.featuretesting.di.FeatureTestApp
+import com.diskin.alon.visuals.videos.featuretesting.FeatureTestApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.ScenarioConfig

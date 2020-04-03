@@ -1,5 +1,6 @@
 package com.diskin.alon.visuals.videos.presentation
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Looper
@@ -8,6 +9,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.lifecycle.MutableLiveData
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
@@ -264,11 +266,12 @@ class VideosFragmentTest {
         intended(hasExtraWithKey(Intent.EXTRA_INTENT))
 
         // Verify share intent has the expected action,type, and contains the selected video uri's
+        val context = ApplicationProvider.getApplicationContext<Context>()
         val intent = Intents.getIntents().first().extras.get(Intent.EXTRA_INTENT) as Intent
         val intentUris = intent.extras.getParcelableArrayList<Uri>(Intent.EXTRA_STREAM)!!
 
         assertThat(intent.action).isEqualTo(Intent.ACTION_SEND_MULTIPLE)
-        assertThat(intent.type).isEqualTo("video/*")
+        assertThat(intent.type).isEqualTo(context.getString(R.string.video_uri_mime_type))
         assertThat(intentUris.size).isEqualTo(selectedVideosIndex.size)
         selectedVideosIndex.forEachIndexed { _, testVideosIndex ->
             assertThat(intentUris.contains(testVideos[testVideosIndex].uri))

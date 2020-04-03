@@ -1,7 +1,7 @@
 package com.diskin.alon.visuals.photos.data
 
 import com.diskin.alon.common.data.DeviceDataProvider
-import com.diskin.alon.visuals.photos.presentation.Picture
+import com.diskin.alon.visuals.photos.presentation.model.Picture
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
@@ -37,10 +37,10 @@ class PictureRepositoryImplTest {
     fun returnSortedDescendingPictures_whenPicturesQueried() {
         // Test case fixture
         val testDevicePictures = listOf(
-            MediaStorePicture(mock {  },100L),
-            MediaStorePicture(mock {  },20L),
-            MediaStorePicture(mock {  },400L),
-            MediaStorePicture(mock {  },10L)
+            MediaStorePicture(mock {  },100L, 20L," "," ",200L,100L),
+            MediaStorePicture(mock {  },20L, 20L," "," ",200L,100L),
+            MediaStorePicture(mock {  },400L, 20L," "," ",200L,100L),
+            MediaStorePicture(mock {  },10L, 20L," "," ",200L,100L)
         )
         val expectedPictures = testDevicePictures
             .sortedByDescending { it.added }

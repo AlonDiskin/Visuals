@@ -1,8 +1,8 @@
 package com.diskin.alon.visuals.photos.data
 
 import com.diskin.alon.common.data.DeviceDataProvider
-import com.diskin.alon.visuals.photos.presentation.Picture
-import com.diskin.alon.visuals.photos.presentation.PictureRepository
+import com.diskin.alon.visuals.photos.presentation.model.Picture
+import com.diskin.alon.visuals.photos.presentation.interfaces.PictureRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -15,7 +15,11 @@ class PictureRepositoryImpl @Inject constructor(
             .map { devicePictures ->
                 devicePictures
                     .sortedByDescending { it.added }
-                    .map { devicePicture -> Picture(devicePicture.uri) }
+                    .map { devicePicture ->
+                        Picture(
+                            devicePicture.uri
+                        )
+                    }
             }
     }
 }
