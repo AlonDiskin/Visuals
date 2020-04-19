@@ -1,2 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.diskin.alon.visuals.videos.presentation" />
+    package="com.diskin.alon.visuals.videos.presentation">
+
+    <application>
+        <activity android:name=".controller.VideoPlayerActivity"
+            android:theme="@style/MediaDetailActivityTheme"
+            android:label="@string/activity_player_label">
+
+        </activity>
+    </application>
+
+</manifest>

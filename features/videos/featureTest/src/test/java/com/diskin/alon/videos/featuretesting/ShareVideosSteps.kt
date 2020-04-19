@@ -21,8 +21,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.visuals.videos.presentation.R
-import com.diskin.alon.visuals.videos.presentation.VideosAdapter.VideoViewHolder
-import com.diskin.alon.visuals.videos.presentation.VideosFragment
+import com.diskin.alon.visuals.videos.presentation.controller.VideosAdapter.VideoViewHolder
+import com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragment
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
@@ -42,7 +42,7 @@ class ShareVideosSteps(
     private val mockedVideosProvider: DeviceDataProvider<MediaStoreVideo>
 ) : GreenCoffeeSteps() {
 
-    private lateinit var scenario: FragmentScenario<VideosFragment>
+    private lateinit var scenario: FragmentScenario<VideosBrowserFragment>
     private val testDeviceVideos = mutableListOf(
         MediaStoreVideo(
             Uri.parse("test uri 1"),
@@ -77,7 +77,7 @@ class ShareVideosSteps(
     @And("^User opened the videos browser screen$")
     fun userOpenedTheVideosBrowserScreen() {
         // Launch pictures fragment
-        scenario = FragmentScenario.launchInContainer(VideosFragment::class.java)
+        scenario = FragmentScenario.launchInContainer(VideosBrowserFragment::class.java)
 
         // Wait for main looper to idle
         Shadows.shadowOf(Looper.getMainLooper()).idle()

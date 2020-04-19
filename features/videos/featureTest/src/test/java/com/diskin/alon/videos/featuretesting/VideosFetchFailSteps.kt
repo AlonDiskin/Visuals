@@ -4,7 +4,7 @@ import android.os.Looper
 import androidx.fragment.app.testing.FragmentScenario
 import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
-import com.diskin.alon.visuals.videos.presentation.VideosFragment
+import com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragment
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -23,7 +23,7 @@ class VideosFetchFailSteps(
     private val  mockedPicturesProvider: DeviceDataProvider<MediaStoreVideo>
 ) : GreenCoffeeSteps() {
 
-    private lateinit var scenario: FragmentScenario<VideosFragment>
+    private lateinit var scenario: FragmentScenario<VideosBrowserFragment>
     private val deviceVideosSubject: Subject<List<MediaStoreVideo>> = BehaviorSubject.create()
     private val errorMessage = "pictures loading fail!"
 
@@ -33,7 +33,7 @@ class VideosFetchFailSteps(
         every { mockedPicturesProvider.getAll() } returns deviceVideosSubject
 
         // Launch videos fragment
-        scenario = FragmentScenario.launchInContainer(VideosFragment::class.java)
+        scenario = FragmentScenario.launchInContainer(VideosBrowserFragment::class.java)
 
         // Wait for main looper to idle
         Shadows.shadowOf(Looper.getMainLooper()).idle()

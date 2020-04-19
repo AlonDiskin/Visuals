@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/videosFragment"
-        android:name="com.diskin.alon.visuals.videos.presentation.VideosFragment"
+        android:name="com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragment"
         android:label="fragment_videos"
         tools:layout="@layout/fragment_videos" />
 </navigation>

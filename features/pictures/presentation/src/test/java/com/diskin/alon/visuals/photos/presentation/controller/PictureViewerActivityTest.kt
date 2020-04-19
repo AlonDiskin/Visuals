@@ -67,7 +67,7 @@ class PictureViewerActivityTest {
             putExtra(context.getString(R.string.extra_pic_uri),picUri)
         }
 
-        scenario = ActivityScenario.launch<PictureViewerActivity>(intent)
+        scenario = ActivityScenario.launch(intent)
     }
 
     @Test
@@ -108,4 +108,6 @@ class PictureViewerActivityTest {
         onView(withText(R.string.test_fragment2_text))
             .check(matches(isDisplayed()))
     }
+
+
 }

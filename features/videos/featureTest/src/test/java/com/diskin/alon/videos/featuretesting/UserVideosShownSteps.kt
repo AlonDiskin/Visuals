@@ -10,10 +10,10 @@ import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.videos.featuretesting.RecyclerViewMatcher.withRecyclerView
 import com.diskin.alon.visuals.videos.featuretesting.R
-import com.diskin.alon.visuals.videos.presentation.ThumbnailLoader
-import com.diskin.alon.visuals.videos.presentation.Video
-import com.diskin.alon.visuals.videos.presentation.VideoDuration
-import com.diskin.alon.visuals.videos.presentation.VideosFragment
+import com.diskin.alon.visuals.videos.presentation.util.ThumbnailLoader
+import com.diskin.alon.visuals.videos.presentation.model.Video
+import com.diskin.alon.visuals.videos.presentation.model.VideoDuration
+import com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragment
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given
 import com.mauriciotogneri.greencoffee.annotations.Then
@@ -34,7 +34,7 @@ class UserVideosShownSteps(
     private val mockedVideosProvider: DeviceDataProvider<MediaStoreVideo>
 ) : GreenCoffeeSteps() {
 
-    private lateinit var scenario: FragmentScenario<VideosFragment>
+    private lateinit var scenario: FragmentScenario<VideosBrowserFragment>
     private val testDeviceVideos = mutableListOf(
         MediaStoreVideo(
             Uri.parse("test uri 1"),
@@ -58,10 +58,34 @@ class UserVideosShownSteps(
         )
     )
     private val expectedVideos = listOf(
-        Video(testDeviceVideos[1].uri, VideoDuration(40,0)),
-        Video(testDeviceVideos[3].uri, VideoDuration(37,0)),
-        Video(testDeviceVideos[2].uri, VideoDuration(10,1)),
-        Video(testDeviceVideos[0].uri, VideoDuration(10,2))
+        Video(
+            testDeviceVideos[1].uri,
+            VideoDuration(
+                40,
+                0
+            )
+        ),
+        Video(
+            testDeviceVideos[3].uri,
+            VideoDuration(
+                37,
+                0
+            )
+        ),
+        Video(
+            testDeviceVideos[2].uri,
+            VideoDuration(
+                10,
+                1
+            )
+        ),
+        Video(
+            testDeviceVideos[0].uri,
+            VideoDuration(
+                10,
+                2
+            )
+        )
     )
     private val deviceVideosSubject: Subject<List<MediaStoreVideo>> =
         BehaviorSubject.createDefault(testDeviceVideos)
@@ -77,7 +101,7 @@ class UserVideosShownSteps(
         mockkObject(ThumbnailLoader)
 
         // Launch pictures fragment
-        scenario = FragmentScenario.launchInContainer(VideosFragment::class.java)
+        scenario = FragmentScenario.launchInContainer(VideosBrowserFragment::class.java)
 
         // Wait for main looper to idle
         Shadows.shadowOf(Looper.getMainLooper()).idle()

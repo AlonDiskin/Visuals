@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.di.videos
 
-import com.diskin.alon.visuals.videos.presentation.VideosFragment
+import com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
@@ -12,6 +12,6 @@ abstract class VideosFragmentInjectionModule {
 
     @Binds
     @IntoMap
-    @ClassKey(VideosFragment::class)
+    @ClassKey(VideosBrowserFragment::class)
     abstract fun bindAndroidInjectorFactory(factory: VideosFeatureSubcomponent.Factory): AndroidInjector.Factory<*>
 }

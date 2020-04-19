@@ -1,9 +1,9 @@
 package com.diskin.alon.visuals.videos.data
 
 import com.diskin.alon.common.data.DeviceDataProvider
-import com.diskin.alon.visuals.videos.presentation.Video
-import com.diskin.alon.visuals.videos.presentation.VideoDuration
-import com.diskin.alon.visuals.videos.presentation.VideoRepository
+import com.diskin.alon.visuals.videos.presentation.model.Video
+import com.diskin.alon.visuals.videos.presentation.model.VideoDuration
+import com.diskin.alon.visuals.videos.presentation.interfaces.VideoRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -17,7 +17,8 @@ class VideoRepositoryImpl @Inject constructor(
                 deviceVideos
                     .sortedByDescending { it.added }
                     .map { deviceVideo ->
-                        Video(deviceVideo.uri,
+                        Video(
+                            deviceVideo.uri,
                             VideoDuration(
                                 (deviceVideo.duration / 1000 % 60).toInt(),
                                 (deviceVideo.duration / 1000 / 60).toInt()
