@@ -54,7 +54,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Assemble debug test apk
-          command: ./gradlew :app:assembleDebugAndroidTest
+          command: ./gradlew :app:assembleDebug :app:assembleDebugAndroidTest
       - run:
           name: Store Google Service Account
           command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
@@ -81,6 +81,4 @@ workflows:
   build_and_test:
     jobs:
       - test_local
-      - e2e_tests:
-          requires:
-            - test_local
+      - e2e_tests
