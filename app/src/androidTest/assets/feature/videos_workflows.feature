@@ -21,3 +21,5 @@ Feature: Videos features e2e workflows
  Scenario: Videos player usage
    When User selects the first listed video for playing
    Then Video playback preview is shown
+   When User selects to play video
+   Then App should ask device to play video from an available player app

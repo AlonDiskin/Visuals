@@ -1,10 +1,12 @@
 package com.diskin.alon.visuals.videos.presentation.controller
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
 import com.diskin.alon.visuals.videos.presentation.R
@@ -46,6 +48,26 @@ class VideoPreviewFragment : Fragment() {
             EspressoIdlingResource.decrement()
         }
         videoView.setOnCompletionListener { videoView.seekTo(START_POSITION) }
+
+        // Set play video playback button listener
+        val uri = arguments?.getParcelable<Uri>(KEY_VID_URI)!!
+        playVideoButton.setOnClickListener {
+            // Open video via available apps on user device
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri,getString(R.string.video_mime_type))
+            }
+
+            if (intent.resolveActivity(activity?.packageManager!!) != null) {
+                startActivity(intent)
+            } else {
+                // If no player app exist, show error message to user
+                Toast.makeText(
+                    activity,
+                    getString(R.string.no_player_error),
+                    Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
     }
 
     override fun onStart() {

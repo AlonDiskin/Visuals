@@ -1,6 +1,7 @@
 package com.diskin.alon.visuals.videos
 
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.intent.Intents
 import androidx.test.filters.LargeTest
 import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
 import com.diskin.alon.visuals.util.DeviceUtil
@@ -38,11 +39,17 @@ class VideosPlayerWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(sce
         // Register idling resource for espresso
         IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
 
+        // Init platform intents validation api
+        Intents.init()
+
         start(VideosPlayerWorkflowSteps())
     }
 
     override fun afterScenarioEnds(scenario: Scenario?, locale: Locale?) {
         // Unregister espresso idling resource
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
+
+        // Release platform intents validation api
+        Intents.release()
     }
 }

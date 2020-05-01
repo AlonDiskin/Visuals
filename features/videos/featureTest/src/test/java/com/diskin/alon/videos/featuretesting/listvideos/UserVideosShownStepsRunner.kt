@@ -1,5 +1,8 @@
-package com.diskin.alon.videos.featuretesting.playvideo
+package com.diskin.alon.videos.featuretesting.listvideos
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
+import com.diskin.alon.videos.featuretesting.listvideos.UserVideosShownSteps
 import com.diskin.alon.visuals.videos.featuretesting.VideosFeatureTestApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
@@ -12,12 +15,12 @@ import org.robolectric.annotation.LooperMode
 import java.util.*
 
 /**
- * Step definitions runner for the 'show video preview' scenario.
+ * Step definitions runner for the 'User public videos are shown' scenario.
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = VideosFeatureTestApp::class)
-class ShowVideoPreviewRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class UserVideosShownStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
         @ParameterizedRobolectricTestRunner.Parameters
@@ -25,8 +28,8 @@ class ShowVideoPreviewRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenari
         fun data(): Collection<Array<Any>> {
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
-                .withFeatureFromAssets("play_video.feature")
-                .withTags("@show-video-preview")
+                .withFeatureFromAssets("list_videos.feature")
+                .withTags("@show-videos-happy-path")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {
@@ -39,7 +42,13 @@ class ShowVideoPreviewRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenari
 
     @Test
     fun test() {
-        // Launch scenario test
-        start(ShowVideoPreviewSteps())
+        val featureTestApp = (ApplicationProvider
+            .getApplicationContext<Context>() as VideosFeatureTestApp)
+
+        start(
+            UserVideosShownSteps(
+                featureTestApp.getMockedVideosProvider()
+            )
+        )
     }
 }

@@ -3,11 +3,10 @@
     package="com.diskin.alon.visuals.videos.presentation">
 
     <application>
-        <activity android:name=".controller.VideoPlayerActivity"
-            android:theme="@style/MediaDetailActivityTheme"
-            android:label="@string/activity_player_label">
-
-        </activity>
+        <activity
+            android:name=".controller.VideoDetailActivity"
+            android:label="@string/activity_video_detail_label"
+            android:theme="@style/AppTheme.NoActionBar.MediaDetailActivityTheme" />
     </application>
 
 </manifest>

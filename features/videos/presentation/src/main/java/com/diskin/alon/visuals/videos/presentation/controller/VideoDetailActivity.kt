@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.diskin.alon.visuals.videos.presentation.R
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_video_player.*
+import kotlinx.android.synthetic.main.activity_video_detail.*
 import javax.inject.Inject
 
-class VideoPlayerActivity : AppCompatActivity() {
+class VideoDetailActivity : AppCompatActivity() {
 
     @Inject
     lateinit var fragmentsFactory: VideoPlayerFragmentsFactory
@@ -18,7 +18,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video_player)
+        setContentView(R.layout.activity_video_detail)
 
         // Setup toolbar
         setSupportActionBar(toolbar)

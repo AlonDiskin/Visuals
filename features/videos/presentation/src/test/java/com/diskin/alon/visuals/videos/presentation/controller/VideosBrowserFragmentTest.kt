@@ -9,6 +9,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAction
@@ -117,6 +119,10 @@ class VideosBrowserFragmentTest {
         )
     )
 
+    // Test nav controller
+    private val navController = TestNavHostController(
+        ApplicationProvider.getApplicationContext())
+
     @Before
     fun setUp() {
         // Mock out dagger injection
@@ -136,12 +142,20 @@ class VideosBrowserFragmentTest {
         every{ viewModel.videos } returns videosLiveData
         every { viewModel.videosUpdateFail } returns updateFailEvent
 
+        // Setup test nav controller
+        navController.setGraph(R.navigation.videos_nav_graph)
+
         // Launch fragment under test
         scenario = FragmentScenario.launchInContainer(
             VideosBrowserFragment::class.java,
             null,
             R.style.AppTheme,
             null)
+
+        // Set the NavController property on the fragment with test controller
+        scenario.onFragment {
+            Navigation.setViewNavController(it.requireView(), navController)
+        }
     }
 
     @Test
@@ -403,31 +417,24 @@ class VideosBrowserFragmentTest {
     }
 
     @Test
-    fun openVideoPlayerScreen_whenListedVideoSelected() {
-        // Test case fixture
-        Intents.init()
-
+    fun navToVideoDetailScreen_whenUserSelectVideo() {
         // Given a resumed fragment
 
         // And displayed videos
         displayTestVideos()
 
-        // When user selects listed video for playing
-        val selectedIndex = 0;
+        // When user selects a listed video
+        val selectedIndex = 0
         scrollToVideoAndPerform(selectedIndex, click())
 
-        // Then fragment should open video player screen
+        // Then fragment should navigate to video detail screen
+        assertThat(navController.currentDestination?.id).isEqualTo(R.id.videoDetail)
+
+        // And fragment should pass selected video uri to detail screen
         val context = ApplicationProvider.getApplicationContext<Context>()
-
-        intended(hasComponent(VideoPlayerActivity::class.java.name))
-        intended(
-            hasExtra(
-                context.getString(R.string.extra_vid_uri),
-                testVideos[selectedIndex].uri
-            )
-        )
-
-        Intents.release()
+        assertThat(navController.currentBackStackEntry?.arguments?.get(context
+            .getString(R.string.extra_vid_uri)))
+            .isEqualTo(testVideos[selectedIndex].uri)
     }
 
     private fun selectDisplayedVideos(selectedVideosIndex: List<Int>) {

@@ -1,4 +1,4 @@
-package com.diskin.alon.videos.featuretesting
+package com.diskin.alon.videos.featuretesting.listvideos
 
 import android.net.Uri
 import android.os.Looper
@@ -8,7 +8,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
-import com.diskin.alon.videos.featuretesting.RecyclerViewMatcher.withRecyclerView
+import com.diskin.alon.videos.featuretesting.util.RecyclerViewMatcher.withRecyclerView
 import com.diskin.alon.visuals.videos.featuretesting.R
 import com.diskin.alon.visuals.videos.presentation.util.ThumbnailLoader
 import com.diskin.alon.visuals.videos.presentation.model.Video
@@ -100,7 +100,7 @@ class UserVideosShownSteps(
         // Mock Thumbnail loader before launching
         mockkObject(ThumbnailLoader)
 
-        // Launch pictures fragment
+        // Launch videos browser fragment
         scenario = FragmentScenario.launchInContainer(VideosBrowserFragment::class.java)
 
         // Wait for main looper to idle

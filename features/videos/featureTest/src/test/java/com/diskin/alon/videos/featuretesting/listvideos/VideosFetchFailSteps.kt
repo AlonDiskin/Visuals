@@ -1,4 +1,4 @@
-package com.diskin.alon.videos.featuretesting
+package com.diskin.alon.videos.featuretesting.listvideos
 
 import android.os.Looper
 import androidx.fragment.app.testing.FragmentScenario

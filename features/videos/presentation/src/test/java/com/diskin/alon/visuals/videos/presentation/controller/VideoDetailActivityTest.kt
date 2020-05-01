@@ -25,15 +25,15 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.LooperMode
 
 /**
- * [VideoPlayerActivity] unit test class.
+ * [VideoDetailActivity] unit test class.
  */
 @RunWith(AndroidJUnit4::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @SmallTest
-class VideoPlayerActivityTest {
+class VideoDetailActivityTest {
 
     // System under test
-    private lateinit var scenario: ActivityScenario<VideoPlayerActivity>
+    private lateinit var scenario: ActivityScenario<VideoDetailActivity>
 
     // Mocked collaborators
     private val fragmentsFactory: VideoPlayerFragmentsFactory = mockk()
@@ -50,7 +50,7 @@ class VideoPlayerActivityTest {
 
         // Stub mocked dagger behaviour
         every { AndroidInjection.inject(capture(activitySlot)) } answers {
-            val videoPlayerActivity = activitySlot.captured as VideoPlayerActivity
+            val videoPlayerActivity = activitySlot.captured as VideoDetailActivity
             videoPlayerActivity.fragmentsFactory = fragmentsFactory
         }
 
@@ -59,7 +59,7 @@ class VideoPlayerActivityTest {
 
         // Launch activity under test
         val context = ApplicationProvider.getApplicationContext<Context>()!!
-        val intent = Intent(context, VideoPlayerActivity::class.java).apply {
+        val intent = Intent(context, VideoDetailActivity::class.java).apply {
             putExtra(context.getString(R.string.extra_vid_uri),videoUri)
         }
 
@@ -111,7 +111,7 @@ class VideoPlayerActivityTest {
                 packageManager.getActivityInfo(it.componentName, PackageManager.GET_META_DATA)
             val actualThemeResId = activityInfo.theme
 
-            assertThat(actualThemeResId).isEqualTo(R.style.MediaDetailActivityTheme)
+            assertThat(actualThemeResId).isEqualTo(R.style.AppTheme_NoActionBar_MediaDetailActivityTheme)
         }
     }
 }

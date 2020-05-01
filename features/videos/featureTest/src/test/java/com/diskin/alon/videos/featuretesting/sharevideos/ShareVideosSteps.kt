@@ -1,4 +1,4 @@
-package com.diskin.alon.videos.featuretesting
+package com.diskin.alon.videos.featuretesting.sharevideos
 
 import android.content.Context
 import android.content.Intent

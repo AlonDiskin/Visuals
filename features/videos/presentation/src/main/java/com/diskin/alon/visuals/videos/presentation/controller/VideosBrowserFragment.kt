@@ -1,6 +1,5 @@
 package com.diskin.alon.visuals.videos.presentation.controller
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
@@ -9,6 +8,7 @@ import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.diskin.alon.visuals.videos.presentation.R
 import com.diskin.alon.visuals.videos.presentation.viewmodel.VideosBrowserViewModel
 import dagger.android.support.AndroidSupportInjection
@@ -104,12 +104,9 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
             }
 
         } else {
-            // Open video player screen
-            val intent = Intent(activity, VideoPlayerActivity::class.java).apply {
-                putExtra(getString(R.string.extra_vid_uri), uri)
-            }
-
-            startActivity(intent)
+            // Navigate to video detail screen
+            val args = Bundle().apply { putParcelable(getString(R.string.extra_vid_uri),uri) }
+            findNavController().navigate(R.id.videoDetail,args)
         }
     }
 

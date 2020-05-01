@@ -1,4 +1,4 @@
-package com.diskin.alon.videos.featuretesting;
+package com.diskin.alon.videos.featuretesting.util;
 
 import android.content.res.Resources;
 import android.view.View;

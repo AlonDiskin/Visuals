@@ -1,12 +1,25 @@
 package com.diskin.alon.visuals.videos.presentation.controller
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.lifecycle.Lifecycle.State
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.diskin.alon.visuals.videos.presentation.R
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
@@ -17,6 +30,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Shadows
 import org.robolectric.annotation.LooperMode
+import org.robolectric.shadows.ShadowToast
 import org.robolectric.shadows.ShadowVideoView
 
 /**
@@ -46,7 +60,7 @@ class VideoPreviewFragmentTest {
             putParcelable(VideoPreviewFragment.KEY_VID_URI,videoUri)
         }
         val factory =
-            MyFragmentFactory()
+            TestFragmentsFactory()
         scenario = FragmentScenario.launchInContainer(
             VideoPreviewFragment::class.java,
             fragmentArgs,
@@ -90,7 +104,7 @@ class VideoPreviewFragmentTest {
     fun pauseVideoPlayBack_whenFragmentPaused() {
         // Given a resumed activity
 
-        // When activity is paused
+        // When fragment is moved to paused state
         scenario.moveToState(State.STARTED)
 
         // Then fragment should pause video playback
@@ -105,7 +119,7 @@ class VideoPreviewFragmentTest {
     fun stopVideoPlayBack_whenFragmentStopped() {
         // Given a resumed activity
 
-        // When activity is stopped
+        // When fragment is moved to stopped state
         scenario.moveToState(State.CREATED)
 
         // Then fragment should stop video playback
@@ -157,5 +171,57 @@ class VideoPreviewFragmentTest {
             // Then fragment should start video playback from the beginning
             assertThat(it.videoView.currentPosition).isEqualTo(VideoPreviewFragment.START_POSITION)
         }
+    }
+
+    @Test
+    fun playVideoWithDevicePlayer_whenUserPlayVideoAndDeviceHasPlayer() {
+        // Test case fixture
+        Intents.init()
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val shadowPackageManager = Shadows.shadowOf(
+            context.packageManager)!!
+        val component = ComponentName("com.example", "Example")
+
+        shadowPackageManager.addActivityIfNotPresent(component)
+        shadowPackageManager.addIntentFilterForActivity(component,
+            IntentFilter(Intent.ACTION_VIEW).apply {
+                addDataType("video/*")
+                addCategory(Intent.CATEGORY_DEFAULT)
+            }
+        )
+
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Given a resumed fragment and an existing video player app on device
+
+        // When user selects to play the video
+        onView(withId(R.id.playVideoButton))
+            .perform(click())
+
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should ask system to play video with an available player app(implicit intent)
+        intended(hasAction(Intent.ACTION_VIEW))
+        intended(hasData(videoUri))
+        hasType(context.getString(R.string.video_mime_type))
+
+        // Release test case resources
+        Intents.release()
+    }
+
+    @Test
+    fun showErrorMessage_whenUserPlayVideoAndDeviceHasNoPlayer() {
+        // Given a resumed fragment and an existing video player app on device
+
+        // When user selects to play the video
+        onView(withId(R.id.playVideoButton))
+            .perform(click())
+
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should notify user with toast message
+        val toastMessage = ApplicationProvider.getApplicationContext<Context>()
+            .getString(R.string.no_player_error)
+        assertThat(ShadowToast.getTextOfLatestToast().toString()).isEqualTo(toastMessage)
     }
 }

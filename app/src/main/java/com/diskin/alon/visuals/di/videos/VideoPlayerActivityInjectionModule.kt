@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.di.videos
 
-import com.diskin.alon.visuals.videos.presentation.controller.VideoPlayerActivity
+import com.diskin.alon.visuals.videos.presentation.controller.VideoDetailActivity
 import com.diskin.alon.visuals.videos.presentation.controller.VideoPlayerFragmentsFactory
 import com.diskin.alon.visuals.videos.presentation.controller.VideoPlayerFragmentsFactoryImpl
 import dagger.Binds
@@ -16,5 +16,5 @@ abstract class VideoPlayerActivityInjectionModule {
     ): VideoPlayerFragmentsFactory
 
     @ContributesAndroidInjector
-    abstract fun videoPlayerActivityAndroidInjector(): VideoPlayerActivity
+    abstract fun videoPlayerActivityAndroidInjector(): VideoDetailActivity
 }
