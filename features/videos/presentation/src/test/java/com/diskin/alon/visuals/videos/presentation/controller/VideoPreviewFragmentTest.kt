@@ -8,6 +8,8 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.lifecycle.Lifecycle.State
 import androidx.test.core.app.ApplicationProvider
@@ -59,8 +61,16 @@ class VideoPreviewFragmentTest {
         val fragmentArgs = Bundle().apply {
             putParcelable(VideoPreviewFragment.KEY_VID_URI,videoUri)
         }
-        val factory =
-            TestFragmentsFactory()
+        val factory = object : FragmentFactory() {
+            override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+                return if (loadFragmentClass(classLoader, className) == VideoPreviewFragment::class.java) {
+                    VideoPreviewFragment()
+
+                } else {
+                    super.instantiate(classLoader, className)
+                }
+            }
+        }
         scenario = FragmentScenario.launchInContainer(
             VideoPreviewFragment::class.java,
             fragmentArgs,

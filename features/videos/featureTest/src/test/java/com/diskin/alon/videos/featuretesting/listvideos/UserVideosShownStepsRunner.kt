@@ -2,8 +2,7 @@ package com.diskin.alon.videos.featuretesting.listvideos
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.diskin.alon.videos.featuretesting.listvideos.UserVideosShownSteps
-import com.diskin.alon.visuals.videos.featuretesting.VideosFeatureTestApp
+import com.diskin.alon.visuals.videos.featuretesting.TestVideosApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.ScenarioConfig
@@ -19,7 +18,7 @@ import java.util.*
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-@Config(application = VideosFeatureTestApp::class)
+@Config(application = TestVideosApp::class)
 class UserVideosShownStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
@@ -43,7 +42,7 @@ class UserVideosShownStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(sce
     @Test
     fun test() {
         val featureTestApp = (ApplicationProvider
-            .getApplicationContext<Context>() as VideosFeatureTestApp)
+            .getApplicationContext<Context>() as TestVideosApp)
 
         start(
             UserVideosShownSteps(

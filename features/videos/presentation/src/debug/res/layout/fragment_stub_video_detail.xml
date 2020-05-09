@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.diskin.alon.visuals.viedos.presentation.StubVideoPreviewFragment">
+    tools:context="com.diskin.alon.visuals.viedos.presentation.StubVideoDetailFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/stub_video_preview_frag_text" />
+        android:text="@string/stub_video_detail_frag_text" />
 
 </FrameLayout>

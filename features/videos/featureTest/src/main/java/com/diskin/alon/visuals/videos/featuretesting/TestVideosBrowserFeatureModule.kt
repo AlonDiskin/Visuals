@@ -11,7 +11,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-abstract class VideosFeatureTestVideosFeatureModule {
+abstract class TestVideosBrowserFeatureModule {
 
     @Module
     companion object {
@@ -19,7 +19,7 @@ abstract class VideosFeatureTestVideosFeatureModule {
         @JvmStatic
         @Provides
         fun provideVideosViewModel(
-            factory: VideosFeatureTestVideosViewModelProvider,
+            factory: TestVideosBrowserViewModelProvider,
             fragment: VideosBrowserFragment
         ): VideosBrowserViewModel {
 

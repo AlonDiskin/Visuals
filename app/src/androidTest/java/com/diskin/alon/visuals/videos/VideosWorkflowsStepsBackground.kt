@@ -2,6 +2,7 @@ package com.diskin.alon.visuals.videos
 
 import android.content.ContentValues
 import android.content.Context
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -14,13 +15,11 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.util.DeviceUtil
-import com.diskin.alon.visuals.videos.presentation.model.VideoDuration
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import org.hamcrest.CoreMatchers.allOf
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-import java.util.concurrent.TimeUnit
 
 /**
  * Videos features scenarios common step definitions
@@ -28,10 +27,6 @@ import java.util.concurrent.TimeUnit
 abstract class VideosWorkflowsStepsBackground : GreenCoffeeSteps() {
 
     private val testVideosUri = mutableListOf<Uri>()
-    private val testDurations = mutableListOf(
-        VideoDuration(45, 1),
-        VideoDuration(30, 0)
-    )
 
     open fun userHasPublicVideosOnHisDevice() {
         // Copy test videos to test device
@@ -48,7 +43,6 @@ abstract class VideosWorkflowsStepsBackground : GreenCoffeeSteps() {
             if (index > 0) {
                 Thread.sleep(1000)
             }
-            val values = ContentValues(4)
 
             // Copy video from resources to public storage on test device
             val path = "${Environment.getExternalStorageDirectory().absolutePath}/test_video${index}.mp4"
@@ -66,14 +60,24 @@ abstract class VideosWorkflowsStepsBackground : GreenCoffeeSteps() {
             fos.close()
 
             // Insert test video file info to media store
-            values.put(MediaStore.Video.Media.TITLE, "test_video$index")
+            val values = ContentValues(7)
+            val retriever = MediaMetadataRetriever()
+            retriever.setDataSource(path)
+            val videoWidth =
+                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH).toLong()
+            val videoHeight =
+                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT).toLong()
+            val videoDuration =
+                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
+            retriever.release()
+
+            values.put(MediaStore.Video.Media.TITLE, videoFile.name)
             values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
             values.put(MediaStore.Video.Media.DATA, videoFile.absolutePath)
-            values.put(
-                MediaStore.Video.Media.DURATION,
-                TimeUnit.SECONDS.toMillis(testDurations[index].seconds.toLong()) +
-                        TimeUnit.MINUTES.toMillis(testDurations[index].minutes.toLong())
-            )
+            values.put(MediaStore.Video.Media.DURATION,videoDuration)
+            values.put(MediaStore.Video.Media.SIZE, videoFile.length())
+            values.put(MediaStore.Video.Media.WIDTH, videoWidth)
+            values.put(MediaStore.Video.Media.HEIGHT, videoHeight)
 
             // Add media store uri to test videos list
             testVideosUri.add(
@@ -83,7 +87,6 @@ abstract class VideosWorkflowsStepsBackground : GreenCoffeeSteps() {
 
         // Sort test data to expected ui order
         getTestVideosUri().reverse()
-        getTestDurations().reverse()
     }
 
     open fun userLaunchAppFromDeviceHomeScreen() {
@@ -111,9 +114,5 @@ abstract class VideosWorkflowsStepsBackground : GreenCoffeeSteps() {
 
     fun getTestVideosUri(): MutableList<Uri> {
         return testVideosUri
-    }
-
-    fun getTestDurations(): MutableList<VideoDuration> {
-        return testDurations
     }
 }

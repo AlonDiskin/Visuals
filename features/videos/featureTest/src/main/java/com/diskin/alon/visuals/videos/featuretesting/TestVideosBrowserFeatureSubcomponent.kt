@@ -4,8 +4,8 @@ import com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragm
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 
-@Subcomponent(modules = [VideosFeatureTestVideosFeatureModule::class])
-interface VideosFeatureTestVideosSubcomponent : AndroidInjector<VideosBrowserFragment> {
+@Subcomponent(modules = [TestVideosBrowserFeatureModule::class])
+interface TestVideosBrowserFeatureSubcomponent : AndroidInjector<VideosBrowserFragment> {
 
     @Subcomponent.Factory
     interface Factory : AndroidInjector.Factory<VideosBrowserFragment>

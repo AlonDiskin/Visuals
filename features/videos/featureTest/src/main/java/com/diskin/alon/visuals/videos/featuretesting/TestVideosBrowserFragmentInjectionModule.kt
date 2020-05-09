@@ -7,11 +7,11 @@ import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
-@Module(subcomponents = [VideosFeatureTestVideosSubcomponent::class])
-abstract class VideosFeatureTestVideosFragmentInjectionModule {
+@Module(subcomponents = [TestVideosBrowserFeatureSubcomponent::class])
+abstract class TestVideosBrowserFragmentInjectionModule {
 
     @Binds
     @IntoMap
     @ClassKey(VideosBrowserFragment::class)
-    abstract fun bindAndroidInjectorFactory(factory: VideosFeatureTestVideosSubcomponent.Factory): AndroidInjector.Factory<*>
+    abstract fun bindAndroidInjectorFactory(factory: TestVideosBrowserFeatureSubcomponent.Factory): AndroidInjector.Factory<*>
 }

@@ -17,7 +17,7 @@ class PictureDetailRepositoryImpl @Inject constructor(
         return provider.getAll()
             .map{ list ->
                 val mediaStorePicture = list.find { it.uri == uri } ?:
-                throw NoSuchElementException() as Throwable
+                throw NoSuchElementException()
 
                 PictureDetail(
                     mediaStorePicture.size.toDouble() / 1000000,

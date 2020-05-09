@@ -3,8 +3,7 @@ package com.diskin.alon.videos.featuretesting.sharevideos
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.intent.Intents
-import com.diskin.alon.videos.featuretesting.sharevideos.ShareVideosSteps
-import com.diskin.alon.visuals.videos.featuretesting.VideosFeatureTestApp
+import com.diskin.alon.visuals.videos.featuretesting.TestVideosApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.Scenario
@@ -21,7 +20,7 @@ import java.util.*
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-@Config(application = VideosFeatureTestApp::class)
+@Config(application = TestVideosApp::class)
 class ShareVideosStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
@@ -47,7 +46,7 @@ class ShareVideosStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenari
         Intents.init()
 
         val featureTestApp = (ApplicationProvider
-            .getApplicationContext<Context>() as VideosFeatureTestApp)
+            .getApplicationContext<Context>() as TestVideosApp)
 
         // Launch scenario test
         start(

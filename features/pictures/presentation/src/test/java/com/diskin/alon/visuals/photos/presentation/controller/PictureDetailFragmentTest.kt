@@ -17,6 +17,7 @@ import com.diskin.alon.visuals.photos.presentation.R
 import com.diskin.alon.visuals.photos.presentation.model.PictureDetail
 import com.diskin.alon.visuals.photos.presentation.viewmodel.PictureDetailViewModel
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import dagger.android.support.AndroidSupportInjection
 import io.mockk.every
 import io.mockk.mockk
@@ -92,7 +93,6 @@ class PictureDetailFragmentTest {
             )
 
         pictureDetailData.value = testPicDetail
-        println(calendar.time)
 
         // Then fragment should show detail in its layout
         onView(withId(R.id.sizeDetail))
@@ -155,7 +155,7 @@ class PictureDetailFragmentTest {
 
         // Then fragment should show event error message as toast notification to user
         val actualMessage = ShadowToast.getTextOfLatestToast().toString()
-        Truth.assertThat(actualMessage)
+        assertThat(actualMessage)
             .isEqualTo(context.getString(R.string.picture_detail_loading_error))
     }
 }

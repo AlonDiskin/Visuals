@@ -7,6 +7,7 @@ Feature: Enable video playing
   acceptance criteria:
   -provide video preview when video selected for playing
   -play video with device video player
+  -provide video detail info :size, date added,file path on device,format,duration
 
   @show-video-preview
   Scenario Outline: Video preview is shown
@@ -27,6 +28,18 @@ Feature: Enable video playing
     Examples:
       | uri      |
       | vid uri  |
+
+  @provide-video-info
+  Scenario: Video detail is displayed
+    Given User has public video on device
+      | date                  | size   | path        | title           | width | height | duration | uri    |
+      | 13 March 2020 20:12   | 138.35 | DCIM/Camera | 20200313_23.mp4 | 1920  | 600    | 00:54    | test 1 |
+    And User selects video from browser
+    When User select to view video info
+    Then Video data should be displayed
+      | date                  | size     | path        | title           | resolution | duration |
+      | 13 March 2020 20:12   | 138.35MB | DCIM/Camera | 20200313_23.mp4 | 1920*600   | 00:54    |
+
 
 
 

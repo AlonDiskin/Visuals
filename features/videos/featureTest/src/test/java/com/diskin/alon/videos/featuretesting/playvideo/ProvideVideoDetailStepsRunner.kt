@@ -1,10 +1,10 @@
 package com.diskin.alon.videos.featuretesting.playvideo
 
-import androidx.test.espresso.intent.Intents
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import com.diskin.alon.visuals.videos.featuretesting.TestVideosApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
-import com.mauriciotogneri.greencoffee.Scenario
 import com.mauriciotogneri.greencoffee.ScenarioConfig
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,12 +14,12 @@ import org.robolectric.annotation.LooperMode
 import java.util.*
 
 /**
- * Step definitions runner for the 'Video is played in device player' scenario.
+ * Step definitions runner for the 'Video detail is displayed' scenario.
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = TestVideosApp::class)
-class PlayVideoOnDeviceStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class ProvideVideoDetailStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
         @ParameterizedRobolectricTestRunner.Parameters
@@ -28,7 +28,7 @@ class PlayVideoOnDeviceStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(s
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
                 .withFeatureFromAssets("play_video.feature")
-                .withTags("@play-video-on-device")
+                .withTags("@provide-video-info")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {
@@ -41,15 +41,9 @@ class PlayVideoOnDeviceStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(s
 
     @Test
     fun test() {
-        // Start intents recording api
-        Intents.init()
-        start(PlayVideoOnDeviceSteps())
-    }
+        val featureTestApp = (ApplicationProvider
+            .getApplicationContext<Context>() as TestVideosApp)
 
-    override fun afterScenarioEnds(scenario: Scenario?, locale: Locale?) {
-        super.afterScenarioEnds(scenario, locale)
-
-        // Release intents recording api
-        Intents.release()
+        start(ProvideVideoDetailSteps(featureTestApp.getMockedVideosProvider()))
     }
 }

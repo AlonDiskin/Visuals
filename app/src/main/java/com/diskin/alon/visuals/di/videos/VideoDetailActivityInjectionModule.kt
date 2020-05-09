@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals.videos.featuretesting
+package com.diskin.alon.visuals.di.videos
 
 import com.diskin.alon.visuals.videos.presentation.controller.VideoDetailActivity
 import com.diskin.alon.visuals.videos.presentation.controller.VideoPlayerFragmentsFactory
@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class VideosFeaturesTestVideoPlayerActivityInjectionModule {
+abstract class VideoDetailActivityInjectionModule {
 
     @Binds
     abstract fun bindFragmentsFactory(
@@ -16,5 +16,5 @@ abstract class VideosFeaturesTestVideoPlayerActivityInjectionModule {
     ): VideoPlayerFragmentsFactory
 
     @ContributesAndroidInjector
-    abstract fun pictureActivityAndroidInjector(): VideoDetailActivity
+    abstract fun videoPlayerActivityAndroidInjector(): VideoDetailActivity
 }

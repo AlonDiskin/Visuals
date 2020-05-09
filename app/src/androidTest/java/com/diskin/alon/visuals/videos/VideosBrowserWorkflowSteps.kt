@@ -3,6 +3,7 @@ package com.diskin.alon.visuals.videos
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.MediaStore
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -15,7 +16,10 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.util.DeviceUtil
 import com.diskin.alon.visuals.util.RecyclerViewMatcher.withRecyclerView
+import com.diskin.alon.visuals.videos.data.MediaStoreVideoProvider
 import com.diskin.alon.visuals.videos.presentation.controller.VideosAdapter
+import com.diskin.alon.visuals.videos.presentation.model.VideoDetail
+import com.diskin.alon.visuals.videos.presentation.model.VideoDuration
 import com.google.common.truth.Truth
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -23,6 +27,8 @@ import com.mauriciotogneri.greencoffee.annotations.Then
 import com.mauriciotogneri.greencoffee.annotations.When
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Step definitions for videos browser feature workflow scenario.
@@ -62,7 +68,7 @@ class VideosBrowserWorkflowSteps : VideosWorkflowsStepsBackground() {
                             hasDescendant(
                                 allOf(
                                     withId(R.id.videoDuration),
-                                    withText(getTestDurations()[index].getFormattedDuration()),
+                                    withText(getExpectedVideoDuration(index).getFormattedDuration()),
                                     isDisplayed()
                                 )
                             )
@@ -96,7 +102,7 @@ class VideosBrowserWorkflowSteps : VideosWorkflowsStepsBackground() {
                             hasDescendant(
                                 allOf(
                                     withId(R.id.videoDuration),
-                                    withText(getTestDurations()[index].getFormattedDuration()),
+                                    withText(getExpectedVideoDuration(index).getFormattedDuration()),
                                     isDisplayed()
                                 )
                             )
@@ -146,5 +152,34 @@ class VideosBrowserWorkflowSteps : VideosWorkflowsStepsBackground() {
 
         // Exit from android share sheet ui
         DeviceUtil.pressBack()
+    }
+
+    private fun getExpectedVideoDuration(index: Int): VideoDuration {
+        // Query provider
+        val uri = getTestVideosUri()[index]
+        val columnId = MediaStore.Video.VideoColumns._ID
+        val columnDuration = MediaStore.Video.VideoColumns.DURATION
+        val contentResolver = ApplicationProvider.getApplicationContext<Context>()
+            .contentResolver
+        val cursor = contentResolver.query(
+            MediaStoreVideoProvider.VIDEOS_PROVIDER_URI,
+            arrayOf(
+                columnId,
+                columnDuration
+            ),
+            "${MediaStore.Video.VideoColumns._ID} = ?",
+            arrayOf(uri.lastPathSegment),
+            null)!!
+
+        // Extract columns data from cursor
+        cursor.moveToNext()
+
+        val videoDuration = cursor.getLong(cursor.getColumnIndex(columnDuration))
+
+
+        return VideoDuration(
+            (videoDuration / 1000 % 60).toInt(),
+            (videoDuration / 1000 / 60).toInt()
+        )
     }
 }

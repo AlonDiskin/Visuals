@@ -8,7 +8,7 @@ import io.mockk.mockk
 import javax.inject.Singleton
 
 @Module
-object VideosFeatureTestDataModule {
+object TestVideosDataModule {
 
     @JvmStatic
     @Singleton

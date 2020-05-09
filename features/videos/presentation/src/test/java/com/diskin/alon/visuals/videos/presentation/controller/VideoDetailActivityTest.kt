@@ -10,11 +10,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.diskin.alon.visuals.videos.presentation.R
+import com.diskin.alon.visuals.viedos.presentation.StubVideoDetailFragment
 import com.diskin.alon.visuals.viedos.presentation.StubVideoPreviewFragment
 import com.google.common.truth.Truth.assertThat
 import dagger.android.AndroidInjection
@@ -56,6 +59,7 @@ class VideoDetailActivityTest {
 
         // Stub mocked fragment factory behaviour
         every { fragmentsFactory.createVideoPreviewFragment(videoUri) } returns StubVideoPreviewFragment()
+        every { fragmentsFactory.createVideoDetailFragment(videoUri) } returns StubVideoDetailFragment()
 
         // Launch activity under test
         val context = ApplicationProvider.getApplicationContext<Context>()!!
@@ -86,7 +90,7 @@ class VideoDetailActivityTest {
         verify { fragmentsFactory.createVideoPreviewFragment(videoUri) }
 
         // And display it in layout
-        onView(withText(R.string.stub_video_frag_text))
+        onView(withText(R.string.stub_video_preview_frag_text))
             .check(matches(isDisplayed()))
     }
 
@@ -113,5 +117,20 @@ class VideoDetailActivityTest {
 
             assertThat(actualThemeResId).isEqualTo(R.style.AppTheme_NoActionBar_MediaDetailActivityTheme)
         }
+    }
+
+    @Test
+    fun showVideoDetail_whenUserSelectsToViewDetail() {
+        // Given a resumed activity
+
+        // When user swipes up
+        onView(withId(R.id.pager))
+            .perform(swipeUp())
+
+        // Then activity should show a fragment that displays video detail
+        verify { fragmentsFactory.createVideoDetailFragment(videoUri) }
+
+        onView(withText(R.string.stub_video_detail_frag_text))
+            .check(matches(isDisplayed()))
     }
 }

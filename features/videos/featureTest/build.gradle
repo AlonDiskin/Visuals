@@ -34,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -85,4 +89,5 @@ dependencies {
     testImplementation 'io.reactivex.rxjava2:rxjava:2.2.13'
     testImplementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
     testImplementation "androidx.navigation:navigation-testing:$nav_component_version"
+    kaptTest "androidx.databinding:databinding-compiler:3.6.1"
 }

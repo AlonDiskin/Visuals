@@ -21,6 +21,8 @@ import java.util.*
 @LargeTest
 class VideosPlayerWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
+    lateinit var steps: VideosPlayerWorkflowSteps
+
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
@@ -42,7 +44,8 @@ class VideosPlayerWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(sce
         // Init platform intents validation api
         Intents.init()
 
-        start(VideosPlayerWorkflowSteps())
+        steps = VideosPlayerWorkflowSteps()
+        start(steps)
     }
 
     override fun afterScenarioEnds(scenario: Scenario?, locale: Locale?) {
@@ -51,5 +54,8 @@ class VideosPlayerWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(sce
 
         // Release platform intents validation api
         Intents.release()
+
+        // Delete test videos from test device
+        steps.deleteTestVideosFromDevice()
     }
 }

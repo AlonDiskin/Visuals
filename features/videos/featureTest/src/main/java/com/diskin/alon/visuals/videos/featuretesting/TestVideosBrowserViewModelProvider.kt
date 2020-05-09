@@ -7,7 +7,7 @@ import com.diskin.alon.visuals.videos.presentation.viewmodel.VideosBrowserViewMo
 import javax.inject.Inject
 import javax.inject.Provider
 
-class VideosFeatureTestVideosViewModelProvider @Inject constructor(
+class TestVideosBrowserViewModelProvider @Inject constructor(
     private val repositoryProvider: Provider<VideoRepository>
 ) : ViewModelProvider.Factory {
 

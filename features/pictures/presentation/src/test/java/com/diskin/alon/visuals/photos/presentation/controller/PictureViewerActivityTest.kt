@@ -108,6 +108,4 @@ class PictureViewerActivityTest {
         onView(withText(R.string.test_fragment2_text))
             .check(matches(isDisplayed()))
     }
-
-
 }

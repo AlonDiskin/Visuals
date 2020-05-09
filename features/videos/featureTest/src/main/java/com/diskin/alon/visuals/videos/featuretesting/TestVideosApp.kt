@@ -7,13 +7,14 @@ import dagger.android.support.DaggerApplication
 import org.robolectric.TestLifecycleApplication
 import java.lang.reflect.Method
 
-class VideosFeatureTestApp : DaggerApplication(), TestLifecycleApplication {
+class TestVideosApp : DaggerApplication(), TestLifecycleApplication {
 
-    private lateinit var featureTestAppComponent: VideosFeatureTestAppComponent
+    private lateinit var featureTestAppComponent: TestVideosAppComponent
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-
-        featureTestAppComponent = DaggerVideosFeatureTestAppComponent.create()
+        featureTestAppComponent = DaggerTestVideosAppComponent
+            .factory()
+            .create(this)
 
         return featureTestAppComponent
     }

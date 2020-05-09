@@ -3,6 +3,7 @@ package com.diskin.alon.visuals.videos.presentation.controller
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.diskin.alon.visuals.videos.presentation.viewmodel.VideoDetailViewModelImpl
 import javax.inject.Inject
 
 class VideoPlayerFragmentsFactoryImpl @Inject constructor() : VideoPlayerFragmentsFactory {
@@ -13,5 +14,13 @@ class VideoPlayerFragmentsFactoryImpl @Inject constructor() : VideoPlayerFragmen
         }
 
         return VideoPreviewFragment().apply { arguments = args }
+    }
+
+    override fun createVideoDetailFragment(videoUri: Uri): Fragment {
+        val args = Bundle().apply {
+            putParcelable(VideoDetailViewModelImpl.VID_URI,videoUri)
+        }
+
+        return VideoDetailFragment().apply { arguments = args }
     }
 }

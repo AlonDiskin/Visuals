@@ -23,3 +23,5 @@ Feature: Videos features e2e workflows
    Then Video playback preview is shown
    When User selects to play video
    Then App should ask device to play video from an available player app
+   When User open video detail
+   Then Video detail should be displayed

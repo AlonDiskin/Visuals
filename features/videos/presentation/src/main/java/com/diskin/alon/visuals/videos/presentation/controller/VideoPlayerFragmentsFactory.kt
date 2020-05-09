@@ -9,4 +9,6 @@ import androidx.fragment.app.Fragment
 interface VideoPlayerFragmentsFactory {
 
     fun createVideoPreviewFragment(videoUri: Uri): Fragment
+
+    fun createVideoDetailFragment(vidUri: Uri): Fragment
 }
