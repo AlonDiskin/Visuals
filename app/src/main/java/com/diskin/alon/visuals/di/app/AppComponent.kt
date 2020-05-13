@@ -6,6 +6,8 @@ import com.diskin.alon.visuals.di.home.MainActivityInjectionModule
 import com.diskin.alon.visuals.di.pictures.PicturesBrowserFragmentInjectionModule
 import com.diskin.alon.visuals.di.pictures.PictureDetailFragmentInjectionModule
 import com.diskin.alon.visuals.di.pictures.PictureViewerActivityInjectionModule
+import com.diskin.alon.visuals.di.videos.VideoDetailFragmentInjectionModule
+import com.diskin.alon.visuals.di.videos.VideoDetailActivityInjectionModule
 import com.diskin.alon.visuals.di.videos.VideosFragmentInjectionModule
 import dagger.BindsInstance
 import dagger.Component
@@ -23,8 +25,10 @@ import javax.inject.Singleton
     MainActivityInjectionModule::class,
     PicturesBrowserFragmentInjectionModule::class,
     VideosFragmentInjectionModule::class,
+    VideoDetailActivityInjectionModule::class,
     PictureViewerActivityInjectionModule::class,
-    PictureDetailFragmentInjectionModule::class
+    PictureDetailFragmentInjectionModule::class,
+    VideoDetailFragmentInjectionModule::class
 ])
 interface AppComponent : AndroidInjector<VisualsApp> {
 

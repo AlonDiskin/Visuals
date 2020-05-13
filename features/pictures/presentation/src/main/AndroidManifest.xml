@@ -7,7 +7,7 @@
             android:name=".controller.PictureViewerActivity"
             android:label="@string/picture_detail_toolbar_title"
             android:launchMode="singleTop"
-            android:theme="@style/PicActivityTheme" />
+            android:theme="@style/AppTheme.NoActionBar.MediaDetailActivityTheme" />
     </application>
 
 </manifest>

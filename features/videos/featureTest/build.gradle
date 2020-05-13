@@ -34,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -42,6 +46,7 @@ dependencies {
     def dagger_version = "2.25.4"
     def greencoffee_version = "3.5.0"
     def fragment_version = "1.2.1"
+    def nav_component_version = "2.3.0-alpha06"
 
     // Project modules
     implementation project(':features:videos:presentation')
@@ -56,7 +61,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.2.0'
 
     // Fragment Testing
-    implementation "androidx.fragment:fragment-testing:$fragment_version"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
     // Dagger
     implementation "com.google.dagger:dagger-android:$dagger_version"
@@ -83,4 +88,6 @@ dependencies {
     testImplementation "com.mauriciotogneri:greencoffee:$greencoffee_version"
     testImplementation 'io.reactivex.rxjava2:rxjava:2.2.13'
     testImplementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    testImplementation "androidx.navigation:navigation-testing:$nav_component_version"
+    kaptTest "androidx.databinding:databinding-compiler:3.6.1"
 }

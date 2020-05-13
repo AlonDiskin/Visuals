@@ -112,12 +112,12 @@ class PictureViewerFeatureWorkFlowSteps : GreenCoffeeSteps() {
     fun userNavigatesToPicturesBrowserScreen() {
         // Navigate to pictures browser screen
         onView(
-            CoreMatchers.allOf(
+            allOf(
                 withText(R.string.nav_pictures),
                 isDisplayed()
             )
         )
-            .perform(ViewActions.click())
+            .perform(click())
 
         // Verify browser screen displayed
         onView(withId(R.id.fragment_pictures_root))

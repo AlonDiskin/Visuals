@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PlayVideoButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="rippleColor">@android:color/white</item>
+        <item name="strokeColor">@android:color/white</item>
+        <item name="cornerRadius">@dimen/play_button_corner_radius</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+</resources>

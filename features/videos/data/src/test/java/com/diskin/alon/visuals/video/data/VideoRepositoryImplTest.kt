@@ -4,8 +4,8 @@ import android.net.Uri
 import com.diskin.alon.common.data.DeviceDataProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.visuals.videos.data.VideoRepositoryImpl
-import com.diskin.alon.visuals.videos.presentation.Video
-import com.diskin.alon.visuals.videos.presentation.VideoDuration
+import com.diskin.alon.visuals.videos.presentation.model.Video
+import com.diskin.alon.visuals.videos.presentation.model.VideoDuration
 import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.mock
 import io.mockk.every
@@ -66,10 +66,34 @@ class VideoRepositoryImplTest {
             )
         )
         val expectedVideos = listOf(
-            Video(testDeviceVideos[1].uri, VideoDuration(40,0)),
-            Video(testDeviceVideos[3].uri,VideoDuration(37,0)),
-            Video(testDeviceVideos[2].uri,VideoDuration(10,1)),
-            Video(testDeviceVideos[0].uri,VideoDuration(10,2))
+            Video(
+                testDeviceVideos[1].uri,
+                VideoDuration(
+                    40,
+                    0
+                )
+            ),
+            Video(
+                testDeviceVideos[3].uri,
+                VideoDuration(
+                    37,
+                    0
+                )
+            ),
+            Video(
+                testDeviceVideos[2].uri,
+                VideoDuration(
+                    10,
+                    1
+                )
+            ),
+            Video(
+                testDeviceVideos[0].uri,
+                VideoDuration(
+                    10,
+                    2
+                )
+            )
         )
 
         every { videosProvider.getAll() } returns Observable.just(testDeviceVideos)

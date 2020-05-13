@@ -9,7 +9,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 /**
- * Provider of all public photos, from his device.
+ * Provider of all user device public videos.
  */
 class MediaStoreVideoProvider @Inject constructor(
     private val contentResolver: ContentResolver
@@ -34,11 +34,25 @@ class MediaStoreVideoProvider @Inject constructor(
         val columnId = MediaStore.Video.VideoColumns._ID
         val columnDate = MediaStore.Video.VideoColumns.DATE_ADDED
         val columnDuration = MediaStore.Video.VideoColumns.DURATION
+        val columnSize = MediaStore.Video.VideoColumns.SIZE
+        val columnTitle = MediaStore.Video.VideoColumns.TITLE
+        val columnPath = MediaStore.Video.VideoColumns.DATA
+        val columnWidth = MediaStore.Video.VideoColumns.WIDTH
+        val columnHeight = MediaStore.Video.VideoColumns.HEIGHT
 
         // Query provider
         val cursor = contentResolver.query(
             VIDEOS_PROVIDER_URI,
-            arrayOf(columnId,columnDate,columnDuration),
+            arrayOf(
+                columnId,
+                columnDate,
+                columnDuration,
+                columnSize,
+                columnTitle,
+                columnPath,
+                columnWidth,
+                columnHeight
+            ),
             null,
             null,
             null)!!
@@ -47,14 +61,24 @@ class MediaStoreVideoProvider @Inject constructor(
         while (cursor.moveToNext()) {
             val videoId = cursor.getInt(cursor.getColumnIndex(columnId))
             val videoUri = Uri.parse(VIDEOS_PROVIDER_URI.toString().plus("/${videoId}"))
-            val videoDate = cursor.getLong(cursor.getColumnIndex(columnDate))
+            val videoDate = cursor.getLong(cursor.getColumnIndex(columnDate)) * 1000L // convert to milliseconds
             val videoDuration = cursor.getLong(cursor.getColumnIndex(columnDuration))
+            val videoSize = cursor.getLong(cursor.getColumnIndex(columnSize))
+            val videoTitle = cursor.getString(cursor.getColumnIndex(columnTitle))
+            val videoPath = cursor.getString(cursor.getColumnIndex(columnPath))
+            val videoWidth = cursor.getLong(cursor.getColumnIndex(columnWidth))
+            val videoHeight = cursor.getLong(cursor.getColumnIndex(columnHeight))
 
             videos.add(
                 MediaStoreVideo(
                     videoUri,
                     videoDate,
-                    videoDuration
+                    videoDuration,
+                    videoSize,
+                    videoTitle,
+                    videoPath,
+                    videoWidth,
+                    videoHeight
                 )
             )
         }

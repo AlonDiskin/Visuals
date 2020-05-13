@@ -67,7 +67,7 @@ class PictureViewerActivityTest {
             putExtra(context.getString(R.string.extra_pic_uri),picUri)
         }
 
-        scenario = ActivityScenario.launch<PictureViewerActivity>(intent)
+        scenario = ActivityScenario.launch(intent)
     }
 
     @Test

@@ -81,8 +81,6 @@ class PictureViewingSteps(
                     height
                 )
             )
-
-            println(mills)
         }
 
         every{ mockedPicturesProvider.getAll() } returns devicePicturesSubject
