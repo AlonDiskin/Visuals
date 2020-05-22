@@ -78,12 +78,7 @@ class PicturesBrowserFeatureWorkflowSteps : GreenCoffeeSteps() {
     @When("^User navigates to pictures browser screen$")
     fun userNavigatesToPicturesBrowserScreen() {
         // Navigate to pictures browser screen
-        onView(
-            allOf(
-                withText(R.string.nav_pictures),
-                isDisplayed()
-            )
-        )
+        onView(withId(R.id.pictures))
             .perform(click())
 
         // Verify browser screen displayed

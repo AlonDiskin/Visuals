@@ -10,13 +10,11 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.util.DeviceUtil
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
-import org.hamcrest.CoreMatchers.allOf
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -99,12 +97,7 @@ abstract class VideosWorkflowsStepsBackground : GreenCoffeeSteps() {
 
     open fun userNavigatesToVideosBrowserScreen() {
         // Navigate to videos screen from home screen
-        onView(
-            allOf(
-                ViewMatchers.withText(R.string.nav_videos),
-                isDisplayed()
-            )
-        )
+        onView(withId(R.id.videos))
             .perform(click())
 
         // Verify browser screen displayed

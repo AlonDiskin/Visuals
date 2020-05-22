@@ -12,8 +12,8 @@
         android:icon="@drawable/ic_video_library_24dp"
         android:title="@string/nav_videos" />
 
-<!--    <item-->
-<!--        android:id="@+id/stub2"-->
-<!--        android:icon="@drawable/ic_stub"-->
-<!--        android:title="Stub2" />-->
+    <item
+        android:id="@+id/recycle_bin"
+        android:icon="@drawable/ic_trash_24dp"
+        android:title="@string/nav_trash" />
 </menu>

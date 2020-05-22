@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.LooperMode
 
 /**
- * [AppNavigator] unit test class.
+ * [AppNavigator] integration test class.
  */
 @RunWith(AndroidJUnit4::class)
 @LooperMode(LooperMode.Mode.PAUSED)
@@ -49,5 +49,10 @@ class AppNavigatorTest {
     @Test
     fun returnVideosNavGraph_whenAskedFor() {
         assertThat(appNavigator.getVideosNavGraph()).isEqualTo(R.navigation.videos_nav_graph)
+    }
+
+    @Test
+    fun returnRecycleBinNavGraph_whenAskedFor() {
+        assertThat(appNavigator.getRecycleBinNavGraph()).isEqualTo(R.navigation.recycle_bin_nav_graph)
     }
 }

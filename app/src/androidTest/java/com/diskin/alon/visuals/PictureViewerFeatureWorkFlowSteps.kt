@@ -7,7 +7,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions
@@ -111,12 +110,7 @@ class PictureViewerFeatureWorkFlowSteps : GreenCoffeeSteps() {
     @When("^User navigates to pictures browser screen$")
     fun userNavigatesToPicturesBrowserScreen() {
         // Navigate to pictures browser screen
-        onView(
-            allOf(
-                withText(R.string.nav_pictures),
-                isDisplayed()
-            )
-        )
+        onView(withId(R.id.pictures))
             .perform(click())
 
         // Verify browser screen displayed

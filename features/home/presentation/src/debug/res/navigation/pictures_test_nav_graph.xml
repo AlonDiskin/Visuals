@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/pictures"
-    app:startDestination="@id/blankFragment">
+    app:startDestination="@id/pictures_placeholder">
 
     <fragment
-        android:id="@+id/blankFragment"
-        android:name="com.diskin.alon.visuals.home.presentation.TestPicturesFragment"
+        android:id="@+id/pictures_placeholder"
+        android:name="com.diskin.alon.visuals.home.presentation.TestFragment"
         android:label="BlankFragment"
-        tools:layout="@layout/fragment_test_pictures"/>
+        tools:layout="@layout/fragment_test"/>
 </navigation>

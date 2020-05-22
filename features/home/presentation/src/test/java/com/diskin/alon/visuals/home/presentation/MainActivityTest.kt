@@ -4,20 +4,20 @@ import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import dagger.android.AndroidInjection
 import io.mockk.*
 import kotlinx.android.synthetic.main.activity_main.*
-import org.hamcrest.CoreMatchers.allOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,6 +52,7 @@ class MainActivityTest {
         // Stub mocked collaborator behaviour
         every { navigator.getPicturesNavGraph() } returns R.navigation.pictures_test_nav_graph
         every { navigator.getVideosNavGraph() } returns R.navigation.videos_test_nav_graph
+        every { navigator.getRecycleBinNavGraph() } returns R.navigation.recycle_bin_test_nav_graph
 
         // Currently(Feb 2020), robolectric has no capability to unit test or configure run time permissions, so
         // we just going to stub a granted permission, while user run time permission flow will be
@@ -96,34 +97,86 @@ class MainActivityTest {
     }
 
     @Test
-    fun navToPicturesBrowserScreen_whenClickingOnPicturesNavMenu() {
+    fun addPicturesNavAccess_whenResumed() {
         // Given a resumed activity
 
-        // When user click on 'pictures' menu item
-        onView(allOf(withText(R.string.nav_pictures),isDisplayed()))
-            .perform(click())
-
-        // Then nav controller should navigate to pictures browser destination
-        //verify(this.navigator).getPicturesNavGraph()
-        verify { navigator.getPicturesNavGraph() }
-
-        onView(withText(R.string.hello_pictures_fragment))
-            .check(matches(isDisplayed()))
+        // Then activity should have bottom nav view has entry for pictures destination
+        scenario.onActivity {
+            assertThat(it.bottom_nav.menu.findItem(R.id.pictures).isVisible)
+                .isTrue()
+        }
     }
 
     @Test
-    fun navToVideosBrowserScreen_whenClickingOnVideosNavMenu() {
+    fun openPicturesScreenComposite_whenUserNavigates() {
+        // Given a resumed activity
+
+        // When user click on 'pictures' menu item
+        onView(withId(R.id.pictures))
+            .perform(click())
+
+        // Then nav controller should navigate to pictures destination in activity container
+        scenario.onActivity {
+            val actualDest = it.nav_host_container
+                .findNavController().currentDestination!!.id
+
+            assertThat(actualDest).isEqualTo(R.id.pictures_placeholder)
+        }
+    }
+
+    @Test
+    fun addVideosNavAccess_whenResumed() {
+        // Given a resumed activity
+
+        // Then activity should have bottom nav view has entry for videos destination
+        scenario.onActivity {
+            assertThat(it.bottom_nav.menu.findItem(R.id.videos).isVisible)
+                .isTrue()
+        }
+    }
+
+    @Test
+    fun openVideosScreenComposite_whenUserNavigates() {
         // Given a resumed activity
 
         // When user click on 'videos' menu item
-        onView(allOf(withText(R.string.nav_videos),isDisplayed()))
+        onView(withId(R.id.videos))
             .perform(click())
 
-        // Then nav controller should navigate to pictures browser destination
-        //verify(this.navigator).getVideosNavGraph()
-        verify { navigator.getVideosNavGraph() }
+        // Then nav controller should navigate to videos destination in activity container
+        scenario.onActivity {
+            val actualDest = it.nav_host_container
+                .findNavController().currentDestination!!.id
 
-        onView(withText(R.string.hello_videos_fragment))
-            .check(matches(isDisplayed()))
+            assertThat(actualDest).isEqualTo(R.id.videos_placeholder)
+        }
+    }
+
+    @Test
+    fun addRecycleBinNavAccess_whenResumed() {
+        // Given a resumed activity
+
+        // Then activity should have bottom nav view has entry for recycle bin destination
+        scenario.onActivity {
+            assertThat(it.bottom_nav.menu.findItem(R.id.recycle_bin).isVisible)
+                .isTrue()
+        }
+    }
+
+    @Test
+    fun openRecycleBinScreenComposite_whenUserNavigates() {
+        // Given a resumed activity
+
+        // When user click on 'trash' menu item
+        onView(withId(R.id.recycle_bin))
+            .perform(click())
+
+        // Then nav controller should navigate to recycle bin destination in activity container
+        scenario.onActivity {
+            val actualDest = it.nav_host_container
+                .findNavController().currentDestination!!.id
+
+            assertThat(actualDest).isEqualTo(R.id.recycle_bin_placeholder)
+        }
     }
 }

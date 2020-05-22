@@ -26,4 +26,8 @@ class AppNavigator @Inject constructor(private val app: Application) : MainNavig
     override fun getVideosNavGraph(): Int {
         return R.navigation.videos_nav_graph
     }
+
+    override fun getRecycleBinNavGraph(): Int {
+        return R.navigation.recycle_bin_nav_graph
+    }
 }
