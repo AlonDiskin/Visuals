@@ -2,12 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/videos"
-    app:startDestination="@id/videos_placeholder">
+    android:id="@+id/recycle_bin"
+    app:startDestination="@id/recycle_bin_placeholder">
 
     <fragment
-        android:id="@+id/videos_placeholder"
+        android:id="@+id/recycle_bin_placeholder"
         android:name="com.diskin.alon.visuals.home.presentation.TestFragment"
-        android:label="TestVideosFragment"
+        android:label="BlankFragment"
         tools:layout="@layout/fragment_test"/>
 </navigation>

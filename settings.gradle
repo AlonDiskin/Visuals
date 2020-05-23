@@ -8,5 +8,6 @@ include ':app',
         ':features:common:presentation',
         ':features:common:data',
         ':features:home:presentation',
-        ':features:settings:presentation'
+        ':features:settings:presentation',
+        ':features:recycleBin:presentation'
 rootProject.name='Visuals'

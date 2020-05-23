@@ -76,6 +76,7 @@ dependencies {
     implementation project(':features:videos:data')
     implementation project(':features:common:presentation')
     implementation project(':features:common:data')
+    implementation project(':features:recycleBin:presentation')
 
     // Kotlin
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

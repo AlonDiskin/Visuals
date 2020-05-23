@@ -1,8 +1,8 @@
 Feature: Videos features e2e workflows
 
-  In order to access my device videos
+  In order to interact my device videos
   As the user
-  I want to be able interact with my device videos
+  I want to be able access with my device videos
 
   Background:
     Given User has public videos on his device
