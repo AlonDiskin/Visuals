@@ -18,7 +18,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import com.diskin.alon.visuals.photos.presentation.controller.PicturesAdapter.PictureViewHolder
 import com.diskin.alon.visuals.photos.presentation.controller.PicturesBrowserFragment
@@ -37,7 +37,7 @@ import org.robolectric.Shadows
  * Step definitions for the 'User share pictures' scenario.
  */
 class SharePicturesSteps(
-    private val mockedPicturesProvider: DeviceDataProvider<MediaStorePicture>
+    private val mockedPicturesProvider: DeviceMediaProvider<MediaStorePicture>
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: FragmentScenario<PicturesBrowserFragment>

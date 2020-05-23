@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.photos.featuretest
 
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -16,7 +16,7 @@ class TestApp : DaggerApplication(), TestLifecycleApplication {
         return featureTestAppComponent
     }
 
-    fun getMockedPicturesProvider(): DeviceDataProvider<MediaStorePicture> {
+    fun getMockedPicturesProvider(): DeviceMediaProvider<MediaStorePicture> {
         return featureTestAppComponent.getDevicePicturesProvider()
     }
 

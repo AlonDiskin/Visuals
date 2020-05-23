@@ -1,4 +1,4 @@
-Feature: Home features e2e workflows
+Feature: App home screen usage
 
   In order to facilitate app features usage
   As the user

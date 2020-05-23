@@ -9,9 +9,9 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.diskin.alon.visuals.photos.presentation.util.ImageLoader
 import com.diskin.alon.visuals.photos.presentation.R
 import com.diskin.alon.visuals.photos.presentation.model.Picture
+import com.diskin.alon.visuals.photos.presentation.util.ImageLoader
 
 /**
  * [Picture]s UI adapter.
@@ -29,7 +29,8 @@ class PicturesAdapter(
     companion object {
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Picture>() {
-            override fun areItemsTheSame(oldItem: Picture, newItem: Picture)
+
+            override fun areItemsTheSame(oldItem: Picture, newItem: Picture): Boolean
                     = oldItem.uri == newItem.uri
 
             override fun areContentsTheSame(oldItem: Picture, newItem: Picture)

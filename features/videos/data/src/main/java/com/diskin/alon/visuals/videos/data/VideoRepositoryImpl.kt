@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.videos.data
 
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.presentation.model.Video
 import com.diskin.alon.visuals.videos.presentation.model.VideoDuration
 import com.diskin.alon.visuals.videos.presentation.interfaces.VideoRepository
@@ -8,7 +8,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class VideoRepositoryImpl @Inject constructor(
-    private val videosProvider: DeviceDataProvider<MediaStoreVideo>
+    private val videosProvider: DeviceMediaProvider<MediaStoreVideo>
 ) : VideoRepository {
 
     override fun getAll(): Observable<List<Video>> {

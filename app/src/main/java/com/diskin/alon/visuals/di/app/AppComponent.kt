@@ -1,11 +1,14 @@
 package com.diskin.alon.visuals.di.app
 
 import android.app.Application
+import androidx.annotation.VisibleForTesting
+import com.diskin.alon.common.data.AppDatabase
 import com.diskin.alon.visuals.VisualsApp
 import com.diskin.alon.visuals.di.home.MainActivityInjectionModule
 import com.diskin.alon.visuals.di.pictures.PicturesBrowserFragmentInjectionModule
 import com.diskin.alon.visuals.di.pictures.PictureDetailFragmentInjectionModule
 import com.diskin.alon.visuals.di.pictures.PictureViewerActivityInjectionModule
+import com.diskin.alon.visuals.di.recyclebin.TrashedItemsFragmentInjectionModule
 import com.diskin.alon.visuals.di.videos.VideoDetailFragmentInjectionModule
 import com.diskin.alon.visuals.di.videos.VideoDetailActivityInjectionModule
 import com.diskin.alon.visuals.di.videos.VideosFragmentInjectionModule
@@ -28,7 +31,8 @@ import javax.inject.Singleton
     VideoDetailActivityInjectionModule::class,
     PictureViewerActivityInjectionModule::class,
     PictureDetailFragmentInjectionModule::class,
-    VideoDetailFragmentInjectionModule::class
+    VideoDetailFragmentInjectionModule::class,
+    TrashedItemsFragmentInjectionModule::class
 ])
 interface AppComponent : AndroidInjector<VisualsApp> {
 
@@ -37,4 +41,7 @@ interface AppComponent : AndroidInjector<VisualsApp> {
 
         fun create(@BindsInstance app: Application): AppComponent
     }
+
+    @VisibleForTesting
+    fun getAppDatabase(): AppDatabase
 }

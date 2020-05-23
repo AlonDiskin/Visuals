@@ -3,7 +3,7 @@ package com.diskin.alon.visuals.photos.data
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.MediaStore
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.common.data.RxContentProvider
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -13,7 +13,7 @@ import javax.inject.Inject
  */
 class MediaStorePictureProvider @Inject constructor(
     private val contentResolver: ContentResolver
-) : DeviceDataProvider<MediaStorePicture> {
+) : DeviceMediaProvider<MediaStorePicture> {
 
     companion object {
         val PICTURES_PROVIDER_URI: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI

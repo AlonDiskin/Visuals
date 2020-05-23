@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.videos.featuretesting
 
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -19,7 +19,7 @@ class TestVideosApp : DaggerApplication(), TestLifecycleApplication {
         return featureTestAppComponent
     }
 
-    fun getMockedVideosProvider(): DeviceDataProvider<MediaStoreVideo> {
+    fun getMockedVideosProvider(): DeviceMediaProvider<MediaStoreVideo> {
         return featureTestAppComponent.getDeviceVideosProvider()
     }
 

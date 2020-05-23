@@ -2,7 +2,7 @@ package com.diskin.alon.videos.featuretesting.listvideos
 
 import android.os.Looper
 import androidx.fragment.app.testing.FragmentScenario
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragment
 import com.google.common.truth.Truth.assertThat
@@ -20,7 +20,7 @@ import org.robolectric.shadows.ShadowToast
  * Step definitions for the 'App fail to fetch device videos' scenario.
  */
 class VideosFetchFailSteps(
-    private val  mockedPicturesProvider: DeviceDataProvider<MediaStoreVideo>
+    private val  mockedPicturesProvider: DeviceMediaProvider<MediaStoreVideo>
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: FragmentScenario<VideosBrowserFragment>

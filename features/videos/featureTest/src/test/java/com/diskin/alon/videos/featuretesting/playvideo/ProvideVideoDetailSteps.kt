@@ -4,32 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Looper
-import android.text.TextUtils
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeUp
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.viewpager2.widget.ViewPager2
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.visuals.videos.presentation.R
 import com.diskin.alon.visuals.videos.presentation.controller.VideoDetailActivity
-import com.diskin.alon.visuals.videos.presentation.controller.VideosAdapter
 import com.diskin.alon.visuals.videos.presentation.controller.VideosAdapter.VideoViewHolder
 import com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragment
-import com.diskin.alon.visuals.videos.presentation.model.VideoDetail
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -38,22 +29,18 @@ import com.mauriciotogneri.greencoffee.annotations.When
 import gherkin.ast.TableRow
 import io.mockk.every
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.Subject
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.robolectric.Shadows
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalTime
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * Step definitions of the 'Video detail is displayed' scenario.
  */
 class ProvideVideoDetailSteps(
-    private val mockedVideosProvider: DeviceDataProvider<MediaStoreVideo>
+    private val mockedVideosProvider: DeviceMediaProvider<MediaStoreVideo>
 ) :  GreenCoffeeSteps() {
 
     private lateinit var testDeviceVideo: MediaStoreVideo

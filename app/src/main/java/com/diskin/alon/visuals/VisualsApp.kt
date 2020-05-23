@@ -6,11 +6,12 @@ import com.diskin.alon.visuals.di.app.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 
-
 class VisualsApp : DaggerApplication() {
 
+    private val appComponent = DaggerAppComponent.factory().create(this)
+
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.factory().create(this)
+        return appComponent
     }
 
     override fun onCreate() {

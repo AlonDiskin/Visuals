@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="trashedItem"
+            type="com.diskin.alon.visuals.recuclebin.presentation.TrashedItem" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/trashedVideoThumb"
+            android:scaleType="centerCrop"
+            android:layout_height="@dimen/trashed_item_height"
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/trashed_item_margin"
+            loadVideoThumbnail="@{trashedItem.uri}"
+            tools:srcCompat="@tools:sample/avatars[4]" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_play_arrow_white_18dp" />
+
+        <include
+            android:id="@+id/selectable_foreground"
+            layout="@layout/selectable_foreground"
+            android:visibility="invisible" />
+
+    </FrameLayout>
+
+</layout>

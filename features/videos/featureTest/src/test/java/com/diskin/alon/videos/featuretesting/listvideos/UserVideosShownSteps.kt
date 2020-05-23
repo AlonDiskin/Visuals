@@ -6,7 +6,7 @@ import androidx.fragment.app.testing.FragmentScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.videos.featuretesting.util.RecyclerViewMatcher.withRecyclerView
 import com.diskin.alon.visuals.videos.featuretesting.R
@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit
  * Step definitions for the 'User public videos are shown' scenario.
  */
 class UserVideosShownSteps(
-    private val mockedVideosProvider: DeviceDataProvider<MediaStoreVideo>
+    private val mockedVideosProvider: DeviceMediaProvider<MediaStoreVideo>
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: FragmentScenario<VideosBrowserFragment>

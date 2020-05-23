@@ -1,14 +1,14 @@
 package com.diskin.alon.visuals.videos.data
 
 import android.net.Uri
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.presentation.interfaces.VideoDetailRepository
 import com.diskin.alon.visuals.videos.presentation.model.VideoDetailDto
 import io.reactivex.Single
 import javax.inject.Inject
 
 class VideoDetailRepositoryImpl @Inject constructor(
-    private val videoProvider: DeviceDataProvider<MediaStoreVideo>
+    private val videoProvider: DeviceMediaProvider<MediaStoreVideo>
 ) : VideoDetailRepository {
 
     override fun get(uri: Uri): Single<VideoDetailDto> {

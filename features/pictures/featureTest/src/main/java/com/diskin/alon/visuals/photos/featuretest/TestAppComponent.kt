@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.photos.featuretest
 
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -18,5 +18,5 @@ import javax.inject.Singleton
     TestPictureViewerActivityInjectionModule::class])
 interface TestAppComponent : AndroidInjector<TestApp>{
 
-    fun getDevicePicturesProvider(): DeviceDataProvider<MediaStorePicture>
+    fun getDevicePicturesProvider(): DeviceMediaProvider<MediaStorePicture>
 }

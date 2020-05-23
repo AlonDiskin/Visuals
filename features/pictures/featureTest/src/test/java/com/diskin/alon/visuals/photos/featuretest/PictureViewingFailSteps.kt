@@ -7,7 +7,7 @@ import android.os.Looper
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import com.diskin.alon.visuals.photos.presentation.controller.PictureViewerActivity
 import com.diskin.alon.visuals.photos.presentation.util.ImageLoader
@@ -29,7 +29,7 @@ import org.robolectric.shadows.ShadowToast
  * Step definitions for the 'Picture viewing fail' scenario.
  */
 class PictureViewingFailSteps(
-    private val mockedPicturesProvider: DeviceDataProvider<MediaStorePicture>
+    private val mockedPicturesProvider: DeviceMediaProvider<MediaStorePicture>
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: ActivityScenario<PictureViewerActivity>

@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.photos.data
 
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.presentation.model.Picture
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.doReturn
@@ -22,7 +22,7 @@ class PictureRepositoryImplTest {
 
     // Mocked collaborators
     @Mock
-    lateinit var photosProvider: DeviceDataProvider<MediaStorePicture>
+    lateinit var photosProvider: DeviceMediaProvider<MediaStorePicture>
 
     @Before
     fun setUp() {
