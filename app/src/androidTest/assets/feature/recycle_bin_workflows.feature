@@ -10,3 +10,5 @@ Feature: Media items Recycle bin
     And User launch app from device home screen
     When User navigates to recycle bin screen
     Then All trashed items should be shown sorted by trashing date in desc order
+    When User filters items to show only trashed pictures
+    Then Only trashed pictures should be displayed

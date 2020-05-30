@@ -5,6 +5,7 @@ import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.common.data.TrashedEntityType
 import com.diskin.alon.common.data.TrashedItemDao
 import com.diskin.alon.common.data.TrashedItemEntity
+import com.diskin.alon.visuals.recuclebin.presentation.TrashedFilter
 import com.diskin.alon.visuals.recuclebin.presentation.TrashedItem
 import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemRepository
 import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemType
@@ -19,7 +20,7 @@ class TrashedItemRepositoryImpl @Inject constructor(
     private val mediaVisualProvider: DeviceMediaProvider<MediaStoreVisual>
 ) : TrashedItemRepository {
 
-    override fun getAll(): Observable<List<TrashedItem>> {
+    override fun getAll(filter: TrashedFilter): Observable<List<TrashedItem>> {
         val deviceMediaObservable = mediaVisualProvider.getAll()
             .map { storeVisuals ->
                 // if any existing entity in dao,not existing on device,
@@ -41,8 +42,15 @@ class TrashedItemRepositoryImpl @Inject constructor(
         return Observable.merge(
             deviceMediaObservable.ignoreElements().toObservable(),
             dao.getAll())
-            .map {
-                it.map { entity ->
+            .map { it
+                .filter { entity ->
+                    when(filter) {
+                        TrashedFilter.ALL -> true
+                        TrashedFilter.PICTURE -> entity.type == TrashedEntityType.PICTURE
+                        TrashedFilter.VIDEO -> entity.type == TrashedEntityType.VIDEO
+                    }
+                }
+                .map { entity ->
                     TrashedItem(
                         Uri.parse(entity.uri),
                         when(entity.type) {
@@ -50,7 +58,8 @@ class TrashedItemRepositoryImpl @Inject constructor(
                             TrashedEntityType.VIDEO -> TrashedItemType.VIDEO
                         }
                     )
-                }.reversed()
+                }
+                .reversed()
             }
     }
 }

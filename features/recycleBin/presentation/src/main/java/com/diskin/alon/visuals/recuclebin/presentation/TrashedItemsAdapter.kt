@@ -3,28 +3,34 @@ package com.diskin.alon.visuals.recuclebin.presentation
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.diskin.alon.visuals.recuclebin.presentation.databinding.TrashedPictureBinding
 import com.diskin.alon.visuals.recuclebin.presentation.databinding.TrashedVideoBinding
+import java.util.concurrent.Executor
 
 /**
  * [TrashedItem]s ui adapter.
  */
-class TrashedItemsAdapter : ListAdapter<TrashedItem, TrashedItemsAdapter.TrashedItemViewHolder>(
-    DIFF_CALLBACK
+class TrashedItemsAdapter(executor: Executor? = null) : ListAdapter<TrashedItem, TrashedItemsAdapter.TrashedItemViewHolder>(
+    AsyncDifferConfig.Builder(DIFF_CALLBACK)
+        .setBackgroundThreadExecutor(executor)
+        .build()
 ){
 
     companion object {
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TrashedItem>() {
 
-            override fun areItemsTheSame(oldItem: TrashedItem, newItem: TrashedItem)
-                    = oldItem.uri == newItem.uri
+            override fun areItemsTheSame(oldItem: TrashedItem, newItem: TrashedItem): Boolean {
+                return oldItem.uri == newItem.uri
+            }
 
-            override fun areContentsTheSame(oldItem: TrashedItem, newItem: TrashedItem)
-                    = oldItem == newItem
+            override fun areContentsTheSame(oldItem: TrashedItem, newItem: TrashedItem) =
+                oldItem == newItem
+
         }
     }
 

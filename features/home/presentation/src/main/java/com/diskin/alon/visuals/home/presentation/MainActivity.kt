@@ -60,14 +60,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         // Resolve menu selection
-        when(item?.itemId) {
+        return when(item?.itemId) {
             // Navigate to settings screen
             R.id.action_settings -> {
                 mNavigator.openSettings()
+                true
             }
-        }
 
-        return true
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     /**

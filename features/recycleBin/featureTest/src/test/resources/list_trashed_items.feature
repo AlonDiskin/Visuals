@@ -6,6 +6,7 @@ Feature: List all items currently in recycle bin
 
   acceptance criteria:
   - list all trashed items by date added in descending order
+  - provide sorting menu to sort by item type
 
   Background:
     Given User has public media on device
@@ -61,3 +62,11 @@ Feature: List all items currently in recycle bin
       | video | uri_3|
       | image | uri_2|
 
+  @filter-trashed
+  Scenario Outline: User filters displayed trashed items
+    When user select "<filter>" from filter menu
+    Then Only trashed items of "<filter>" type should be shown sorted bt date in desc order
+    Examples:
+      | filter  |
+      | image   |
+      | video   |

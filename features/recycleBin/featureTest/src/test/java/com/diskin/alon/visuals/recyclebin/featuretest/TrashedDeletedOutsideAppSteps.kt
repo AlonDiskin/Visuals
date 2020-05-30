@@ -165,5 +165,11 @@ class TrashedDeletedOutsideAppSteps(
                 assertThat(boundedItem.uri).isEqualTo(item.uri)
             }
         }
+
+        // Verify ui display expected size of items
+        scenario.onFragment {
+            val rv = it.view!!.findViewById<RecyclerView>(R.id.trashedList)
+            assertThat(rv.adapter!!.itemCount).isEqualTo(expectedTrashedItems.size)
+        }
     }
 }

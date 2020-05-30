@@ -1,10 +1,7 @@
 package com.diskin.alon.visuals.recuclebin.presentation
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import dagger.android.support.AndroidSupportInjection
@@ -21,7 +18,11 @@ class TrashedItemsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Inject fragment
         AndroidSupportInjection.inject(this)
+
+        // Indicate fragment contribute to app bar menu
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -35,14 +36,42 @@ class TrashedItemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Setup trashed items adapter
         val adapter = TrashedItemsAdapter()
         trashedList.adapter = adapter
-        trashedList.itemAnimator = null
 
-        // Observe view model state
+        // Observe view model trash items list state
         viewModel.trashedItems.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        // Inflate fragments app bar menu
+        inflater.inflate(R.menu.menu_trashed_items,menu)
+
+        // Set menu state
+        when(viewModel.filter) {
+            TrashedFilter.ALL -> menu.findItem(R.id.action_filter_all).isChecked = true
+            TrashedFilter.PICTURE -> menu.findItem(R.id.action_filter_image).isChecked = true
+            TrashedFilter.VIDEO -> menu.findItem(R.id.action_filter_video).isChecked = true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (!item.isChecked) {
+            // Update view model filter state according to selection
+            item.isChecked = true
+            when(item.itemId) {
+                R.id.action_filter_all -> viewModel.filter = TrashedFilter.ALL
+
+                R.id.action_filter_video -> viewModel.filter = TrashedFilter.VIDEO
+
+                R.id.action_filter_image -> {
+                    viewModel.filter = TrashedFilter.PICTURE
+                }
+            }
+        }
+
+        return true
     }
 }

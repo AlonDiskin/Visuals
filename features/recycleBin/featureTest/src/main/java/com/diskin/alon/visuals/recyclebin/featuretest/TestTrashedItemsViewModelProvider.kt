@@ -1,19 +1,27 @@
 package com.diskin.alon.visuals.recyclebin.featuretest
 
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemRepository
+import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemsFragment
 import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemsViewModelImpl
 import javax.inject.Inject
 import javax.inject.Provider
 
 class TestTrashedItemsViewModelProvider @Inject constructor(
+    fragment: TrashedItemsFragment,
     private val repositoryProvider: Provider<TrashedItemRepository>
-) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+) : AbstractSavedStateViewModelFactory(fragment,fragment.arguments) {
+    override fun <T : ViewModel?> create(
+        key: String,
+        modelClass: Class<T>,
+        handle: SavedStateHandle
+    ): T {
         return TrashedItemsViewModelImpl(
-            repositoryProvider.get()
+            repositoryProvider.get(),
+            handle
         ) as T
     }
+
 }

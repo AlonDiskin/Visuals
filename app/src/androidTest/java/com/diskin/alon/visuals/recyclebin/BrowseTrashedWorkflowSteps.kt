@@ -6,11 +6,14 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.databinding.ViewDataBinding
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 import com.diskin.alon.common.data.AppDatabase
 import com.diskin.alon.common.data.TrashedEntityType
 import com.diskin.alon.common.data.TrashedItemEntity
@@ -21,6 +24,7 @@ import com.diskin.alon.visuals.recuclebin.presentation.TrashedItem
 import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemType
 import com.diskin.alon.visuals.util.DeviceUtil
 import com.diskin.alon.visuals.util.RecyclerViewMatcher.withRecyclerView
+import com.diskin.alon.visuals.util.isRecyclerViewItemsCount
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.And
@@ -46,12 +50,18 @@ class BrowseTrashedWorkflowSteps : GreenCoffeeSteps() {
     init {
         // Get app db instance
         val app = ApplicationProvider.getApplicationContext<Context>() as VisualsApp
-        val field = VisualsApp::class.java.getDeclaredField("appComponent")
+        var field = VisualsApp::class.java.getDeclaredField("appComponent")
         field.isAccessible = true
         db = (field.get(app) as AppComponent).getAppDatabase()
 
         // Verify test device and app db are empty
         assertThat(db.trashedDao().getAll().blockingFirst().isEmpty()).isTrue()
+
+        // Turn of data binding
+        field = ViewDataBinding::class.java.getDeclaredField("USE_CHOREOGRAPHER")
+        field.isAccessible = true
+
+        field.set(null,false)
     }
 
     @Given("^User has trashed items from device videos and pictures$")
@@ -164,13 +174,53 @@ class BrowseTrashedWorkflowSteps : GreenCoffeeSteps() {
         }
     }
 
+    @When("^User filters items to show only trashed pictures$")
+    fun userFiltersItemsToShowOnlyTrashedPictures() {
+        onView(withId(R.id.action_filter))
+            .perform(click())
+        onView(withText(R.string.title_filter_image))
+            .perform(click())
+    }
+
+    @Then("^Only trashed pictures should be displayed$")
+    fun onlyTrashedPicturesShouldBeDisplayed() {
+        val expectedSize = expectedTrashedItems
+            .filter { it.type == TrashedItemType.PICTURE }
+            .size
+
+        // Verify all expected items are shown
+        expectedTrashedItems
+            .filter { it.type == TrashedItemType.PICTURE }
+            .forEachIndexed { index, trashedItem ->
+                val viewId = when(trashedItem.type) {
+                    TrashedItemType.VIDEO -> R.id.trashedVideoThumb
+                    TrashedItemType.PICTURE -> R.id.trashedPicture
+                }
+                onView(withRecyclerView(R.id.trashedList).atPosition(index))
+                    .check(
+                        matches(
+                            hasDescendant(
+                                allOf(
+                                    withId(viewId),
+                                    withTagValue(CoreMatchers.`is`(trashedItem.uri.toString())),
+                                    isDisplayed()
+                                )
+                            )
+                        )
+                    )
+            }
+
+        // Verify only expected items shown
+        onView(withId(R.id.trashedList))
+            .check(matches(isRecyclerViewItemsCount(expectedSize)))
+    }
+
     fun deleteAllTestDataFromDevice() {
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressHome()
+        db.clearAllTables()
         testMediaUri.forEach {
             ApplicationProvider.getApplicationContext<Context>().contentResolver
                 .delete(it,null,null)
         }
-
-        //db.trashedDao().delete(*testTrashedItems.toTypedArray()).blockingAwait()
-        db.clearAllTables()
     }
 }

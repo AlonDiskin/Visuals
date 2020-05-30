@@ -8,8 +8,12 @@ import io.reactivex.Observable
 interface TrashedItemRepository {
 
     /**
-     * Return an observable that emit a list of all items,
-     * sorted by added order, in descending order.
+     * Return an observable that emit a list of all [TrashedItem]s,
+     * sorted by added order, in descending order, with optional
+     * filtering param allowing to produce observables that emit only
+     * trashed videos/pictures.
+     *
+     * @param filter items filtering type.
      */
-    fun getAll(): Observable<List<TrashedItem>>
+    fun getAll(filter: TrashedFilter = TrashedFilter.ALL): Observable<List<TrashedItem>>
 }
