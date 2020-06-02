@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals
+package com.diskin.alon.visuals.settings
 
 import android.app.ActivityManager
 import android.content.Context
@@ -15,6 +15,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollTo
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
+import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.home.presentation.MainActivity
 import com.diskin.alon.visuals.settings.presentation.SettingsActivity
 import com.diskin.alon.visuals.util.DeviceUtil

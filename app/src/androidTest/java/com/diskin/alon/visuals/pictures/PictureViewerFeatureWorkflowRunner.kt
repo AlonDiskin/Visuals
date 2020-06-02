@@ -1,7 +1,6 @@
-package com.diskin.alon.visuals
+package com.diskin.alon.visuals.pictures
 
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.intent.Intents
 import androidx.test.filters.LargeTest
 import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
 import com.diskin.alon.visuals.util.DeviceUtil
@@ -19,7 +18,7 @@ import java.util.*
  */
 @RunWith(Parameterized::class)
 @LargeTest
-class PicturesBrowserFeatureWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class PictureViewerFeatureWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
         @JvmStatic
@@ -27,7 +26,7 @@ class PicturesBrowserFeatureWorkflowRunner(scenario: ScenarioConfig) : GreenCoff
         fun scenarios(): Iterable<ScenarioConfig> {
             return GreenCoffeeConfig()
                 .withFeatureFromAssets("assets/feature/app_workflow.feature")
-                .withTags("@pictures-browser-feature")
+                .withTags("@picture-viewer-feature")
                 .scenarios()
         }
     }
@@ -39,17 +38,11 @@ class PicturesBrowserFeatureWorkflowRunner(scenario: ScenarioConfig) : GreenCoff
         // Register idling resource for espresso
         IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
 
-        // Init platform intents validation api
-        Intents.init()
-
-        start(PicturesBrowserFeatureWorkflowSteps())
+        start(PictureViewerFeatureWorkFlowSteps())
     }
 
     override fun afterScenarioEnds(scenario: Scenario?, locale: Locale?) {
         // Unregister espresso idling resource
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
-
-        // Release platform intents validation api
-        Intents.release()
     }
 }

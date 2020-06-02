@@ -21,6 +21,8 @@ import java.util.*
 @LargeTest
 class VideosBrowserWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
+    private lateinit var steps: VideosBrowserWorkflowSteps
+
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
@@ -42,7 +44,9 @@ class VideosBrowserWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(sc
         // Init platform intents validation api
         Intents.init()
 
-        start(VideosBrowserWorkflowSteps())
+        steps = VideosBrowserWorkflowSteps()
+
+        start(steps)
     }
 
     override fun afterScenarioEnds(scenario: Scenario?, locale: Locale?) {
@@ -51,5 +55,8 @@ class VideosBrowserWorkflowRunner(scenario: ScenarioConfig) : GreenCoffeeTest(sc
 
         // Release platform intents validation api
         Intents.release()
+
+        // Purge test device from test data that was installed\modified on him
+        steps.deleteTestDataFromDevice()
     }
 }

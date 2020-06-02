@@ -14,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.util.DeviceUtil
+import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import java.io.File
 import java.io.FileOutputStream
@@ -25,6 +26,24 @@ import java.io.InputStream
 abstract class VideosWorkflowsStepsBackground : GreenCoffeeSteps() {
 
     private val testVideosUri = mutableListOf<Uri>()
+
+    init {
+        // Verify test device has no prev public videos
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val contentResolver = context.contentResolver!!
+
+        val cursor = contentResolver.query(
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+            arrayOf(MediaStore.MediaColumns._ID),
+            null,
+            null
+        )!!
+
+        val videosCount = cursor.count
+
+        cursor.close()
+        assertThat(videosCount).isEqualTo(0)
+    }
 
     open fun userHasPublicVideosOnHisDevice() {
         // Copy test videos to test device
@@ -107,5 +126,13 @@ abstract class VideosWorkflowsStepsBackground : GreenCoffeeSteps() {
 
     fun getTestVideosUri(): MutableList<Uri> {
         return testVideosUri
+    }
+
+    fun deleteTestDataFromDevice() {
+        // Delete test pictures from test device storage
+        getTestVideosUri().forEach {
+            ApplicationProvider.getApplicationContext<Context>().contentResolver
+                .delete(it,null,null)
+        }
     }
 }

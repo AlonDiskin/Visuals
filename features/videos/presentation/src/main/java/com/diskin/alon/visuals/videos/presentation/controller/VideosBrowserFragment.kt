@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.*
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.diskin.alon.visuals.common.presentation.Event
 import com.diskin.alon.visuals.videos.presentation.R
 import com.diskin.alon.visuals.videos.presentation.viewmodel.VideosBrowserViewModel
 import dagger.android.support.AndroidSupportInjection
@@ -54,13 +56,36 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
             )
         videosList.adapter = this.adapter
 
+        // Observe view model state
         viewModel.videos.observe(viewLifecycleOwner, Observer {
             this.adapter.submitList(it)
         })
 
-        viewModel.videosUpdateFail.observe(this, Observer {failMessage ->
+        viewModel.videosUpdateFail.observe(viewLifecycleOwner, Observer {failMessage ->
             Toast.makeText(activity,failMessage, Toast.LENGTH_LONG)
                 .show()
+        })
+
+        viewModel.videosTrashedEvent.observe(viewLifecycleOwner, Observer {
+            it?.let { event ->
+                when(event.status) {
+                    Event.Status.SUCCESS -> {
+                        Toast.makeText(
+                            activity,
+                            getString(R.string.trashing_success_message),
+                            Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                    Event.Status.FAILURE -> {
+                        Toast.makeText(
+                            activity,
+                            getString(R.string.trashing_failure_message),
+                            Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
+            }
         })
     }
 
@@ -138,9 +163,23 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
         }
     }
 
+    private fun trashVideos(videoUri: List<Uri>) {
+        AlertDialog.Builder(requireActivity())
+            .setMessage(getString(R.string.trash_dialog_message))
+            .setTitle(getString(R.string.trash_dialog_title))
+            .setPositiveButton(getString(R.string.dialog_pos_label)) { _, _ ->
+                viewModel.trashVideos(*videoUri.toTypedArray())
+                actionMode?.finish()
+            }
+            .setNegativeButton(getString(R.string.dialog_neg_label),null)
+            .create()
+            .show()
+    }
+
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
         when(item?.title) {
             getString(R.string.action_share_title) -> shareVideos(selectedVideosUri)
+            getString(R.string.action_trash_title) -> trashVideos(selectedVideosUri)
         }
 
         return true
@@ -154,6 +193,10 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
 
         menu?.add(getString(R.string.action_share_title))?.setIcon(
             R.drawable.ic_share_24dp
+        )
+
+        menu?.add(getString(R.string.action_trash_title))?.setIcon(
+            R.drawable.ic_trash_24dp
         )
 
         return true

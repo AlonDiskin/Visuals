@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals
+package com.diskin.alon.visuals.pictures
 
 import android.content.Context
 import android.content.Intent
@@ -17,6 +17,7 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers.*
+import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.photos.presentation.controller.PicturesAdapter.PictureViewHolder
 import com.diskin.alon.visuals.util.DeviceUtil
 import com.diskin.alon.visuals.util.RecyclerViewMatcher.withRecyclerView
@@ -42,13 +43,16 @@ class PicturesBrowserFeatureWorkflowSteps : GreenCoffeeSteps() {
         val testBitMaps = listOf(
             BitmapFactory.decodeResource(
                 ApplicationProvider.getApplicationContext<Context>().resources,
-                R.drawable.image1),
+                R.drawable.image1
+            ),
             BitmapFactory.decodeResource(
                 ApplicationProvider.getApplicationContext<Context>().resources,
-                R.drawable.image2),
+                R.drawable.image2
+            ),
             BitmapFactory.decodeResource(
                 ApplicationProvider.getApplicationContext<Context>().resources,
-                R.drawable.image3)
+                R.drawable.image3
+            )
         )
 
         testBitMaps.forEachIndexed { index, bitmap ->

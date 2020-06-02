@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_share_title">Share</string>
+    <string name="action_trash_title">Trash</string>
     <string name="action_check_all_title">All</string>
     <string name="share_sheet_title">Share videos</string>
     <string name="video_uri_mime_type">video/*</string>
@@ -10,8 +11,9 @@
     <string name="vid_resolution_template">%1$s*%2$s</string>
     <string name="vid_date_format">dd MMMM yyyy HH:mm</string>
     <string name="vid_duration_format">%02d:%02d</string>
+    <string name="trashing_success_message">Videos moved to bin</string>
+    <string name="trashing_failure_message">Failed to trash videos!</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="play_video">play video</string>
     <string name="video_mime_type">video/*</string>
@@ -28,4 +30,8 @@
     <string name="vid_resolution_sample">1980*1200</string>
     <string name="duration_label">Duration:</string>
     <string name="vid_duration_sample">2:13</string>
+    <string name="trash_dialog_message">Move videos to recycle bin?</string>
+    <string name="trash_dialog_title">Trash videos</string>
+    <string name="dialog_pos_label">ok</string>
+    <string name="dialog_neg_label">cancel</string>
 </resources>

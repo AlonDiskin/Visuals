@@ -52,6 +52,6 @@ class PictureDetailViewModelImpl(
     }
 
     private fun handlePictureLoadingError(throwable: Throwable) {
-        _pictureError.value = Event()
+        _pictureError.value = Event(Event.Status.FAILURE)
     }
 }
