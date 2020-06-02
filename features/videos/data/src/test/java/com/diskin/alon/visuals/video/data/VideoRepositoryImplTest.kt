@@ -1,7 +1,7 @@
 package com.diskin.alon.visuals.video.data
 
 import android.net.Uri
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.visuals.videos.data.VideoRepositoryImpl
 import com.diskin.alon.visuals.videos.presentation.model.Video
@@ -24,7 +24,7 @@ class VideoRepositoryImplTest {
     private lateinit var repository: VideoRepositoryImpl
 
     // Mocked collaborator
-    private val videosProvider: DeviceDataProvider<MediaStoreVideo> = mockk()
+    private val videosProvider: DeviceMediaProvider<MediaStoreVideo> = mockk()
 
     @Before
     fun setUp() {

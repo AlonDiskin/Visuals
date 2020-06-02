@@ -17,7 +17,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.visuals.videos.presentation.R
 import com.diskin.alon.visuals.videos.presentation.controller.VideoDetailActivity
@@ -41,7 +41,7 @@ import org.robolectric.shadows.ShadowVideoView
  * Step definitions of the 'Video preview is shown' scenario.
  */
 class ShowVideoPreviewSteps(
-    private val mockedVideosProvider: DeviceDataProvider<MediaStoreVideo>
+    private val mockedVideosProvider: DeviceMediaProvider<MediaStoreVideo>
 ) : GreenCoffeeSteps() {
 
     private lateinit var testUri: Uri

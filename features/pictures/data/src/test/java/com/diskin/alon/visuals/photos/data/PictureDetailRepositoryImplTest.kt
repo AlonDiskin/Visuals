@@ -1,7 +1,7 @@
 package com.diskin.alon.visuals.photos.data
 
 import android.net.Uri
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.presentation.model.PictureDetail
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock
@@ -21,7 +21,7 @@ class PictureDetailRepositoryImplTest {
     private lateinit var repository: PictureDetailRepositoryImpl
 
     // Mocked collaborators
-    private val provider = mockk<DeviceDataProvider<MediaStorePicture>>()
+    private val provider = mockk<DeviceMediaProvider<MediaStorePicture>>()
 
     @Before
     fun setUp() {

@@ -2,7 +2,7 @@ package com.diskin.alon.visuals.photos.featuretest
 
 import android.os.Looper
 import androidx.fragment.app.testing.FragmentScenario
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import com.diskin.alon.visuals.photos.presentation.controller.PicturesBrowserFragment
 import com.google.common.truth.Truth.assertThat
@@ -20,7 +20,7 @@ import org.robolectric.shadows.ShadowToast
  * Step definitions for the 'App fail to fetch device pictures' scenario.
  */
 class PicturesFetchFailSteps(
-    private val  mockedPicturesProvider: DeviceDataProvider<MediaStorePicture>
+    private val  mockedPicturesProvider: DeviceMediaProvider<MediaStorePicture>
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: FragmentScenario<PicturesBrowserFragment>

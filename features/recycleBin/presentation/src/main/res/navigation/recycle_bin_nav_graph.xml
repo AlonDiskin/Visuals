@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/recycleBinBrowserFragment"
-        android:name="com.diskin.alon.visuals.recuclebin.presentation.RecycleBinBrowserFragment"
+        android:name="com.diskin.alon.visuals.recuclebin.presentation.TrashedItemsFragment"
         android:label="fragment_recycle_bin_browser"
-        tools:layout="@layout/fragment_recycle_bin_browser" />
+        tools:layout="@layout/fragment_trashed_items" />
 </navigation>

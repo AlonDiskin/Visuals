@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.photos.featuretest
 
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import dagger.Module
 import dagger.Provides
@@ -13,7 +13,7 @@ object TestDataModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideDevicePhotosProvider(): DeviceDataProvider<MediaStorePicture> {
+    fun provideDevicePhotosProvider(): DeviceMediaProvider<MediaStorePicture> {
         return mockk {  }
     }
 }

@@ -18,7 +18,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import com.diskin.alon.visuals.videos.presentation.R
 import com.diskin.alon.visuals.videos.presentation.controller.VideosAdapter.VideoViewHolder
@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit
  * Step definitions for the 'User share videos' scenario.
  */
 class ShareVideosSteps(
-    private val mockedVideosProvider: DeviceDataProvider<MediaStoreVideo>
+    private val mockedVideosProvider: DeviceMediaProvider<MediaStoreVideo>
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: FragmentScenario<VideosBrowserFragment>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_filter"
+        android:title="@string/title_filter"
+        android:icon="@drawable/ic_filter_24dp"
+        app:showAsAction="always">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/action_filter_all"
+                    android:title="@string/title_filter_all" />
+                <item
+                    android:id="@+id/action_filter_video"
+                    android:title="@string/title_filter_video" />
+                <item
+                    android:id="@+id/action_filter_image"
+                    android:title="@string/title_filter_image"/>
+            </group>
+        </menu>
+    </item>
+
+</menu>

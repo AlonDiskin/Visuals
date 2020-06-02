@@ -1,7 +1,7 @@
 package com.diskin.alon.visuals.videos.featuretesting
 
 import android.app.Application
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import dagger.BindsInstance
 import dagger.Component
@@ -24,5 +24,5 @@ interface TestVideosAppComponent : AndroidInjector<TestVideosApp>{
         fun create(@BindsInstance app: Application): TestVideosAppComponent
     }
 
-    fun getDeviceVideosProvider(): DeviceDataProvider<MediaStoreVideo>
+    fun getDeviceVideosProvider(): DeviceMediaProvider<MediaStoreVideo>
 }

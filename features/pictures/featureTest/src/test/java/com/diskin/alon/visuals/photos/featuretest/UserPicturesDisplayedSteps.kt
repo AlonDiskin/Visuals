@@ -4,7 +4,7 @@ import android.net.Uri
 import android.os.Looper.getMainLooper
 import androidx.fragment.app.testing.FragmentScenario
 import com.diskin.alon.visuals.photos.presentation.util.ImageLoader
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import com.diskin.alon.visuals.photos.presentation.model.Picture
 import com.diskin.alon.visuals.photos.presentation.controller.PicturesBrowserFragment
@@ -25,7 +25,7 @@ import io.reactivex.subjects.Subject
  * Step definitions for the 'User device photos displayed' scenario.
  */
 class UserPicturesDisplayedSteps(
-    private val  mockedPicturesProvider: DeviceDataProvider<MediaStorePicture>
+    private val  mockedPicturesProvider: DeviceMediaProvider<MediaStorePicture>
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: FragmentScenario<PicturesBrowserFragment>

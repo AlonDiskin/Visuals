@@ -2,5 +2,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_filter_all">All</string>
+    <string name="title_filter_video">Video</string>
+    <string name="title_filter_image">Image</string>
+    <string name="title_filter">Filter</string>
 
 </resources>

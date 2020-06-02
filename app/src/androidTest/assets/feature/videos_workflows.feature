@@ -1,4 +1,4 @@
-Feature: Videos features e2e workflows
+Feature: User videos browser
 
   In order to interact my device videos
   As the user

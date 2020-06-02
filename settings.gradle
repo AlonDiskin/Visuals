@@ -11,3 +11,5 @@ include ':app',
         ':features:settings:presentation',
         ':features:recycleBin:presentation'
 rootProject.name='Visuals'
+include ':features:recycleBin:featureTest'
+include ':features:recycleBin:data'

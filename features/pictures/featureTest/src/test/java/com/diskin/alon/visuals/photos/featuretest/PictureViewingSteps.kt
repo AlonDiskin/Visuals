@@ -10,7 +10,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.viewpager2.widget.ViewPager2
-import com.diskin.alon.common.data.DeviceDataProvider
+import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.visuals.photos.data.MediaStorePicture
 import com.diskin.alon.visuals.photos.presentation.controller.PictureViewerActivity
 import com.diskin.alon.visuals.photos.presentation.util.ImageLoader
@@ -35,7 +35,7 @@ import kotlin.collections.ArrayList
  * Step definitions for the 'User views public picture' scenario.
  */
 class PictureViewingSteps(
-    private val mockedPicturesProvider: DeviceDataProvider<MediaStorePicture>
+    private val mockedPicturesProvider: DeviceMediaProvider<MediaStorePicture>
 ) : GreenCoffeeSteps() {
 
     private lateinit var scenario: ActivityScenario<PictureViewerActivity>
