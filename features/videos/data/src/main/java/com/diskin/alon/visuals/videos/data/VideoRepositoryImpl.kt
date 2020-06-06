@@ -10,6 +10,7 @@ import com.diskin.alon.visuals.videos.presentation.model.Video
 import com.diskin.alon.visuals.videos.presentation.model.VideoDuration
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -42,13 +43,23 @@ class VideoRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun trash(vararg videoUri: Uri): Completable {
+    override fun trash(videosUri: List<Uri>): Single<List<Uri>> {
         return trashedItemDao
-            .insert(*videoUri
-                .map {
-                    TrashedItemEntity(it.toString(),TrashedEntityType.VIDEO)
-                }
+            .insert(
+                *videosUri
+                .map { TrashedItemEntity(it.toString(),TrashedEntityType.VIDEO) }
                 .toTypedArray()
+            )
+            .subscribeOn(Schedulers.io())
+            .toSingle { ArrayList(videosUri) }
+    }
+
+    override fun restoreFromTrash(videoUri: List<Uri>): Completable {
+        return trashedItemDao
+            .delete(
+                *videoUri
+                    .map { TrashedItemEntity(it.toString(),TrashedEntityType.VIDEO) }
+                    .toTypedArray()
             )
             .subscribeOn(Schedulers.io())
     }

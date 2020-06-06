@@ -11,7 +11,7 @@
     <string name="vid_resolution_template">%1$s*%2$s</string>
     <string name="vid_date_format">dd MMMM yyyy HH:mm</string>
     <string name="vid_duration_format">%02d:%02d</string>
-    <string name="trashing_success_message">Videos moved to bin</string>
+    <string name="trashing_success_message">Videos moved to trash</string>
     <string name="trashing_failure_message">Failed to trash videos!</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -34,4 +34,6 @@
     <string name="trash_dialog_title">Trash videos</string>
     <string name="dialog_pos_label">ok</string>
     <string name="dialog_neg_label">cancel</string>
+    <string name="title_undo_trash">undo</string>
+    <string name="trashing_undo_failure_message">Fail to restore videos!</string>
 </resources>

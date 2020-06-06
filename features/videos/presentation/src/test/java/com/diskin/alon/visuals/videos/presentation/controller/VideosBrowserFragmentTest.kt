@@ -69,6 +69,7 @@ class VideosBrowserFragmentTest {
     private val videosLiveData = MutableLiveData<List<Video>>()
     private val updateFailEvent = SingleLiveEvent<String>()
     private val videosTrashedEventData = SingleLiveEvent<Event>()
+    private val videosUndoTrashedEventData = SingleLiveEvent<Event>()
     private val testVideos = arrayListOf(
         Video(
             Uri.parse("uri 1"),
@@ -145,10 +146,12 @@ class VideosBrowserFragmentTest {
         }
 
         // Stub mocked collaborator behaviour
-        every{ viewModel.videos } returns videosLiveData
+        every { viewModel.videos } returns videosLiveData
         every { viewModel.videosUpdateFail } returns updateFailEvent
-        every { viewModel.trashVideos(*anyVararg()) } returns Unit
         every { viewModel.videosTrashedEvent } returns videosTrashedEventData
+        every { viewModel.undoLastTrash() } returns Unit
+        every { viewModel.videosTrashUndoEvent } returns videosUndoTrashedEventData
+        every { viewModel.trashVideos(any()) } returns
 
         // Setup test nav controller
         navController.setGraph(R.navigation.videos_nav_graph)
@@ -357,31 +360,6 @@ class VideosBrowserFragmentTest {
     }
 
     @Test
-    fun showVideosTrashingEventState_whenVideosTrashed() {
-        // Given a resumed fragment
-
-        // When view model updates videos trash success event
-        videosTrashedEventData.value = Event(Event.Status.SUCCESS)
-
-        // Then fragment should notify user with toast message
-        val successMessage = ApplicationProvider.getApplicationContext<Context>()
-            .getString(R.string.trashing_success_message)
-
-        assertThat(ShadowToast.getTextOfLatestToast().toString())
-            .isEqualTo(successMessage)
-
-        // When view model updates videos trash failure event
-        videosTrashedEventData.value = Event(Event.Status.FAILURE)
-
-        // Then fragment should notify user with toast message
-        val failureMessage = ApplicationProvider.getApplicationContext<Context>()
-            .getString(R.string.trashing_failure_message)
-
-        assertThat(ShadowToast.getTextOfLatestToast().toString())
-            .isEqualTo(failureMessage)
-    }
-
-    @Test
     fun trashSelectedVideos_whenUserApproveTrashing() {
         // Given a resumed fragment and displayed videos
         displayTestVideos()
@@ -405,7 +383,7 @@ class VideosBrowserFragmentTest {
 
         // Then fragment should ask view model to trash selected videos
         val selectedVideosUri = selectedVideosIndex.map { testVideos[it].uri }
-        verify { viewModel.trashVideos(*selectedVideosUri.toTypedArray()) }
+        verify { viewModel.trashVideos(selectedVideosUri) }
 
         // And close multi selection ui
         onView(withContentDescription(R.string.action_share_title))
@@ -436,11 +414,63 @@ class VideosBrowserFragmentTest {
 
         // Then fragment should not ask view model to trash selected videos
         val selectedVideosUri = selectedVideosIndex.map { testVideos[it].uri }
-        verify(exactly = 0) { viewModel.trashVideos(*selectedVideosUri.toTypedArray()) }
+        verify(exactly = 0) { viewModel.trashVideos(selectedVideosUri) }
 
         // And leave selection menu open
         onView(withContentDescription(R.string.action_share_title))
             .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun notifyUserWithUndoAction_whenVideosTrashedSuccessfully() {
+        // Given a resumed fragment
+
+        // When view model update videos trash event as success
+        videosTrashedEventData.value = Event(Event.Status.SUCCESS)
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should show a snackbar notifying videos was trashed with 'undo' action
+        onView(withId(R.id.snackbar_text))
+            .check(matches(
+                allOf(
+                    withText(R.string.trashing_success_message),
+                    isDisplayed()
+                )
+            ))
+
+        // When user selects to perform 'undo'
+        onView(withId(R.id.snackbar_action))
+            .check(matches(withText(R.string.title_undo_trash)))
+            .perform(click())
+
+        // Then fragment should ask view model to undo recent trash operation
+        verify { viewModel.undoLastTrash() }
+    }
+
+    @Test
+    fun notifyUser_whenVideoTrashingFail() {
+        // Given a resumed fragment
+
+        // When view model fail to trash videos
+        videosTrashedEventData.value = Event(Event.Status.FAILURE)
+
+        // Then fragment should notify user with a toast message about fail
+        val failMessage = ApplicationProvider.getApplicationContext<Context>()
+            .getString(R.string.trashing_failure_message)
+        assertThat(ShadowToast.getTextOfLatestToast().toString()).isEqualTo(failMessage)
+    }
+
+    @Test
+    fun notifyUser_whenVideoTrashingUndoFail() {
+        // Given a resumed fragment
+
+        // When view model fails to undo recent videos trashing
+        videosUndoTrashedEventData.value = Event(Event.Status.FAILURE)
+
+        // Then fragment should notify user with a toast message about fail
+        val failMessage = ApplicationProvider.getApplicationContext<Context>()
+            .getString(R.string.trashing_undo_failure_message)
+        assertThat(ShadowToast.getTextOfLatestToast().toString()).isEqualTo(failMessage)
     }
 
     @Test

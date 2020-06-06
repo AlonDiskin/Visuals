@@ -114,26 +114,42 @@ class VideoRepositoryImplTest {
     }
 
     @Test
-    fun trashVideos_whenClientTrashes() {
+    fun addVideosToRecycleBin_whenClientTrashesVideos() {
         // Test case fixture
-        val testCompletable = mockk<Completable>()
-
-        every { testCompletable.subscribeOn(any()) } returns testCompletable
-        every { trashedItemDao.insert(*anyVararg()) } returns testCompletable
+        every { trashedItemDao.insert(*anyVararg()) } returns Completable.complete()
 
         // Given an initialized repository
 
         // When client ask repository to trash given videos uris
-        val testVideosUri = arrayOf<Uri>(mockk(),mockk())
-        val expectedInserted = testVideosUri
-            .map { TrashedItemEntity(it.toString(), TrashedEntityType.VIDEO) }
-
-        val actual = repository.trash(*testVideosUri)
+        val testVideosUri = listOf<Uri>(mockk(),mockk())
+        val actual = repository.trash(testVideosUri)
 
         // Then repository should insert videos to trash dao
+        val expectedInserted = testVideosUri
+            .map { TrashedItemEntity(it.toString(), TrashedEntityType.VIDEO) }
         verify { trashedItemDao.insert(*expectedInserted.toTypedArray()) }
 
-        // And return a completable from dao
-        assertThat(actual).isEqualTo(testCompletable)
+        // And return a single that emits given videos uris
+        assertThat(actual.blockingGet()).isEqualTo(testVideosUri)
+    }
+
+    @Test
+    fun removeVideosFromRecycleBin_whenClientRestoreFromTrash() {
+        // Test case fixture
+        every { trashedItemDao.delete(*anyVararg()) } returns Completable.complete()
+
+        // Given an initialized repository
+
+        // When client asks repository to restore videos from trash
+        val testVideosUri = listOf<Uri>(mockk(),mockk(),mockk())
+        val actual = repository.restoreFromTrash(testVideosUri)
+
+        // Then repository should delete videos from dao
+        val expectedDeleted = testVideosUri
+            .map { TrashedItemEntity(it.toString(), TrashedEntityType.VIDEO) }
+        verify { trashedItemDao.delete(*expectedDeleted.toTypedArray()) }
+
+        // And return completable from dao
+        assertThat(actual).isInstanceOf(Completable::class.java)
     }
 }

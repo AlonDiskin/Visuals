@@ -16,6 +16,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.CompletableSubject
 import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.SingleSubject
 import io.reactivex.subjects.Subject
 import org.junit.Before
 import org.junit.BeforeClass
@@ -50,13 +51,15 @@ class VideosBrowserViewModelImplTest {
 
     // Collaborator stub data
     private val videosSubject: Subject<List<Video>> = PublishSubject.create()
-    private val videosTrashSubject = CompletableSubject.create()
+    private val videosTrashSubject = SingleSubject.create<List<Uri>>()
+    private val videosRemoveFromTrashSubject = CompletableSubject.create()
 
     @Before
     fun setUp() {
         // Stub mocks
         every { repository.getAll() } returns  videosSubject
-        every { repository.trash(*anyVararg()) } returns videosTrashSubject
+        every { repository.trash(any()) } returns videosTrashSubject
+        every { repository.restoreFromTrash(any()) } returns videosRemoveFromTrashSubject
 
         // Init SUT
         viewModel =
@@ -127,20 +130,20 @@ class VideosBrowserViewModelImplTest {
     }
 
     @Test
-    fun trashVideos_whenClientTrashVideos() {
+    fun addVideosToRecycleBin_whenViewTrashVideos() {
         // Given an initialized view model
 
         // When view model trash videos via repository
-        val testVideosUri = arrayOf<Uri>(
+        val testVideosUri = listOf<Uri>(
             mockk(),
             mockk(),
             mockk()
         )
 
-        viewModel.trashVideos(*testVideosUri)
+        viewModel.trashVideos(testVideosUri)
 
         // Then view model should ask repository to trash videos
-        verify { repository.trash(*testVideosUri) }
+        verify { repository.trash(testVideosUri) }
 
         // And subscribe to repository completable
 
@@ -152,8 +155,9 @@ class VideosBrowserViewModelImplTest {
         // Given an initialized view model
 
         // When repository completes videos trashing with success
-        viewModel.trashVideos(mockk(), mockk())
-        videosTrashSubject.onComplete()
+        val testVideos = listOf<Uri>(mockk(), mockk())
+        viewModel.trashVideos(testVideos)
+        videosTrashSubject.onSuccess(testVideos)
 
         // Then view model should update trashing event as successful event
         assertThat(viewModel.videosTrashedEvent.event).isEqualTo(Event(Status.SUCCESS))
@@ -164,10 +168,47 @@ class VideosBrowserViewModelImplTest {
         // Given an initialized view model
 
         // When repository completes videos trashing with error
-        viewModel.trashVideos(mockk(), mockk())
+        viewModel.trashVideos(listOf(mockk(), mockk()))
         videosTrashSubject.onError(Throwable())
 
         // Then view model should update trashing event as successful event
         assertThat(viewModel.videosTrashedEvent.event).isEqualTo(Event(Status.FAILURE))
+    }
+
+    @Test
+    fun cacheLastTrashedVideosUri_whenTrashCompletes() {
+        // Given an initialized view model
+
+        // When view model trash videos
+        val testVideosUri = listOf<Uri>(mockk(), mockk())
+        viewModel.trashVideos(testVideosUri)
+
+        // And repository completed successfully trashing
+        videosTrashSubject.onSuccess(testVideosUri)
+
+        // Then view model should cache result in local memory
+        val field = VideosBrowserViewModelImpl::class.java.getDeclaredField("lastTrashedCache")
+        field.isAccessible = true
+        val actualCache = field.get(viewModel) as List<*>
+
+        assertThat(actualCache).isEqualTo(testVideosUri)
+    }
+
+    @Test
+    fun removeLastTrashedFromRecycleBin_whenViewUndoTrashing() {
+        // Test case fixture
+        val testCacheUris = listOf<Uri>(mockk(), mockk())
+        val field = VideosBrowserViewModelImpl::class.java.getDeclaredField("lastTrashedCache")
+        field.isAccessible = true
+
+        field.set(viewModel,testCacheUris)
+
+        // Given an initialized view model with cached videos uris fro recent trashing
+
+        // When view ask view model to undo last videos trash
+        viewModel.undoLastTrash()
+
+        // Then view model should ask repository to remove from trash the cached uris
+        repository.restoreFromTrash(testCacheUris)
     }
 }

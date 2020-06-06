@@ -10,9 +10,10 @@ import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.diskin.alon.visuals.common.presentation.Event
+import com.diskin.alon.visuals.common.presentation.Event.Status
 import com.diskin.alon.visuals.videos.presentation.R
 import com.diskin.alon.visuals.videos.presentation.viewmodel.VideosBrowserViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_videos.*
 import javax.inject.Inject
@@ -69,21 +70,38 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
         viewModel.videosTrashedEvent.observe(viewLifecycleOwner, Observer {
             it?.let { event ->
                 when(event.status) {
-                    Event.Status.SUCCESS -> {
-                        Toast.makeText(
-                            activity,
+                    Status.SUCCESS -> {
+                        // Show snackbar with success message and 'undo'action, that will
+                        // undo last videos trashing
+                        Snackbar.make(
+                            videosList,
                             getString(R.string.trashing_success_message),
-                            Toast.LENGTH_LONG)
+                            Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.title_undo_trash)) {
+                                viewModel.undoLastTrash()
+                            }
                             .show()
                     }
 
-                    Event.Status.FAILURE -> {
+                    Status.FAILURE -> {
                         Toast.makeText(
                             activity,
                             getString(R.string.trashing_failure_message),
                             Toast.LENGTH_LONG)
                             .show()
                     }
+                }
+            }
+        })
+
+        viewModel.videosTrashUndoEvent.observe(viewLifecycleOwner, Observer {
+            it?.let {event ->
+                if (event.status == Status.FAILURE) {
+                    Toast.makeText(
+                        activity,
+                        getString(R.string.trashing_undo_failure_message),
+                        Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         })
@@ -124,7 +142,6 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
             }
 
             if (selectedVideosUri.isEmpty()) {
-                //this.onDestroyActionMode(this.actionMode)
                 actionMode?.finish()
             }
 
@@ -163,12 +180,12 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
         }
     }
 
-    private fun trashVideos(videoUri: List<Uri>) {
+    private fun trashVideos() {
         AlertDialog.Builder(requireActivity())
             .setMessage(getString(R.string.trash_dialog_message))
             .setTitle(getString(R.string.trash_dialog_title))
             .setPositiveButton(getString(R.string.dialog_pos_label)) { _, _ ->
-                viewModel.trashVideos(*videoUri.toTypedArray())
+                viewModel.trashVideos(selectedVideosUri.toList())
                 actionMode?.finish()
             }
             .setNegativeButton(getString(R.string.dialog_neg_label),null)
@@ -179,7 +196,7 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
         when(item?.title) {
             getString(R.string.action_share_title) -> shareVideos(selectedVideosUri)
-            getString(R.string.action_trash_title) -> trashVideos(selectedVideosUri)
+            getString(R.string.action_trash_title) -> trashVideos()
         }
 
         return true

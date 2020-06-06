@@ -53,11 +53,6 @@ class UpdateRestoredVideosSteps(
         openVideosBrowserScreen()
     }
 
-    @Then("^Videos should be displayed by date added,in descending order$")
-    fun videosShouldBeDisplayedByDateAddedInDescendingOrder(rows: List<TableRow>) {
-        verifyTestDataVideosDisplayed(rows)
-    }
-
     @When("^Trashed videos are restored in recycle bin$")
     fun trashedVideosAreRestoredInRecycleBin() {
         // Remove trashed videos from recycle bin

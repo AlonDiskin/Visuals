@@ -4,6 +4,7 @@ import android.net.Uri
 import com.diskin.alon.visuals.videos.presentation.model.Video
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * [Video] repository contract.
@@ -23,5 +24,7 @@ interface VideoRepository {
      *
      * @param videoUri uri of the videos to trash.
      */
-    fun trash(vararg videoUri: Uri): Completable
+    fun trash(videosUri: List<Uri>): Single<List<Uri>>
+
+    fun restoreFromTrash(videoUri: List<Uri>): Completable
 }

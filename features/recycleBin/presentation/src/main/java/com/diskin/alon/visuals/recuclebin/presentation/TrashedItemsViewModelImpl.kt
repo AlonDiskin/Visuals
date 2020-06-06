@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -42,12 +41,11 @@ class TrashedItemsViewModelImpl(
         val subscription = _filter
             .switchMap { filter -> repository.getAll(filter) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { EspressoIdlingResource.increment() }
-            .doOnNext { EspressoIdlingResource.decrement() }
-            .doFinally { EspressoIdlingResource.decrement() }
             .subscribe({
                 _trashedItems.value = it
-            },Throwable::printStackTrace)
+            },{
+                it.printStackTrace()
+            })
 
         disposable.add(subscription)
     }

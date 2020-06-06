@@ -14,8 +14,6 @@ object EspressoIdlingResource {
     }
 
     fun decrement() {
-        if (!countingIdlingResource.isIdleNow) {
-            countingIdlingResource.decrement()
-        }
+        countingIdlingResource.decrement()
     }
 }

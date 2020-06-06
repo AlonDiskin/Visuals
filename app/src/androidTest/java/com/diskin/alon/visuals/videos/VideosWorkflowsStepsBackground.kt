@@ -9,8 +9,6 @@ import android.provider.MediaStore
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.util.DeviceUtil
@@ -118,10 +116,6 @@ abstract class VideosWorkflowsStepsBackground : GreenCoffeeSteps() {
         // Navigate to videos screen from home screen
         onView(withId(R.id.videos))
             .perform(click())
-
-        // Verify browser screen displayed
-        onView(withId(R.id.fragment_videos_root))
-            .check(matches(isDisplayed()))
     }
 
     fun getTestVideosUri(): MutableList<Uri> {

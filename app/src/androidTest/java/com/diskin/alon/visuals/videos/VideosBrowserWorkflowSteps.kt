@@ -113,8 +113,8 @@ class VideosBrowserWorkflowSteps : VideosWorkflowsStepsBackground() {
         DeviceUtil.pressBack()
     }
 
-    @When("^User selects videos for trashing$")
-    fun userSelectsVideosForTrashing() {
+    @When("^User trash a video$")
+    fun userTrashVideo() {
         // Select videos to trash from ui
         onView(allOf(
             instanceOf(ActionMenuItemView::class.java),
@@ -124,12 +124,11 @@ class VideosBrowserWorkflowSteps : VideosWorkflowsStepsBackground() {
         // Confirm trashing alert dialog
         onView(withText(R.string.dialog_pos_label))
         .inRoot(isDialog())
-            .check(matches(isDisplayed()))
             .perform(click())
     }
 
-    @Then("^Videos should be moved to recycle bin$")
-    fun videosShouldBeMovedToRecycleBin() {
+    @Then("^Video should be moved to recycle bin$")
+    fun videoShouldBeMovedToRecycleBin() {
         // Verify trashed videos are not displayed in videos browser any more
         onView(withId(R.id.videosList))
             .check(matches(isRecyclerViewItemsCount(1)))
@@ -175,6 +174,25 @@ class VideosBrowserWorkflowSteps : VideosWorkflowsStepsBackground() {
                     )
                 )
             )
+    }
+
+    @When("^User undo trashing$")
+    fun userUndoTrashing() {
+        // Click on 'undo' action of displayed snackbar
+        onView(withId(com.diskin.alon.visuals.videos.presentation.R.id.snackbar_action))
+            .perform(click())
+    }
+
+    @And("^Video should be restored in browser$")
+    fun videoShouldBeRestoredInBrowser() {
+        // Navigate to videos browser from recycle bin
+        super.userNavigatesToVideosBrowserScreen()
+
+        // Verify video was restored to videos browser
+        onView(withId(R.id.videosList))
+            .check(matches(isRecyclerViewItemsCount(2)))
+
+        allUserDevicePublicVideosShouldBeShownByDateInDescendingOrder()
     }
 
     private fun getExpectedVideoDuration(index: Int): VideoDuration {

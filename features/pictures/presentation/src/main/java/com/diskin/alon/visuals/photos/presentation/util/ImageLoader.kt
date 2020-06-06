@@ -17,7 +17,6 @@ object ImageLoader {
         Glide
             .with(imageView.context)
             .load(uri)
-            //.centerCrop()
             .addListener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -49,7 +48,6 @@ object ImageLoader {
         Glide
             .with(imageView.context)
             .load(uri)
-            //.centerCrop()
             .addListener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(
                     e: GlideException?,
