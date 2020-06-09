@@ -2,6 +2,7 @@ package com.diskin.alon.visuals.videos.featuretesting
 
 import android.app.Application
 import com.diskin.alon.common.data.DeviceMediaProvider
+import com.diskin.alon.common.data.TrashedItemDao
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import dagger.BindsInstance
 import dagger.Component
@@ -25,4 +26,6 @@ interface TestVideosAppComponent : AndroidInjector<TestVideosApp>{
     }
 
     fun getDeviceVideosProvider(): DeviceMediaProvider<MediaStoreVideo>
+
+    fun getTestTrashedDao(): TrashedItemDao
 }

@@ -1,4 +1,4 @@
-package com.diskin.alon.videos.featuretesting.playvideo
+package com.diskin.alon.videos.featuretesting.trashvideos
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -7,6 +7,9 @@ import com.diskin.alon.visuals.videos.featuretesting.TestVideosApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.ScenarioConfig
+import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,12 +19,12 @@ import org.robolectric.annotation.LooperMode
 import java.util.*
 
 /**
- * Step definitions runner for the 'User public videos are shown' scenario.
+ * Step definitions runner for the 'User undo videos trashing' scenario.
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = TestVideosApp::class)
-class ShowVideoPreviewStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class UndoTrashingStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     @JvmField
     @Rule
@@ -33,8 +36,8 @@ class ShowVideoPreviewStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(sc
         fun data(): Collection<Array<Any>> {
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
-                .withFeatureFromAssets("play_video.feature")
-                .withTags("@show-video-preview")
+                .withFeatureFromAssets("trash_videos.feature")
+                .withTags("@undo-trashing")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {
@@ -42,6 +45,13 @@ class ShowVideoPreviewStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(sc
             }
 
             return res
+        }
+
+        @JvmStatic
+        @BeforeClass
+        fun setupClass() {
+            // Set Rx framework for testing
+            RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         }
     }
 
@@ -51,8 +61,9 @@ class ShowVideoPreviewStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(sc
             .getApplicationContext<Context>() as TestVideosApp)
 
         start(
-            ShowVideoPreviewSteps(
-                featureTestApp.getMockedVideosProvider()
+            UndoTrashingSteps(
+                featureTestApp.getMockedVideosProvider(),
+                featureTestApp.getTestTrashedDao()
             )
         )
     }

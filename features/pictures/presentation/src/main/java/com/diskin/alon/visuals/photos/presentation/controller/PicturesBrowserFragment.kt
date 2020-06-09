@@ -5,9 +5,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.CheckBox
-import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.core.app.ShareCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.diskin.alon.visuals.photos.presentation.R
 import com.diskin.alon.visuals.photos.presentation.viewmodel.PicturesBrowserViewModel

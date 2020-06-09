@@ -16,7 +16,6 @@ import com.diskin.alon.visuals.common.presentation.SingleLiveEvent
 import com.diskin.alon.visuals.photos.presentation.R
 import com.diskin.alon.visuals.photos.presentation.model.PictureDetail
 import com.diskin.alon.visuals.photos.presentation.viewmodel.PictureDetailViewModel
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import dagger.android.support.AndroidSupportInjection
 import io.mockk.every
@@ -151,7 +150,7 @@ class PictureDetailFragmentTest {
 
         // When fragments view model raise a picture update error event
         val context = ApplicationProvider.getApplicationContext<Context>()
-        pictureErrorData.value = Event()
+        pictureErrorData.value = Event(Event.Status.FAILURE)
 
         // Then fragment should show event error message as toast notification to user
         val actualMessage = ShadowToast.getTextOfLatestToast().toString()

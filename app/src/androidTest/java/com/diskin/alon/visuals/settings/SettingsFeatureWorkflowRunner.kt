@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals
+package com.diskin.alon.visuals.settings
 
 import androidx.test.filters.LargeTest
 import com.diskin.alon.visuals.util.DeviceUtil

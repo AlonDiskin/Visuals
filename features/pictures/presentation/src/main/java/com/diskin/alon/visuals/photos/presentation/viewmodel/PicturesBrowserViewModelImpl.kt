@@ -3,7 +3,6 @@ package com.diskin.alon.visuals.photos.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
 import com.diskin.alon.visuals.common.presentation.LiveEvent
 import com.diskin.alon.visuals.common.presentation.SingleLiveEvent
 import com.diskin.alon.visuals.photos.presentation.interfaces.PictureRepository
@@ -31,9 +30,6 @@ class PicturesBrowserViewModelImpl @Inject constructor(
         // Subscribe to repository pictures observable
         val photosSubscription = repository.getAll()
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { EspressoIdlingResource.increment() }
-            .doOnNext { EspressoIdlingResource.decrement() }
-            .doFinally { EspressoIdlingResource.decrement() }
             .subscribe(this::handlePhotosUpdate,
                 this::handlePhotosUpdateError)
 

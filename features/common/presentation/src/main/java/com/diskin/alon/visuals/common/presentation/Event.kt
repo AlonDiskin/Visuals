@@ -1,4 +1,8 @@
 package com.diskin.alon.visuals.common.presentation
 
-class Event {
+data class Event(val status: Status) {
+
+    enum class Status {
+        SUCCESS, FAILURE
+    }
 }

@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals
+package com.diskin.alon.visuals.pictures
 
 import android.content.ContentValues
 import android.content.Context
@@ -14,6 +14,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
+import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.photos.data.MediaStorePictureProvider
 import com.diskin.alon.visuals.photos.presentation.controller.PicturesAdapter.PictureViewHolder
 import com.diskin.alon.visuals.util.DeviceUtil
@@ -46,7 +47,8 @@ class PictureViewerFeatureWorkFlowSteps : GreenCoffeeSteps() {
             ApplicationProvider.getApplicationContext<Context>().contentResolver,
             BitmapFactory.decodeResource(
                 ApplicationProvider.getApplicationContext<Context>().resources,
-                R.drawable.image1),
+                R.drawable.image1
+            ),
             null,
             null
         )

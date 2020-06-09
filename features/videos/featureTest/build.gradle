@@ -47,6 +47,7 @@ dependencies {
     def greencoffee_version = "3.5.0"
     def fragment_version = "1.2.1"
     def nav_component_version = "2.3.0-alpha06"
+    def room_version = "2.2.5"
 
     // Project modules
     implementation project(':features:videos:presentation')
@@ -75,6 +76,12 @@ dependencies {
     // Mockk
     implementation "io.mockk:mockk:1.9.3.kotlin12"
 
+    // Room components
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
     // Local testing
     testImplementation 'junit:junit:4.12'
     testImplementation 'androidx.test:core:1.2.0'
@@ -85,9 +92,11 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     testImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
     testImplementation "com.google.truth:truth:1.0"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "com.mauriciotogneri:greencoffee:$greencoffee_version"
     testImplementation 'io.reactivex.rxjava2:rxjava:2.2.13'
     testImplementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
     testImplementation "androidx.navigation:navigation-testing:$nav_component_version"
     kaptTest "androidx.databinding:databinding-compiler:3.6.1"
+    testImplementation "androidx.room:room-testing:$room_version"
 }

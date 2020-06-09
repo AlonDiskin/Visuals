@@ -1,6 +1,7 @@
 package com.diskin.alon.visuals.videos.featuretesting
 
 import com.diskin.alon.common.data.DeviceMediaProvider
+import com.diskin.alon.common.data.TrashedItemDao
 import com.diskin.alon.visuals.videos.data.MediaStoreVideo
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -21,6 +22,10 @@ class TestVideosApp : DaggerApplication(), TestLifecycleApplication {
 
     fun getMockedVideosProvider(): DeviceMediaProvider<MediaStoreVideo> {
         return featureTestAppComponent.getDeviceVideosProvider()
+    }
+
+    fun getTestTrashedDao(): TrashedItemDao {
+        return featureTestAppComponent.getTestTrashedDao()
     }
 
     override fun beforeTest(method: Method?) {

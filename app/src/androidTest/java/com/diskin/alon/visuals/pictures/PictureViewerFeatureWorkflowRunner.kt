@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals
+package com.diskin.alon.visuals.pictures
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.filters.LargeTest
@@ -8,6 +8,8 @@ import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.Scenario
 import com.mauriciotogneri.greencoffee.ScenarioConfig
+import com.squareup.rx2.idler.Rx2Idler
+import io.reactivex.plugins.RxJavaPlugins
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -37,6 +39,12 @@ class PictureViewerFeatureWorkflowRunner(scenario: ScenarioConfig) : GreenCoffee
 
         // Register idling resource for espresso
         IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+
+        // Init RxIdler
+        RxJavaPlugins.setInitComputationSchedulerHandler(
+            Rx2Idler.create("RxJava 2.x Computation Scheduler"))
+        RxJavaPlugins.setInitIoSchedulerHandler(
+            Rx2Idler.create("RxJava 2.x IO Scheduler"))
 
         start(PictureViewerFeatureWorkFlowSteps())
     }

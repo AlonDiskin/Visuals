@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Looper
 import android.view.ActionMode
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.lifecycle.MutableLiveData
@@ -16,15 +17,18 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.diskin.alon.visuals.common.presentation.Event
 import com.diskin.alon.visuals.common.presentation.SingleLiveEvent
 import com.diskin.alon.visuals.videos.presentation.R
 import com.diskin.alon.visuals.videos.presentation.controller.VideosAdapter.VideoViewHolder
@@ -44,6 +48,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Shadows
 import org.robolectric.annotation.LooperMode
+import org.robolectric.shadows.ShadowAlertDialog
 import org.robolectric.shadows.ShadowToast
 
 /**
@@ -63,6 +68,8 @@ class VideosBrowserFragmentTest {
     // Collaborator stub data
     private val videosLiveData = MutableLiveData<List<Video>>()
     private val updateFailEvent = SingleLiveEvent<String>()
+    private val videosTrashedEventData = SingleLiveEvent<Event>()
+    private val videosUndoTrashedEventData = SingleLiveEvent<Event>()
     private val testVideos = arrayListOf(
         Video(
             Uri.parse("uri 1"),
@@ -139,8 +146,12 @@ class VideosBrowserFragmentTest {
         }
 
         // Stub mocked collaborator behaviour
-        every{ viewModel.videos } returns videosLiveData
+        every { viewModel.videos } returns videosLiveData
         every { viewModel.videosUpdateFail } returns updateFailEvent
+        every { viewModel.videosTrashedEvent } returns videosTrashedEventData
+        every { viewModel.undoLastTrash() } returns Unit
+        every { viewModel.videosTrashUndoEvent } returns videosUndoTrashedEventData
+        every { viewModel.trashVideos(any()) } returns
 
         // Setup test nav controller
         navController.setGraph(R.navigation.videos_nav_graph)
@@ -238,6 +249,10 @@ class VideosBrowserFragmentTest {
             assertThat(actionMode.menu.getItem(0).title)
                 .isEqualTo(it.getString(R.string.action_share_title))
             assertThat(actionMode.menu.getItem(0).isEnabled)
+                .isTrue()
+            assertThat(actionMode.menu.getItem(1).title)
+                .isEqualTo(it.getString(R.string.action_trash_title))
+            assertThat(actionMode.menu.getItem(1).isEnabled)
                 .isTrue()
         }
     }
@@ -345,6 +360,120 @@ class VideosBrowserFragmentTest {
     }
 
     @Test
+    fun trashSelectedVideos_whenUserApproveTrashing() {
+        // Given a resumed fragment and displayed videos
+        displayTestVideos()
+
+        // When user selects videos
+        val selectedVideosIndex = listOf(1,2,7)
+        selectDisplayedVideos(selectedVideosIndex)
+
+        // And clicks on trash menu item
+        onView(withContentDescription(R.string.action_trash_title))
+            .perform(click())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should show an alert dialog for trashing confirmation by user
+        val dialog = (ShadowAlertDialog.getLatestDialog() as AlertDialog)
+        assertThat(dialog.isShowing).isTrue()
+
+        // When user approve trashing by clicking on positive dialog button
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should ask view model to trash selected videos
+        val selectedVideosUri = selectedVideosIndex.map { testVideos[it].uri }
+        verify { viewModel.trashVideos(selectedVideosUri) }
+
+        // And close multi selection ui
+        onView(withContentDescription(R.string.action_share_title))
+            .check(doesNotExist())
+    }
+
+    @Test
+    fun doNotTrashSelectedVideos_whenUserCancelTrashing() {
+        // Given a resumed fragment and displayed videos
+        displayTestVideos()
+
+        // When user selects videos
+        val selectedVideosIndex = listOf(1,2,7)
+        selectDisplayedVideos(selectedVideosIndex)
+
+        // And clicks on trash menu item
+        onView(withContentDescription(R.string.action_trash_title))
+            .perform(click())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should show an alert dialog for trashing confirmation by user
+        val dialog = (ShadowAlertDialog.getLatestDialog() as AlertDialog)
+        assertThat(dialog.isShowing).isTrue()
+
+        // When user cancel trashing by clicking on negative dialog button
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).performClick()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should not ask view model to trash selected videos
+        val selectedVideosUri = selectedVideosIndex.map { testVideos[it].uri }
+        verify(exactly = 0) { viewModel.trashVideos(selectedVideosUri) }
+
+        // And leave selection menu open
+        onView(withContentDescription(R.string.action_share_title))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun notifyUserWithUndoAction_whenVideosTrashedSuccessfully() {
+        // Given a resumed fragment
+
+        // When view model update videos trash event as success
+        videosTrashedEventData.value = Event(Event.Status.SUCCESS)
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then fragment should show a snackbar notifying videos was trashed with 'undo' action
+        onView(withId(R.id.snackbar_text))
+            .check(matches(
+                allOf(
+                    withText(R.string.trashing_success_message),
+                    isDisplayed()
+                )
+            ))
+
+        // When user selects to perform 'undo'
+        onView(withId(R.id.snackbar_action))
+            .check(matches(withText(R.string.title_undo_trash)))
+            .perform(click())
+
+        // Then fragment should ask view model to undo recent trash operation
+        verify { viewModel.undoLastTrash() }
+    }
+
+    @Test
+    fun notifyUser_whenVideoTrashingFail() {
+        // Given a resumed fragment
+
+        // When view model fail to trash videos
+        videosTrashedEventData.value = Event(Event.Status.FAILURE)
+
+        // Then fragment should notify user with a toast message about fail
+        val failMessage = ApplicationProvider.getApplicationContext<Context>()
+            .getString(R.string.trashing_failure_message)
+        assertThat(ShadowToast.getTextOfLatestToast().toString()).isEqualTo(failMessage)
+    }
+
+    @Test
+    fun notifyUser_whenVideoTrashingUndoFail() {
+        // Given a resumed fragment
+
+        // When view model fails to undo recent videos trashing
+        videosUndoTrashedEventData.value = Event(Event.Status.FAILURE)
+
+        // Then fragment should notify user with a toast message about fail
+        val failMessage = ApplicationProvider.getApplicationContext<Context>()
+            .getString(R.string.trashing_undo_failure_message)
+        assertThat(ShadowToast.getTextOfLatestToast().toString()).isEqualTo(failMessage)
+    }
+
+    @Test
     fun restoreUiState_whenRecreated() {
         // Given a resumed fragment
 
@@ -395,14 +524,8 @@ class VideosBrowserFragmentTest {
         scrollToVideoAndPerform(0, click())
 
         // Then fragment should close multi select ui
-        scenario.onFragment {
-            val field = VideosBrowserFragment::class.java.getDeclaredField("actionMode")
-            field.isAccessible = true
-            val actionMode: ActionMode =  field.get(it) as ActionMode
-
-            assertThat(actionMode.menu.hasVisibleItems())
-                .isTrue()
-        }
+        onView(withContentDescription(R.string.action_share_title))
+            .check(doesNotExist())
 
         testVideos.forEachIndexed { index, _ ->
             scrollToVideoAndCheck(

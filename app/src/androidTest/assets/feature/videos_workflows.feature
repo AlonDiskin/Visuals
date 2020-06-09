@@ -12,10 +12,12 @@ Feature: User videos browser
   @videos-browser
   Scenario: Videos browser usage
     Then All user device public videos should be shown by date in descending order
-    When User rotates device
-    Then Videos are displayed as before
     When User selects the first listed video for sharing
     Then App should share video
+    When User trash a video
+    Then Video should be moved to recycle bin
+    When User undo trashing
+    Then Video should be restored in browser
 
  @videos-player
  Scenario: Videos player usage
