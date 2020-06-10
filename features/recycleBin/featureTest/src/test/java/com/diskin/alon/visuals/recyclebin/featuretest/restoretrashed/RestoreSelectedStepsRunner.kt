@@ -1,11 +1,15 @@
-package com.diskin.alon.visuals.recyclebin.featuretest
+package com.diskin.alon.visuals.recyclebin.featuretest.restoretrashed
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
+import com.diskin.alon.visuals.recyclebin.featuretest.TestApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.ScenarioConfig
+import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,12 +19,12 @@ import org.robolectric.annotation.LooperMode
 import java.util.*
 
 /**
- * Step definitions runner for the 'Trashed items are displayed to user' scenario.
+ * Step definitions runner for the 'User restore selected items' scenario.
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = TestApp::class)
-class TrashedStateShownItemsStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class RestoreSelectedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     @JvmField
     @Rule
@@ -32,8 +36,8 @@ class TrashedStateShownItemsStepsRunner(scenario: ScenarioConfig) : GreenCoffeeT
         fun data(): Collection<Array<Any>> {
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
-                .withFeatureFromAssets("list_trashed_items.feature")
-                .withTags("@trashed-state-shown")
+                .withFeatureFromAssets("restore_trashed.feature")
+                .withTags("@restore-selected")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {
@@ -42,6 +46,13 @@ class TrashedStateShownItemsStepsRunner(scenario: ScenarioConfig) : GreenCoffeeT
 
             return res
         }
+
+        @JvmStatic
+        @BeforeClass
+        fun setupClass() {
+            // Set Rx framework for testing
+            RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
+        }
     }
 
     @Test
@@ -49,7 +60,7 @@ class TrashedStateShownItemsStepsRunner(scenario: ScenarioConfig) : GreenCoffeeT
         val testApp = ApplicationProvider.getApplicationContext<Context>() as TestApp
 
         start(
-            TrashedStateShownItemsSteps(
+            RestoreSelectedSteps(
                 testApp.getTestTrashedItemsDao(),
                 testApp.getDeviceMediaProvider()
             )

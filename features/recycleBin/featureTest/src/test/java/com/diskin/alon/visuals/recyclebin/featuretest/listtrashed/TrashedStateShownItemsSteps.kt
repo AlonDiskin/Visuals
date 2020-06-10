@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals.recyclebin.featuretest
+package com.diskin.alon.visuals.recyclebin.featuretest.listtrashed
 
 import android.net.Uri
 import android.os.Looper
@@ -13,13 +13,15 @@ import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.common.data.TrashedEntityType
 import com.diskin.alon.common.data.TrashedItemDao
 import com.diskin.alon.common.data.TrashedItemEntity
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItem
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemType
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItem
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItemType
 import com.diskin.alon.visuals.recuclebin.presentation.databinding.TrashedPictureBinding
 import com.diskin.alon.visuals.recuclebin.presentation.databinding.TrashedVideoBinding
-import com.diskin.alon.visuals.recuclebin.presentation.loadImage
-import com.diskin.alon.visuals.recuclebin.presentation.loadThumbnail
+import com.diskin.alon.visuals.recuclebin.presentation.util.loadImage
+import com.diskin.alon.visuals.recuclebin.presentation.util.loadThumbnail
 import com.diskin.alon.visuals.recyclebin.data.MediaStoreVisual
+import com.diskin.alon.visuals.recyclebin.featuretest.R
+import com.diskin.alon.visuals.recyclebin.featuretest.util.RecyclerViewMatcher
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -114,7 +116,7 @@ class TrashedStateShownItemsSteps(
     @Then("^Updated trash items list should be displayed$")
     fun updatedTrashItemsListShouldBeDisplayed(rows: List<TableRow>) {
         // Extract test items
-        val expectedTrashedItems = mutableListOf<TrashedItem>()
+        val expectedTrashedItems = mutableListOf<TrashItem>()
         val testTrashedItems = rows.toMutableList()
         val typeIndex = 0
         val uriIndex = 1
@@ -125,11 +127,11 @@ class TrashedStateShownItemsSteps(
             val testType = row.cells[typeIndex].value!!
 
             expectedTrashedItems.add(
-                TrashedItem(
+                TrashItem(
                     Uri.parse(testUri),
-                    when(testType) {
-                        "image" -> TrashedItemType.PICTURE
-                        else -> TrashedItemType.VIDEO
+                    when (testType) {
+                        "image" -> TrashItemType.PICTURE
+                        else -> TrashItemType.VIDEO
                     }
                 )
             )
@@ -141,7 +143,7 @@ class TrashedStateShownItemsSteps(
         // Verify expected trashed items displayed in fragment layout
         expectedTrashedItems.forEachIndexed { index, item ->
             onView(
-                RecyclerViewMatcher.withRecyclerView(R.id.trashedList)
+                RecyclerViewMatcher.withRecyclerView(R.id.trashList)
                     .atPositionOnView(index, getTrashedViewType(item))
             )
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
@@ -149,14 +151,20 @@ class TrashedStateShownItemsSteps(
             // Verify image/video thumbnail is loaded for display
             verify {
                 when(item.type) {
-                    TrashedItemType.PICTURE -> loadImage(any(),item.uri)
-                    TrashedItemType.VIDEO -> loadThumbnail(any(),item.uri)
+                    TrashItemType.PICTURE -> loadImage(
+                        any(),
+                        item.uri
+                    )
+                    TrashItemType.VIDEO -> loadThumbnail(
+                        any(),
+                        item.uri
+                    )
                 }
             }
 
             scenario.onFragment {
                 // Verify  expected uris has been bounded to layout views at expected positions
-                val rv = it.view!!.findViewById<RecyclerView>(R.id.trashedList)
+                val rv = it.view!!.findViewById<RecyclerView>(R.id.trashList)
                 val binding = DataBindingUtil.getBinding<ViewDataBinding>(
                     rv[index]
                 )

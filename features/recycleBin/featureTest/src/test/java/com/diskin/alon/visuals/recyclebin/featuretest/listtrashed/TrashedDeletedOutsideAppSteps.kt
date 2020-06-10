@@ -1,6 +1,7 @@
-package com.diskin.alon.visuals.recyclebin.featuretest
+package com.diskin.alon.visuals.recyclebin.featuretest.listtrashed
 
 import android.net.Uri
+import android.os.Looper
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -12,14 +13,15 @@ import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.common.data.TrashedEntityType
 import com.diskin.alon.common.data.TrashedItemDao
 import com.diskin.alon.common.data.TrashedItemEntity
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItem
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemType
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItem
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItemType
 import com.diskin.alon.visuals.recuclebin.presentation.databinding.TrashedPictureBinding
 import com.diskin.alon.visuals.recuclebin.presentation.databinding.TrashedVideoBinding
-import com.diskin.alon.visuals.recuclebin.presentation.loadImage
-import com.diskin.alon.visuals.recuclebin.presentation.loadThumbnail
+import com.diskin.alon.visuals.recuclebin.presentation.util.loadImage
+import com.diskin.alon.visuals.recuclebin.presentation.util.loadThumbnail
 import com.diskin.alon.visuals.recyclebin.data.MediaStoreVisual
-import com.diskin.alon.visuals.recyclebin.featuretest.RecyclerViewMatcher.withRecyclerView
+import com.diskin.alon.visuals.recyclebin.featuretest.R
+import com.diskin.alon.visuals.recyclebin.featuretest.util.RecyclerViewMatcher.withRecyclerView
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -27,6 +29,7 @@ import com.mauriciotogneri.greencoffee.annotations.Then
 import com.mauriciotogneri.greencoffee.annotations.When
 import gherkin.ast.TableRow
 import io.mockk.verify
+import org.robolectric.Shadows
 
 /**
  * Step definitions for the 'User delete trashed from device outside app' scenario.
@@ -34,7 +37,7 @@ import io.mockk.verify
 class TrashedDeletedOutsideAppSteps(
     private val testDao: TrashedItemDao,
     mockedMediaProvider: DeviceMediaProvider<MediaStoreVisual>
-) :ListTrashedItemsBackgroundSteps(testDao,mockedMediaProvider) {
+) : ListTrashedItemsBackgroundSteps(testDao,mockedMediaProvider) {
 
     @Given("^User has public media on device$")
     override fun userHasPublicMediaOnDevice(rows: List<TableRow>) {
@@ -111,7 +114,7 @@ class TrashedDeletedOutsideAppSteps(
     @And("^Updated trashed state should be displayed sorted by trashing date in desc order$")
     fun updatedTrashedStateShouldBeDisplayedSortedByTrashingDateInDescOrder(rows: List<TableRow>) {
         // Extract test items
-        val expectedTrashedItems = mutableListOf<TrashedItem>()
+        val expectedTrashedItems = mutableListOf<TrashItem>()
         val testTrashedItems = rows.toMutableList()
         val typeIndex = 0
         val uriIndex = 1
@@ -122,36 +125,50 @@ class TrashedDeletedOutsideAppSteps(
             val testType = row.cells[typeIndex].value!!
 
             expectedTrashedItems.add(
-                TrashedItem(
+                TrashItem(
                     Uri.parse(testUri),
-                    when(testType) {
-                        "image" -> TrashedItemType.PICTURE
-                        else -> TrashedItemType.VIDEO
+                    when (testType) {
+                        "image" -> TrashItemType.PICTURE
+                        else -> TrashItemType.VIDEO
                     }
                 )
             )
         }
 
+        // Wait for main looper to idle
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
         // TODO find a way to sync test thread(main) with AsyncDiffer from ListAdapter
         Thread.sleep(500L)
+
+        // Verify ui display expected size of items
+        scenario.onFragment {
+            val rv = it.view!!.findViewById<RecyclerView>(R.id.trashList)
+            assertThat(rv.adapter!!.itemCount).isEqualTo(expectedTrashedItems.size)
+        }
 
         // Verify expected trashed items displayed in fragment layout
         expectedTrashedItems.forEachIndexed { index, item ->
             onView(
-                withRecyclerView(R.id.trashedList)
+                withRecyclerView(R.id.trashList)
                     .atPositionOnView(index, getTrashedViewType(item))
             )
                 .check(matches(isDisplayed()))
 
             verify {
                 when(item.type) {
-                    TrashedItemType.PICTURE -> loadImage(any(),item.uri)
-                    TrashedItemType.VIDEO -> loadThumbnail(any(),item.uri)
+                    TrashItemType.PICTURE -> loadImage(
+                        any(),
+                        item.uri
+                    )
+                    TrashItemType.VIDEO -> loadThumbnail(
+                        any(),
+                        item.uri
+                    )
                 }
             }
 
             scenario.onFragment {
-                val rv = it.view!!.findViewById<RecyclerView>(R.id.trashedList)
+                val rv = it.view!!.findViewById<RecyclerView>(R.id.trashList)
                 val binding = DataBindingUtil.getBinding<ViewDataBinding>(
                     rv[index]
                 )
@@ -164,12 +181,6 @@ class TrashedDeletedOutsideAppSteps(
 
                 assertThat(boundedItem.uri).isEqualTo(item.uri)
             }
-        }
-
-        // Verify ui display expected size of items
-        scenario.onFragment {
-            val rv = it.view!!.findViewById<RecyclerView>(R.id.trashedList)
-            assertThat(rv.adapter!!.itemCount).isEqualTo(expectedTrashedItems.size)
         }
     }
 }

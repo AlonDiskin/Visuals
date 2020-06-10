@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/recycle_bin_browser_fragment_root"
-    tools:context=".TrashedItemsFragment">
+    tools:context=".controller.TrashBrowserFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trashedList"
+        android:id="@+id/trashList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/trashed_picture"

@@ -5,16 +5,20 @@ import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.common.data.TrashedEntityType
 import com.diskin.alon.common.data.TrashedItemDao
 import com.diskin.alon.common.data.TrashedItemEntity
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedFilter
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItem
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemType
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItem
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItemType
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashedFilter
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
+import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner
@@ -38,6 +42,13 @@ class TrashedItemRepositoryImplTest(
             arrayOf(TrashedFilter.PICTURE),
             arrayOf(TrashedFilter.VIDEO)
         )
+
+        @JvmStatic
+        @BeforeClass
+        fun setupClass() {
+            // Set Rx framework for testing
+            RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
+        }
     }
 
     // System under test
@@ -56,11 +67,11 @@ class TrashedItemRepositoryImplTest(
     @Test
     fun createObservableThatEmitTrashedInAddedDescOrder_whenQueriedForAll() {
         // Test case fixture
-        val expectedTrashedTypePredicate: (TrashedItemType) -> Boolean = {
+        val expectedTrashedTypePredicate: (TrashItemType) -> Boolean = {
             when(testFilter) {
                 TrashedFilter.ALL -> true
-                TrashedFilter.PICTURE -> it == TrashedItemType.PICTURE
-                TrashedFilter.VIDEO -> it == TrashedItemType.VIDEO
+                TrashedFilter.PICTURE -> it == TrashItemType.PICTURE
+                TrashedFilter.VIDEO -> it == TrashItemType.VIDEO
             }
         }
         val deletedEntitySlot = slot<TrashedItemEntity>()
@@ -104,10 +115,27 @@ class TrashedItemRepositoryImplTest(
 
         // And return an observable that emits trashed items,sorted by adding,in descending order
         val expectedItems = listOf(
-            TrashedItem(Uri.parse("ur1_4"),TrashedItemType.PICTURE),
-            TrashedItem(Uri.parse("ur1_3"),TrashedItemType.PICTURE),
-            TrashedItem(Uri.parse("ur1_2"),TrashedItemType.VIDEO),
-            TrashedItem(Uri.parse("ur1_1"),TrashedItemType.VIDEO))
+            TrashItem(
+                Uri.parse(
+                    "ur1_4"
+                ), TrashItemType.PICTURE
+            ),
+            TrashItem(
+                Uri.parse(
+                    "ur1_3"
+                ), TrashItemType.PICTURE
+            ),
+            TrashItem(
+                Uri.parse(
+                    "ur1_2"
+                ), TrashItemType.VIDEO
+            ),
+            TrashItem(
+                Uri.parse(
+                    "ur1_1"
+                ), TrashItemType.VIDEO
+            )
+        )
             .filter { expectedTrashedTypePredicate(it.type) }
 
         actual.assertValueAt(0,expectedItems)
@@ -130,11 +158,66 @@ class TrashedItemRepositoryImplTest(
 
         // And trashed observable should emit update without removed item
         val expectedUpdatedItems = listOf(
-            TrashedItem(Uri.parse("ur1_4"),TrashedItemType.PICTURE),
-            TrashedItem(Uri.parse("ur1_2"),TrashedItemType.VIDEO),
-            TrashedItem(Uri.parse("ur1_1"),TrashedItemType.VIDEO))
+            TrashItem(
+                Uri.parse(
+                    "ur1_4"
+                ), TrashItemType.PICTURE
+            ),
+            TrashItem(
+                Uri.parse(
+                    "ur1_2"
+                ), TrashItemType.VIDEO
+            ),
+            TrashItem(
+                Uri.parse(
+                    "ur1_1"
+                ), TrashItemType.VIDEO
+            )
+        )
             .filter { expectedTrashedTypePredicate(it.type) }
 
         actual.assertValueAt(1,expectedUpdatedItems)
+    }
+
+    @Test
+    fun removeTrashedItems_whenRestoringItems() {
+        // Given an initialized repository
+
+        // When client ask repository to restore trashed items
+        val testUris = listOf<Uri>(
+            Uri.parse("test uri 1"),
+            Uri.parse("test uri 2"))
+        val actual = repository.restore(testUris)
+
+        // And subscribes to created completable
+        actual.test()
+
+        // Then repository should remove given items uris from dao
+        verify { dao.deleteAllByUri(testUris.map { it.toString() }) }
+    }
+
+    @Test
+    fun clearAllTrashItemsFromStorage_whenRestoringAllTrashItems() {
+        // Test case fixture
+        val testTrashedItems = listOf(
+            TrashedItemEntity(
+                "uri_1", mockk()
+            ),
+            TrashedItemEntity(
+                "uri_2", mockk()
+            )
+        )
+        every { dao.getAll() } returns Observable.just(testTrashedItems)
+
+        // Given an initialized repository
+
+        // When client ask repository to restore all trashed items by subscribing to returned completable
+        repository.restoreAll().test()
+
+        // Then repository should get all existing items dao
+        verify { dao.getAll() }
+
+        // And delete all items in dao by items uri
+        verify { dao.deleteAllByUri(testTrashedItems.map { it.uri }) }
     }
 }
