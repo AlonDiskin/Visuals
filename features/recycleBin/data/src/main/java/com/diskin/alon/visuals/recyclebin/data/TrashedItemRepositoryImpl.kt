@@ -5,22 +5,24 @@ import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.common.data.TrashedEntityType
 import com.diskin.alon.common.data.TrashedItemDao
 import com.diskin.alon.common.data.TrashedItemEntity
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedFilter
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItem
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemRepository
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemType
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashedFilter
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItem
+import com.diskin.alon.visuals.recuclebin.presentation.interfaces.TrashItemRepository
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItemType
+import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
- * [TrashedItemRepository] implementation
+ * [TrashItemRepository] implementation
  */
 class TrashedItemRepositoryImpl @Inject constructor(
     private val dao: TrashedItemDao,
     private val mediaVisualProvider: DeviceMediaProvider<MediaStoreVisual>
-) : TrashedItemRepository {
+) : TrashItemRepository {
 
-    override fun getAll(filter: TrashedFilter): Observable<List<TrashedItem>> {
+    override fun getAll(filter: TrashedFilter): Observable<List<TrashItem>> {
         val deviceMediaObservable = mediaVisualProvider.getAll()
             .map { storeVisuals ->
                 // if any existing entity in dao,not existing on device,
@@ -51,15 +53,26 @@ class TrashedItemRepositoryImpl @Inject constructor(
                     }
                 }
                 .map { entity ->
-                    TrashedItem(
+                    TrashItem(
                         Uri.parse(entity.uri),
-                        when(entity.type) {
-                            TrashedEntityType.PICTURE -> TrashedItemType.PICTURE
-                            TrashedEntityType.VIDEO -> TrashedItemType.VIDEO
+                        when (entity.type) {
+                            TrashedEntityType.PICTURE -> TrashItemType.PICTURE
+                            TrashedEntityType.VIDEO -> TrashItemType.VIDEO
                         }
                     )
                 }
                 .reversed()
             }
+    }
+
+    override fun restore(items: List<Uri>): Completable {
+        return Completable
+            .fromCallable { dao.deleteAllByUri(items.map { it.toString() }) }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun restoreAll(): Completable {
+        return Completable.fromObservable(
+            dao.getAll().map { items ->  dao.deleteAllByUri(items.map { it.uri }) })
     }
 }

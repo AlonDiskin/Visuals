@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals.recyclebin.featuretest;
+package com.diskin.alon.visuals.recyclebin.featuretest.util;
 
 import android.content.res.Resources;
 import android.view.View;

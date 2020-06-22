@@ -6,5 +6,11 @@
     <string name="title_filter_video">Video</string>
     <string name="title_filter_image">Image</string>
     <string name="title_filter">Filter</string>
+    <string name="action_restore">Restore</string>
+    <string name="action_restore_all">Restore all</string>
+    <string name="restore_all_dialog_message">Restore all trashed items?</string>
+    <string name="restore_all_dialog_title">Restore all</string>
+    <string name="dialog_pos_label">ok</string>
+    <string name="dialog_neg_label">cancel</string>
 
 </resources>

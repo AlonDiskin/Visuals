@@ -1,9 +1,6 @@
 package com.diskin.alon.common.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 
@@ -18,4 +15,10 @@ interface TrashedItemDao {
 
     @Delete
     fun delete(vararg itemEntity: TrashedItemEntity): Completable
+
+    @Query("DELETE FROM trashed_items WHERE uri = :uri")
+    fun deleteByUri(uri: String)
+
+    @Transaction
+    fun deleteAllByUri(uris: List<String>) { uris.forEach { deleteByUri(it) } }
 }

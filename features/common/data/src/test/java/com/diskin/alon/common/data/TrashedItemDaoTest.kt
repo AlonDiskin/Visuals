@@ -49,4 +49,22 @@ class TrashedItemDaoTest {
         // Then reading all items from dao should return inserted items
         assertThat(dao.getAll().blockingFirst()).isEqualTo(items)
     }
+
+    @Test
+    fun deleteAllByUriWithTransaction() {
+        // Given an initialized trashed items
+
+        val items = listOf(
+            TrashedItemEntity("test uri 1",TrashedEntityType.VIDEO),
+            TrashedItemEntity("test uri 2",TrashedEntityType.PICTURE)
+        )
+
+        // When item is inserted to dao
+        dao.insert(*items.toTypedArray()).blockingAwait()
+
+        // When items deleted by uri
+        dao.deleteAllByUri(listOf("test uri 1", "test uri 2"))
+
+        assertThat(dao.getAll().blockingFirst().size).isEqualTo(0)
+    }
 }

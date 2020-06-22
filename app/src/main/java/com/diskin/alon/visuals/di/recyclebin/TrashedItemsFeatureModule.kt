@@ -1,10 +1,10 @@
 package com.diskin.alon.visuals.di.recyclebin
 
 import androidx.lifecycle.ViewModelProvider
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemRepository
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemsFragment
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemsViewModel
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemsViewModelImpl
+import com.diskin.alon.visuals.recuclebin.presentation.interfaces.TrashItemRepository
+import com.diskin.alon.visuals.recuclebin.presentation.controller.TrashBrowserFragment
+import com.diskin.alon.visuals.recuclebin.presentation.viewmodel.TrashBrowserViewModel
+import com.diskin.alon.visuals.recuclebin.presentation.viewmodel.TrashBrowserViewModelImpl
 import com.diskin.alon.visuals.recyclebin.data.TrashedItemRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -19,13 +19,13 @@ abstract class TrashedItemsFeatureModule {
         @JvmStatic
         @Provides
         fun provideTrashedItemsViewModel(
-            fragment: TrashedItemsFragment,
+            fragment: TrashBrowserFragment,
             factory: TrashedItemsViewModelProvider
-        ): TrashedItemsViewModel {
-            return ViewModelProvider(fragment,factory).get(TrashedItemsViewModelImpl::class.java)
+        ): TrashBrowserViewModel {
+            return ViewModelProvider(fragment,factory).get(TrashBrowserViewModelImpl::class.java)
         }
     }
 
     @Binds
-    abstract fun bindTrashedItemsRepository(repository: TrashedItemRepositoryImpl): TrashedItemRepository
+    abstract fun bindTrashedItemsRepository(repository: TrashedItemRepositoryImpl): TrashItemRepository
 }

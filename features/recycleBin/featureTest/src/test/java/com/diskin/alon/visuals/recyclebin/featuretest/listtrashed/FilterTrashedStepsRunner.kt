@@ -1,8 +1,9 @@
-package com.diskin.alon.visuals.recyclebin.featuretest
+package com.diskin.alon.visuals.recyclebin.featuretest.listtrashed
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
+import com.diskin.alon.visuals.recyclebin.featuretest.TestApp
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.ScenarioConfig
@@ -15,12 +16,12 @@ import org.robolectric.annotation.LooperMode
 import java.util.*
 
 /**
- * Step definitions runner for the 'User delete trashed from device outside app' scenario.
+ * Step definitions runner for the 'User filters displayed trashed items' scenario.
  */
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = TestApp::class)
-class TrashedDeletedOutsideAppStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class FilterTrashedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     @JvmField
     @Rule
@@ -33,7 +34,7 @@ class TrashedDeletedOutsideAppStepsRunner(scenario: ScenarioConfig) : GreenCoffe
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
                 .withFeatureFromAssets("list_trashed_items.feature")
-                .withTags("@trashed-deleted-not-by-app")
+                .withTags("@filter-trashed")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {
@@ -49,7 +50,7 @@ class TrashedDeletedOutsideAppStepsRunner(scenario: ScenarioConfig) : GreenCoffe
         val testApp = ApplicationProvider.getApplicationContext<Context>() as TestApp
 
         start(
-            TrashedDeletedOutsideAppSteps(
+            FilterTrashedSteps(
                 testApp.getTestTrashedItemsDao(),
                 testApp.getDeviceMediaProvider()
             )

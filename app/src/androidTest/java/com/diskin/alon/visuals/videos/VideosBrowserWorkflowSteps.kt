@@ -154,26 +154,6 @@ class VideosBrowserWorkflowSteps : VideosWorkflowsStepsBackground() {
                     )
                 )
             )
-
-        // verify trashed videos are in app recycle bin
-        onView(withId(R.id.recycle_bin))
-            .perform(click())
-
-        onView(withId(R.id.trashedList))
-            .check(matches(isRecyclerViewItemsCount(1)))
-
-        onView(withRecyclerView(R.id.trashedList).atPosition(0))
-            .check(
-                matches(
-                    hasDescendant(
-                        allOf(
-                            withId(R.id.trashedVideoThumb),
-                            withTagValue(`is`(getTestVideosUri()[0].toString())),
-                            isDisplayed()
-                        )
-                    )
-                )
-            )
     }
 
     @When("^User undo trashing$")

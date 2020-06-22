@@ -1,21 +1,18 @@
 package com.diskin.alon.visuals.recuclebin.presentation
 
-import android.content.Context
-import android.view.ViewStub
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.menu.ActionMenuItem
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.google.common.truth.Truth.assertThat
+import com.diskin.alon.visuals.recuclebin.presentation.controller.TrashBrowserFragment
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashedFilter
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItem
+import com.diskin.alon.visuals.recuclebin.presentation.viewmodel.TrashBrowserViewModel
 import dagger.android.support.AndroidSupportInjection
 import io.mockk.every
 import io.mockk.mockk
@@ -34,24 +31,24 @@ import org.junit.runner.RunWith
 @SmallTest
 class ExampleInstrumentedTest {
 
-    private lateinit var scenario: FragmentScenario<TrashedItemsFragment>
-    private val viewModel = mockk<TrashedItemsViewModel>()
-    private val trashedItemsData = MutableLiveData<List<TrashedItem>>()
+    private lateinit var scenario: FragmentScenario<TrashBrowserFragment>
+    private val viewModel = mockk<TrashBrowserViewModel>()
+    private val trashedItemsData = MutableLiveData<List<TrashItem>>()
     private var trashedFilterData = TrashedFilter.ALL
     @Before
     fun setUp() {
         mockkStatic(AndroidSupportInjection::class)
-        val fragmentSlot = slot<TrashedItemsFragment>()
+        val fragmentSlot = slot<TrashBrowserFragment>()
         every { AndroidSupportInjection.inject(capture(fragmentSlot)) } answers {
             val videosFragment = fragmentSlot.captured
             videosFragment.viewModel = viewModel
         }
-        every { viewModel.trashedItems } returns trashedItemsData
+        //every { viewModel.trashedItems } returns trashedItemsData
         every { viewModel getProperty "filter" } returns trashedFilterData
         every { viewModel setProperty "filter" value any<TrashedFilter>() } propertyType TrashedFilter::class answers { trashedFilterData = value}
 
         scenario = FragmentScenario.launchInContainer(
-            TrashedItemsFragment::class.java,
+            TrashBrowserFragment::class.java,
             null,
             null)
     }

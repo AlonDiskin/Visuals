@@ -1,4 +1,4 @@
-package com.diskin.alon.visuals.recyclebin.featuretest
+package com.diskin.alon.visuals.recyclebin.featuretest.listtrashed
 
 import android.net.Uri
 import android.os.Looper
@@ -14,12 +14,15 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import com.diskin.alon.common.data.DeviceMediaProvider
 import com.diskin.alon.common.data.TrashedEntityType
 import com.diskin.alon.common.data.TrashedItemDao
-import com.diskin.alon.visuals.recuclebin.presentation.*
 import com.diskin.alon.visuals.recuclebin.presentation.R
 import com.diskin.alon.visuals.recuclebin.presentation.databinding.TrashedPictureBinding
 import com.diskin.alon.visuals.recuclebin.presentation.databinding.TrashedVideoBinding
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItem
+import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItemType
+import com.diskin.alon.visuals.recuclebin.presentation.util.loadImage
+import com.diskin.alon.visuals.recuclebin.presentation.util.loadThumbnail
 import com.diskin.alon.visuals.recyclebin.data.MediaStoreVisual
-import com.diskin.alon.visuals.recyclebin.featuretest.RecyclerViewMatcher.withRecyclerView
+import com.diskin.alon.visuals.recyclebin.featuretest.util.RecyclerViewMatcher.withRecyclerView
 import com.google.common.truth.Truth.assertThat
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -97,11 +100,11 @@ class FilterTrashedSteps(
                 }
             }
             .map { entity ->
-                TrashedItem(
+                TrashItem(
                     Uri.parse(entity.uri),
                     when (entity.type) {
-                        TrashedEntityType.PICTURE -> TrashedItemType.PICTURE
-                        TrashedEntityType.VIDEO -> TrashedItemType.VIDEO
+                        TrashedEntityType.PICTURE -> TrashItemType.PICTURE
+                        TrashedEntityType.VIDEO -> TrashItemType.VIDEO
                     }
                 )
             }
@@ -109,27 +112,33 @@ class FilterTrashedSteps(
 
         // Verify ui display expected size of items
         scenario.onFragment {
-            val rv = it.view!!.findViewById<RecyclerView>(R.id.trashedList)
+            val rv = it.view!!.findViewById<RecyclerView>(R.id.trashList)
             assertThat(rv.adapter!!.itemCount).isEqualTo(expectedTrashedItems.size)
         }
 
         // Verify displayed items are of expected type,according to test filter
         expectedTrashedItems.forEachIndexed { index, item ->
             onView(
-                withRecyclerView(R.id.trashedList)
+                withRecyclerView(R.id.trashList)
                     .atPositionOnView(index, getTrashedViewType(item))
             )
                 .check(matches(isDisplayed()))
 
             verify {
                 when(item.type) {
-                    TrashedItemType.PICTURE -> loadImage(any(),item.uri)
-                    TrashedItemType.VIDEO -> loadThumbnail(any(),item.uri)
+                    TrashItemType.PICTURE -> loadImage(
+                        any(),
+                        item.uri
+                    )
+                    TrashItemType.VIDEO -> loadThumbnail(
+                        any(),
+                        item.uri
+                    )
                 }
             }
 
             scenario.onFragment {
-                val rv = it.view!!.findViewById<RecyclerView>(R.id.trashedList)
+                val rv = it.view!!.findViewById<RecyclerView>(R.id.trashList)
                 val binding = DataBindingUtil.getBinding<ViewDataBinding>(
                     rv[index]
                 )

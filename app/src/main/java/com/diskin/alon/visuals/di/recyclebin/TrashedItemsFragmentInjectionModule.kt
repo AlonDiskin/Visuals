@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.di.recyclebin
 
-import com.diskin.alon.visuals.recuclebin.presentation.TrashedItemsFragment
+import com.diskin.alon.visuals.recuclebin.presentation.controller.TrashBrowserFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
@@ -12,6 +12,6 @@ abstract class TrashedItemsFragmentInjectionModule {
 
     @Binds
     @IntoMap
-    @ClassKey(TrashedItemsFragment::class)
+    @ClassKey(TrashBrowserFragment::class)
     abstract fun bindAndroidInjectorFactory(factory: TrashedItemsFeatureSubcomponent.Factory): AndroidInjector.Factory<*>
 }

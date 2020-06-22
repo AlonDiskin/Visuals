@@ -34,6 +34,7 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
     private val selectedVideosUri: MutableList<Uri> = mutableListOf()
     private var actionMode: ActionMode? = null
     private lateinit var adapter: VideosAdapter
+    private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,14 +74,15 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
                     Status.SUCCESS -> {
                         // Show snackbar with success message and 'undo'action, that will
                         // undo last videos trashing
-                        Snackbar.make(
+                        snackbar = Snackbar.make(
                             videosList,
                             getString(R.string.trashing_success_message),
                             Snackbar.LENGTH_LONG)
                             .setAction(getString(R.string.title_undo_trash)) {
                                 viewModel.undoLastTrash()
                             }
-                            .show()
+
+                        snackbar?.show()
                     }
 
                     Status.FAILURE -> {
@@ -236,5 +238,7 @@ class VideosBrowserFragment : Fragment(), ActionMode.Callback {
         if (multiSelect) {
             actionMode?.finish()
         }
+
+        snackbar?.dismiss()
     }
 }
