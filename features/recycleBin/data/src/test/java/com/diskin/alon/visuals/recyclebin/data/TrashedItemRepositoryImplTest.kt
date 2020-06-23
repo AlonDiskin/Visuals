@@ -14,7 +14,7 @@ import io.mockk.slot
 import io.mockk.verify
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import org.junit.Before
@@ -47,7 +47,7 @@ class TrashedItemRepositoryImplTest(
         @BeforeClass
         fun setupClass() {
             // Set Rx framework for testing
-            RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
+            RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         }
     }
 

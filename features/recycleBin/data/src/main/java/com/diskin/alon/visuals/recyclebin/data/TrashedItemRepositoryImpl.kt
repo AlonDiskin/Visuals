@@ -72,7 +72,9 @@ class TrashedItemRepositoryImpl @Inject constructor(
     }
 
     override fun restoreAll(): Completable {
-        return Completable.fromObservable(
-            dao.getAll().map { items ->  dao.deleteAllByUri(items.map { it.uri }) })
+        return Completable.fromCallable {
+            val allUri = dao.getAll().blockingFirst().map { it.uri }
+            dao.deleteAllByUri(allUri) }
+            .subscribeOn(Schedulers.io())
     }
 }
