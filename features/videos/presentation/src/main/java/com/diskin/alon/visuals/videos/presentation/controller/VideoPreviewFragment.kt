@@ -19,10 +19,9 @@ class VideoPreviewFragment : Fragment() {
 
     companion object {
         const val KEY_VID_URI = "vid uri"
-        const val START_POSITION = 1
     }
 
-    private var mCurrentPosition = START_POSITION
+    private var playerPrepared: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +36,7 @@ class VideoPreviewFragment : Fragment() {
         // Setup videoView listeners
         videoView.setOnPreparedListener {
             // Seek to playback position
-            videoView.seekTo(mCurrentPosition)
+            videoView.seekTo(0)
 
             // Mute playback
             it.setVolume(0f,0f)
@@ -45,9 +44,12 @@ class VideoPreviewFragment : Fragment() {
             // Start video
             videoView.start()
 
-            EspressoIdlingResource.decrement()
+            if (!playerPrepared) {
+                playerPrepared = true
+                EspressoIdlingResource.decrement()
+            }
         }
-        videoView.setOnCompletionListener { videoView.seekTo(START_POSITION) }
+        videoView.setOnCompletionListener { videoView.seekTo(0) }
 
         // Set play video playback button listener
         val uri = arguments?.getParcelable<Uri>(KEY_VID_URI)!!
@@ -78,7 +80,6 @@ class VideoPreviewFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         videoView.pause()
-        mCurrentPosition = videoView.currentPosition
     }
 
     override fun onStop() {
