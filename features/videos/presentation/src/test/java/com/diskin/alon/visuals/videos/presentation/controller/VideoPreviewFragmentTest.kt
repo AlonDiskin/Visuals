@@ -111,21 +111,6 @@ class VideoPreviewFragmentTest {
     }
 
     @Test
-    fun pauseVideoPlayBack_whenFragmentPaused() {
-        // Given a resumed activity
-
-        // When fragment is moved to paused state
-        scenario.moveToState(State.STARTED)
-
-        // Then fragment should pause video playback
-        scenario.onFragment {
-            val videoViewShadow = Shadows.shadowOf(it.videoView)!!
-
-            assertThat(videoViewShadow.currentVideoState).isEqualTo(ShadowVideoView.PAUSE)
-        }
-    }
-
-    @Test
     fun stopVideoPlayBack_whenFragmentStopped() {
         // Given a resumed activity
 
@@ -179,7 +164,7 @@ class VideoPreviewFragmentTest {
             videoViewShadow.onPreparedListener.onPrepared(mediaPlayer)
 
             // Then fragment should start video playback from the beginning
-            assertThat(it.videoView.currentPosition).isEqualTo(VideoPreviewFragment.START_POSITION)
+            assertThat(it.videoView.currentPosition).isEqualTo(0)
         }
     }
 
