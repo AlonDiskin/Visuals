@@ -19,9 +19,9 @@ import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.util.DeviceUtil
 import com.diskin.alon.visuals.util.RecyclerViewMatcher.withRecyclerView
 import com.diskin.alon.visuals.util.isRecyclerViewItemsCount
-import com.diskin.alon.visuals.videos.data.MediaStoreVideoProvider
-import com.diskin.alon.visuals.videos.presentation.controller.VideosAdapter.VideoViewHolder
-import com.diskin.alon.visuals.videos.presentation.model.VideoDuration
+import com.diskin.alon.visuals.catalog.data.MediaStoreVideoProvider
+import com.diskin.alon.visuals.catalog.presentation.controller.VideosAdapter.VideoViewHolder
+import com.diskin.alon.visuals.catalog.presentation.model.VideoDuration
 import com.google.common.truth.Truth
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -159,7 +159,7 @@ class VideosBrowserWorkflowSteps : VideosWorkflowsStepsBackground() {
     @When("^User undo trashing$")
     fun userUndoTrashing() {
         // Click on 'undo' action of displayed snackbar
-        onView(withId(com.diskin.alon.visuals.videos.presentation.R.id.snackbar_action))
+        onView(withId(com.diskin.alon.visuals.photos.presentation.R.id.snackbar_action))
             .perform(click())
     }
 

@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.di.pictures
 
-import com.diskin.alon.visuals.photos.presentation.controller.PicturesBrowserFragment
+import com.diskin.alon.visuals.catalog.presentation.controller.PicturesBrowserFragment
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recycle_bin_browser_fragment_root"
+    tools:context="com.diskin.alon.visuals.catalog.presentation.controller.TrashBrowserFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trashList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/trashed_picture"
+        android:scrollbars="vertical"
+        android:scrollbarSize="4dp"
+        android:scrollbarThumbVertical="@color/colorAccent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="@integer/trashed_list_col" />
+
+</FrameLayout>

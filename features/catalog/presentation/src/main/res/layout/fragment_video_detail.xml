@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="videoDetail"
+            type="com.diskin.alon.visuals.catalog.presentation.model.VideoDetail" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context="com.diskin.alon.visuals.catalog.presentation.controller.VideoDetailFragment">
+
+        <TextView
+            android:id="@+id/sizeLabel"
+            style="@style/MediaDetailLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/size_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sizeDetail"
+            style="@style/MediaDetailText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{videoDetail.size}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/sizeLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sizeLabel"
+            tools:text="@string/vid_size_sample" />
+
+        <TextView
+            android:id="@+id/dateLabel"
+            style="@style/MediaDetailLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/date_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sizeDetail" />
+
+        <TextView
+            android:id="@+id/dateDetail"
+            style="@style/MediaDetailText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{videoDetail.added}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/dateLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dateLabel"
+            tools:text="@string/vid_added_sample" />
+
+        <TextView
+            android:id="@+id/pathLabel"
+            style="@style/MediaDetailLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/path_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateDetail" />
+
+        <TextView
+            android:id="@+id/pathDetail"
+            style="@style/MediaDetailText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{videoDetail.path}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/pathLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/pathLabel"
+            tools:text="@string/vid_path_sample" />
+
+        <TextView
+            android:id="@+id/titleLabel"
+            style="@style/MediaDetailLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/title_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pathDetail" />
+
+        <TextView
+            android:id="@+id/titleDetail"
+            style="@style/MediaDetailText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{videoDetail.title}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/titleLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/titleLabel"
+            tools:text="@string/vid_title_sample" />
+
+        <TextView
+            android:id="@+id/resolutionLabel"
+            style="@style/MediaDetailLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/resolution_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleDetail" />
+
+        <TextView
+            android:id="@+id/resolutionDetail"
+            style="@style/MediaDetailText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{videoDetail.resolution}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/resolutionLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/resolutionLabel"
+            tools:text="@string/vid_resolution_sample" />
+
+        <TextView
+            android:id="@+id/durationLabel"
+            style="@style/MediaDetailLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/duration_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resolutionDetail" />
+
+        <TextView
+            android:id="@+id/durationDetail"
+            style="@style/MediaDetailText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{videoDetail.duration}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/durationLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/durationLabel"
+            tools:text="@string/vid_duration_sample" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.di.recyclebin
 
-import com.diskin.alon.visuals.recuclebin.presentation.controller.TrashBrowserFragment
+import com.diskin.alon.visuals.catalog.presentation.controller.TrashBrowserFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector

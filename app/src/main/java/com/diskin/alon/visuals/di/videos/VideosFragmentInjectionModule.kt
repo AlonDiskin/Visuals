@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.di.videos
 
-import com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragment
+import com.diskin.alon.visuals.catalog.presentation.controller.VideosBrowserFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector

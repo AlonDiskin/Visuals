@@ -1,8 +1,8 @@
 package com.diskin.alon.visuals.di.pictures
 
-import com.diskin.alon.visuals.photos.presentation.controller.PictureViewerActivity
-import com.diskin.alon.visuals.photos.presentation.controller.PictureViewerFragmentFactory
-import com.diskin.alon.visuals.photos.presentation.controller.PictureViewerFragmentFactoryImpl
+import com.diskin.alon.visuals.catalog.presentation.controller.PictureViewerActivity
+import com.diskin.alon.visuals.catalog.presentation.controller.PictureViewerFragmentFactory
+import com.diskin.alon.visuals.catalog.presentation.controller.PictureViewerFragmentFactoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

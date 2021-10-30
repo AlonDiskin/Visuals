@@ -1,9 +1,7 @@
 package com.diskin.alon.visuals.videos
 
 import android.content.Context
-import android.content.Intent
 import android.provider.MediaStore
-import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -11,15 +9,12 @@ import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.diskin.alon.visuals.R
-import com.diskin.alon.visuals.util.DeviceUtil
+import com.diskin.alon.visuals.catalog.data.MediaStoreVideoProvider
+import com.diskin.alon.visuals.catalog.presentation.controller.VideosAdapter.VideoViewHolder
+import com.diskin.alon.visuals.catalog.presentation.model.VideoDetail
 import com.diskin.alon.visuals.util.isVideoViewPlayingWithUri
-import com.diskin.alon.visuals.videos.data.MediaStoreVideoProvider
-import com.diskin.alon.visuals.videos.presentation.controller.VideosAdapter.VideoViewHolder
-import com.diskin.alon.visuals.videos.presentation.model.VideoDetail
 import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
 import com.mauriciotogneri.greencoffee.annotations.Then

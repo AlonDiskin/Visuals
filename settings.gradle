@@ -1,15 +1,9 @@
 include ':app',
-        ':features:videos:data',
-        ':features:videos:featureTest',
-        ':features:videos:presentation',
-        ':features:pictures:data',
-        ':features:pictures:featureTest',
-        ':features:pictures:presentation',
+        ':features:catalog:data',
+        ':features:catalog:featureTest',
+        ':features:catalog:presentation',
         ':features:common:presentation',
         ':features:common:data',
         ':features:home:presentation',
-        ':features:settings:presentation',
-        ':features:recycleBin:presentation'
+        ':features:settings:presentation'
 rootProject.name='Visuals'
-include ':features:recycleBin:featureTest'
-include ':features:recycleBin:data'

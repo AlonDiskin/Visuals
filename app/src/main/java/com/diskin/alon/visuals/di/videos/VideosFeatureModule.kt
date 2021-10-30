@@ -1,11 +1,11 @@
 package com.diskin.alon.visuals.di.videos
 
 import androidx.lifecycle.ViewModelProvider
-import com.diskin.alon.visuals.videos.data.VideoRepositoryImpl
-import com.diskin.alon.visuals.videos.presentation.interfaces.VideoRepository
-import com.diskin.alon.visuals.videos.presentation.controller.VideosBrowserFragment
-import com.diskin.alon.visuals.videos.presentation.viewmodel.VideosBrowserViewModel
-import com.diskin.alon.visuals.videos.presentation.viewmodel.VideosBrowserViewModelImpl
+import com.diskin.alon.visuals.catalog.data.VideoRepositoryImpl
+import com.diskin.alon.visuals.catalog.presentation.interfaces.VideoRepository
+import com.diskin.alon.visuals.catalog.presentation.controller.VideosBrowserFragment
+import com.diskin.alon.visuals.catalog.presentation.viewmodel.VideosBrowserViewModel
+import com.diskin.alon.visuals.catalog.presentation.viewmodel.VideosBrowserViewModelImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

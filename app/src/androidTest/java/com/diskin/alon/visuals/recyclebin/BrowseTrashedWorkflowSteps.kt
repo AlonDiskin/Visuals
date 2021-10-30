@@ -5,7 +5,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.diskin.alon.visuals.R
-import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItemType
+import com.diskin.alon.visuals.catalog.presentation.model.TrashItemType
 import com.diskin.alon.visuals.util.RecyclerViewMatcher.withRecyclerView
 import com.diskin.alon.visuals.util.isRecyclerViewItemsCount
 import com.mauriciotogneri.greencoffee.annotations.And

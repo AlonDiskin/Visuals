@@ -1,6 +1,6 @@
 package com.diskin.alon.visuals.di.videos
 
-import com.diskin.alon.visuals.videos.presentation.controller.VideoDetailFragment
+import com.diskin.alon.visuals.catalog.presentation.controller.VideoDetailFragment
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 

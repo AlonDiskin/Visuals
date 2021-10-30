@@ -3,10 +3,10 @@ package com.diskin.alon.visuals.di.videos
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.diskin.alon.visuals.videos.presentation.controller.VideoDetailFragment
-import com.diskin.alon.visuals.videos.presentation.interfaces.VideoDetailRepository
-import com.diskin.alon.visuals.videos.presentation.util.VideoDetailMapper
-import com.diskin.alon.visuals.videos.presentation.viewmodel.VideoDetailViewModelImpl
+import com.diskin.alon.visuals.catalog.presentation.controller.VideoDetailFragment
+import com.diskin.alon.visuals.catalog.presentation.interfaces.VideoDetailRepository
+import com.diskin.alon.visuals.catalog.presentation.util.VideoDetailMapper
+import com.diskin.alon.visuals.catalog.presentation.viewmodel.VideoDetailViewModelImpl
 import javax.inject.Inject
 import javax.inject.Provider
 

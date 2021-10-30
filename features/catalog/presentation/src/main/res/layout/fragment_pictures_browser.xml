@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_pictures_root"
+    tools:context="com.diskin.alon.visuals.catalog.presentation.controller.PicturesBrowserFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pictures_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/picture"
+        android:scrollbars="vertical"
+        android:scrollbarSize="4dp"
+        android:scrollbarThumbVertical="@color/colorAccent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="@integer/photos_columns" />
+
+</FrameLayout>

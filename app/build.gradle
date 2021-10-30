@@ -71,14 +71,10 @@ dependencies {
     // Project modules
     implementation project(':features:home:presentation')
     implementation project(':features:settings:presentation')
-    implementation project(':features:pictures:presentation')
-    implementation project(':features:pictures:data')
-    implementation project(':features:videos:presentation')
-    implementation project(':features:videos:data')
+    implementation project(':features:catalog:presentation')
+    implementation project(':features:catalog:data')
     implementation project(':features:common:presentation')
     implementation project(':features:common:data')
-    implementation project(':features:recycleBin:presentation')
-    implementation project(':features:recycleBin:data')
 
     // Kotlin
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

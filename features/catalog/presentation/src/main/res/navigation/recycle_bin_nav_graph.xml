@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recycle_bin"
+    app:startDestination="@id/recycleBinBrowserFragment">
+
+    <fragment
+        android:id="@+id/recycleBinBrowserFragment"
+        android:name="com.diskin.alon.visuals.catalog.presentation.controller.TrashBrowserFragment"
+        android:label="fragment_recycle_bin_browser"
+        tools:layout="@layout/fragment_trash_browser" />
+</navigation>

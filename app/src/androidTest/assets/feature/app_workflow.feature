@@ -16,7 +16,6 @@ Feature: App usage workflows
     And User launch app from device home screen
     When User navigates to pictures browser screen
     Then All user device public pictures are shown by date in descended order
-    When User rotates device
     Then Pictures are displayed as before
     When User selects the first listed picture for sharing
     Then App should share picture

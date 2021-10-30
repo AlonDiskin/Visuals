@@ -1,8 +1,8 @@
 package com.diskin.alon.visuals.di.videos
 
-import com.diskin.alon.visuals.videos.presentation.controller.VideoDetailActivity
-import com.diskin.alon.visuals.videos.presentation.controller.VideoPlayerFragmentsFactory
-import com.diskin.alon.visuals.videos.presentation.controller.VideoPlayerFragmentsFactoryImpl
+import com.diskin.alon.visuals.catalog.presentation.controller.VideoDetailActivity
+import com.diskin.alon.visuals.catalog.presentation.controller.VideoPlayerFragmentsFactory
+import com.diskin.alon.visuals.catalog.presentation.controller.VideoPlayerFragmentsFactoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

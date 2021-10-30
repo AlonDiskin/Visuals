@@ -17,7 +17,5 @@ Feature: Media items Recycle bin
 
   @restore-trashed
   Scenario: User restores trashed items
-    And Restores first listed video trash item
-    Then Video should be restored to videos browser
     When User restore all items in trash
     Then All items should be restored

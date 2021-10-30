@@ -2,8 +2,8 @@ package com.diskin.alon.visuals.di.pictures
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.diskin.alon.visuals.photos.presentation.interfaces.PictureRepository
-import com.diskin.alon.visuals.photos.presentation.viewmodel.PicturesBrowserViewModelImpl
+import com.diskin.alon.visuals.catalog.presentation.interfaces.PictureRepository
+import com.diskin.alon.visuals.catalog.presentation.viewmodel.PicturesBrowserViewModelImpl
 import javax.inject.Inject
 import javax.inject.Provider
 

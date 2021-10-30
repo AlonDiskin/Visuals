@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="test_fragment1_text">test fragment 1</string>
+    <string name="test_fragment2_text">test fragment 2</string>
+    <string name="stub_video_preview_frag_text">Hello Stub video preview fragment</string>
+    <string name="stub_video_detail_frag_text">Hello Stub video detail fragment</string>
+
+</resources>

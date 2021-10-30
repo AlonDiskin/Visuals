@@ -1,11 +1,11 @@
 package com.diskin.alon.visuals.di.pictures
 
 import androidx.lifecycle.ViewModelProvider
-import com.diskin.alon.visuals.photos.data.PictureDetailRepositoryImpl
-import com.diskin.alon.visuals.photos.presentation.controller.PictureDetailFragment
-import com.diskin.alon.visuals.photos.presentation.interfaces.PictureDetailRepository
-import com.diskin.alon.visuals.photos.presentation.viewmodel.PictureDetailViewModel
-import com.diskin.alon.visuals.photos.presentation.viewmodel.PictureDetailViewModelImpl
+import com.diskin.alon.visuals.catalog.data.PictureDetailRepositoryImpl
+import com.diskin.alon.visuals.catalog.presentation.controller.PictureDetailFragment
+import com.diskin.alon.visuals.catalog.presentation.interfaces.PictureDetailRepository
+import com.diskin.alon.visuals.catalog.presentation.viewmodel.PictureDetailViewModel
+import com.diskin.alon.visuals.catalog.presentation.viewmodel.PictureDetailViewModelImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

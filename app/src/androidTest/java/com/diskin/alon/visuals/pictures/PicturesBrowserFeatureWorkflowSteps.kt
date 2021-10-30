@@ -7,7 +7,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -19,8 +18,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.diskin.alon.visuals.R
-import com.diskin.alon.visuals.common.presentation.EspressoIdlingResource
-import com.diskin.alon.visuals.photos.presentation.controller.PicturesAdapter.PictureViewHolder
+import com.diskin.alon.visuals.catalog.presentation.controller.PicturesAdapter.PictureViewHolder
 import com.diskin.alon.visuals.util.DeviceUtil
 import com.diskin.alon.visuals.util.RecyclerViewMatcher.withRecyclerView
 import com.google.common.truth.Truth.assertThat
@@ -114,12 +112,6 @@ class PicturesBrowserFeatureWorkflowSteps : GreenCoffeeSteps() {
         }
     }
 
-    @When("^User rotates device$")
-    fun userRotatesDevice() {
-        // Rotate test device
-        DeviceUtil.rotateDeviceLand()
-    }
-
     @Then("^Pictures are displayed as before$")
     fun picturesAreDisplayedAsBefore() {
         // Verify all test pictures are shown sorted by date added in descending order
@@ -143,6 +135,7 @@ class PicturesBrowserFeatureWorkflowSteps : GreenCoffeeSteps() {
 
     @When("^User selects the first listed picture for sharing$")
     fun userSelectsFirstListedPictureForSharing() {
+        Thread.sleep(2000)
         // Select first listed picture
         onView(withId(R.id.pictures_list))
             .perform(

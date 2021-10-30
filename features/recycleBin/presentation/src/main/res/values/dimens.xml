@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="trashed_item_height" type="dimen">100dp</item>
-    <item name="trashed_item_margin" type="dimen">0.5dp</item>
-</resources>

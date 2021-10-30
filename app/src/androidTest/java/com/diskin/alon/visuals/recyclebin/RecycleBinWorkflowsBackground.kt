@@ -19,8 +19,8 @@ import com.diskin.alon.common.data.TrashedItemEntity
 import com.diskin.alon.visuals.R
 import com.diskin.alon.visuals.VisualsApp
 import com.diskin.alon.visuals.di.app.AppComponent
-import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItem
-import com.diskin.alon.visuals.recuclebin.presentation.model.TrashItemType
+import com.diskin.alon.visuals.catalog.presentation.model.TrashItem
+import com.diskin.alon.visuals.catalog.presentation.model.TrashItemType
 import com.diskin.alon.visuals.util.DeviceUtil
 import com.google.common.truth.Truth
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
@@ -86,24 +86,27 @@ open class RecycleBinWorkflowsBackground : GreenCoffeeSteps() {
             testMediaUri.add(Uri.parse(uri))
         }
 
-        testVideos.forEach { resId ->
-            val videoFile = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                context.resources.getResourceEntryName(resId)!!
-            )
-            val inputStream: InputStream = context.resources.openRawResource(resId)
-            val outputStream = FileOutputStream(videoFile)
-
-            outputStream.write(inputStream.readBytes())
-            outputStream.close()
-
-            val mediaStoreUri =  resolver.insert(
-                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                ContentValues().apply { put(MediaStore.Video.Media.DATA,videoFile.path) }
-            )!!
-
-            testMediaUri.add(mediaStoreUri)
-        }
+//        testVideos.forEach { resId ->
+//            val videoFile = File(
+//                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+//                context.resources.getResourceEntryName(resId)!!
+//            )
+//            val inputStream: InputStream = context.resources.openRawResource(resId)
+//            val outputStream = FileOutputStream(videoFile)
+//
+//            outputStream.write(inputStream.readBytes())
+//            outputStream.close()
+//
+//            val mediaStoreUri =  resolver.insert(
+//                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+//                ContentValues().apply {
+//                    put(MediaStore.Video.Media.DATA,videoFile.path)
+//                    //put(MediaStore.Video.Media.MIME_TYPE,"video/*")
+//                }
+//            )!!
+//
+//            testMediaUri.add(mediaStoreUri)
+//        }
 
         // Set some test device media as trashed in app db
         testTrashedItems = mutableListOf(

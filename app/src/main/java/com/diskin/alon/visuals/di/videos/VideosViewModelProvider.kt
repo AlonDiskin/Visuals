@@ -2,8 +2,8 @@ package com.diskin.alon.visuals.di.videos
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.diskin.alon.visuals.videos.presentation.interfaces.VideoRepository
-import com.diskin.alon.visuals.videos.presentation.viewmodel.VideosBrowserViewModelImpl
+import com.diskin.alon.visuals.catalog.presentation.interfaces.VideoRepository
+import com.diskin.alon.visuals.catalog.presentation.viewmodel.VideosBrowserViewModelImpl
 import javax.inject.Inject
 import javax.inject.Provider
 
