@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        android:id="@+id/action_dark_mode"
+        android:title="@string/title_dark_mode"
+        android:checkable="true"
+        app:showAsAction="never" />
 </menu>

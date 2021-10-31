@@ -4,6 +4,5 @@ include ':app',
         ':features:catalog:presentation',
         ':features:common:presentation',
         ':features:common:data',
-        ':features:home:presentation',
-        ':features:settings:presentation'
+        ':features:home:presentation'
 rootProject.name='Visuals'

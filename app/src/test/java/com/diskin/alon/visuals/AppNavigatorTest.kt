@@ -1,10 +1,7 @@
 package com.diskin.alon.visuals
 
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.diskin.alon.visuals.settings.presentation.SettingsActivity
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -25,20 +22,6 @@ class AppNavigatorTest {
     fun setUp() {
         // Initialize SUT
         appNavigator = AppNavigator(ApplicationProvider.getApplicationContext())
-    }
-
-    @Test
-    fun startSettingsActivity_whenOpeningSettings() {
-        Intents.init()
-
-        // Given an initialized navigator
-
-        // When client opens settings screen
-        appNavigator.openSettings()
-
-        // Then navigator should start the settings activity
-        Intents.intended(IntentMatchers.hasComponent(SettingsActivity::class.java.name))
-        Intents.release()
     }
 
     @Test

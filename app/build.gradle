@@ -70,7 +70,7 @@ dependencies {
 
     // Project modules
     implementation project(':features:home:presentation')
-    implementation project(':features:settings:presentation')
+    //implementation project(':features:settings:presentation')
     implementation project(':features:catalog:presentation')
     implementation project(':features:catalog:data')
     implementation project(':features:common:presentation')

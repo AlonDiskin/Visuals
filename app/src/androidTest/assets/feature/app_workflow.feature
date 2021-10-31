@@ -5,7 +5,6 @@ Feature: App usage workflows
   @settings-feature
   Scenario: Application settings usage workflow
     Given User launch app from device home screen
-    When User navigates to default values settings screen
     Then App visual theme should be set as day theme
     When User selects the night theme
     Then App theme should be changed to night

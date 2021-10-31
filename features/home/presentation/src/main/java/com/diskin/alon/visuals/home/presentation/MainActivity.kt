@@ -3,10 +3,12 @@ package com.diskin.alon.visuals.home.presentation
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
@@ -27,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var mNavigator: MainNavigator
+    @Inject
+    lateinit var themeManager: ThemeManager
     private var navController: LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,23 +56,35 @@ class MainActivity : AppCompatActivity() {
         return navController?.value?.navigateUp() ?: false
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate options menu
         menuInflater.inflate(R.menu.main_menu, menu)
+        restoreDarkModeMenuItemState(menu.findItem(R.id.action_dark_mode))
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        // Resolve menu selection
-        return when(item?.itemId) {
-            // Navigate to settings screen
-            R.id.action_settings -> {
-                mNavigator.openSettings()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_dark_mode -> {
+                when(themeManager.isDarkModeEnabled()) {
+                    false -> {
+                        themeManager.setDarkMode(true)
+                        item.isChecked = true
+                    }
+                    true -> {
+                        themeManager.setDarkMode(false)
+                        item.isChecked = false
+                    }
+                }
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun restoreDarkModeMenuItemState(item: MenuItem) {
+        item.isChecked = themeManager.isDarkModeEnabled()
     }
 
     /**

@@ -19,15 +19,12 @@ class VisualsApp : DaggerApplication() {
 
         // Restore night mode according to app preference
         val sp = PreferenceManager.getDefaultSharedPreferences(this)
-        val themeKey = getString(R.string.pref_theme_key)
-        val themeDefault = getString(R.string.pref_theme_default_value)
+        val darkModeKey = getString(R.string.pref_dark_mode_key)
+        val darkModeDefault = getString(R.string.pref_dark_mode_default_value)
 
-        when(sp.getString(themeKey,themeDefault)!!) {
-            getString(R.string.pref_theme_day_value) ->
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
-            getString(R.string.pref_theme_night_value) ->
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        when(sp.getString(darkModeKey,darkModeDefault)) {
+            "true" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "false" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
 }

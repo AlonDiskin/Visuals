@@ -24,9 +24,6 @@ jobs:
           name: Unit Test common features
           command: ./gradlew :features:common:presentation:testDebugUnitTest :features:common:data:testDebugUnitTest --no-daemon --max-workers=2 --stacktrace
       - run:
-          name: Unit Test settings features
-          command: ./gradlew :features:settings:presentation:testDebugUnitTest --no-daemon --max-workers=2 --stacktrace
-      - run:
           name: Unit Test catalog feature
           command: ./gradlew :features:catalog:presentation:testDebugUnitTest :features:catalog:data:testDebugUnitTest --no-daemon --max-workers=2 --stacktrace
       - store_artifacts:

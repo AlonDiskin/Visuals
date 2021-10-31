@@ -2,7 +2,9 @@ package com.diskin.alon.visuals.home.presentation
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Looper
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.test.core.app.ActivityScenario
@@ -10,8 +12,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
@@ -21,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Shadows
 import org.robolectric.annotation.LooperMode
 
 /**
@@ -31,11 +34,12 @@ import org.robolectric.annotation.LooperMode
 @SmallTest
 class MainActivityTest {
 
-    // System under test
+    // Test subject
     private lateinit var scenario: ActivityScenario<MainActivity>
 
-    // Mocked SUT collaborators
+    // Collaborators
     private val navigator: MainNavigator = mockk()
+    private val themeManager: ThemeManager = mockk()
 
     @Before
     fun setUp() {
@@ -47,12 +51,14 @@ class MainActivityTest {
         every { AndroidInjection.inject(capture(activitySlot)) } answers {
             val mainActivity: MainActivity = activitySlot.captured as MainActivity
             mainActivity.mNavigator = navigator
+            mainActivity.themeManager = themeManager
         }
 
         // Stub mocked collaborator behaviour
         every { navigator.getPicturesNavGraph() } returns R.navigation.pictures_test_nav_graph
         every { navigator.getVideosNavGraph() } returns R.navigation.videos_test_nav_graph
         every { navigator.getRecycleBinNavGraph() } returns R.navigation.recycle_bin_test_nav_graph
+        every { themeManager.isDarkModeEnabled() } returns false
 
         // Currently(Feb 2020), robolectric has no capability to unit test or configure run time permissions, so
         // we just going to stub a granted permission, while user run time permission flow will be
@@ -79,35 +85,6 @@ class MainActivityTest {
     }
 
     @Test
-    fun navToSettingsScreen_whenClickingOnSettingsNavMenu() {
-        // Test case fixture
-        every { navigator.openSettings() } returns
-
-        // Given a resumed activity
-
-        // When user open options menu
-        openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext())
-
-        // And clicks on 'settings' menu item
-        onView(withText(R.string.action_settings))
-            .perform(click())
-
-        // Then navigation helper should navigate to settings screen
-        verify{ navigator.openSettings() }
-    }
-
-    @Test
-    fun addPicturesNavAccess_whenResumed() {
-        // Given a resumed activity
-
-        // Then activity should have bottom nav view has entry for pictures destination
-        scenario.onActivity {
-            assertThat(it.bottom_nav.menu.findItem(R.id.pictures).isVisible)
-                .isTrue()
-        }
-    }
-
-    @Test
     fun openPicturesScreenComposite_whenUserNavigates() {
         // Given a resumed activity
 
@@ -121,17 +98,6 @@ class MainActivityTest {
                 .findNavController().currentDestination!!.id
 
             assertThat(actualDest).isEqualTo(R.id.pictures_placeholder)
-        }
-    }
-
-    @Test
-    fun addVideosNavAccess_whenResumed() {
-        // Given a resumed activity
-
-        // Then activity should have bottom nav view has entry for videos destination
-        scenario.onActivity {
-            assertThat(it.bottom_nav.menu.findItem(R.id.videos).isVisible)
-                .isTrue()
         }
     }
 
@@ -153,17 +119,6 @@ class MainActivityTest {
     }
 
     @Test
-    fun addRecycleBinNavAccess_whenResumed() {
-        // Given a resumed activity
-
-        // Then activity should have bottom nav view has entry for recycle bin destination
-        scenario.onActivity {
-            assertThat(it.bottom_nav.menu.findItem(R.id.recycle_bin).isVisible)
-                .isTrue()
-        }
-    }
-
-    @Test
     fun openRecycleBinScreenComposite_whenUserNavigates() {
         // Given a resumed activity
 
@@ -178,5 +133,82 @@ class MainActivityTest {
 
             assertThat(actualDest).isEqualTo(R.id.recycle_bin_placeholder)
         }
+    }
+
+    @Test
+    fun setDarkModeMenuItemAccordingToMode_WhenResumed() {
+        // Given
+        val context = ApplicationProvider.getApplicationContext<Context>()
+
+        // Then
+        openActionBarOverflowOrOptionsMenu(context)
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        onView(withId(R.id.checkbox))
+            .check(matches(isNotChecked()))
+
+        // When
+        every { themeManager.isDarkModeEnabled() } returns true
+        scenario.recreate()
+
+        // Then
+        openActionBarOverflowOrOptionsMenu(context)
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        onView(withId(R.id.checkbox))
+            .check(matches(isChecked()))
+    }
+
+    @Test
+    fun setDarkModeMenuItemCheckState_AccordingToUserSelection() {
+        // Given
+        every { themeManager.setDarkMode(any()) } returns Unit
+
+        // When
+        openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        onView(withText(R.string.title_dark_mode))
+            .perform(click())
+
+        // Then
+        openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        onView(withId(R.id.checkbox))
+            .check(matches(isChecked()))
+
+        // When
+        every { themeManager.isDarkModeEnabled() } returns true
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        onView(withText(R.string.title_dark_mode))
+            .perform(click())
+
+        // Then
+        openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        onView(withId(R.id.checkbox))
+            .check(matches(isNotChecked()))
+    }
+
+    @Test
+    fun setAppDarkMode_WhenUserSelectsMode() {
+        // Given
+        every { themeManager.setDarkMode(any()) } returns Unit
+
+        // When
+        openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        onView(withText(R.string.title_dark_mode))
+            .perform(click())
+
+        // Then
+        verify { themeManager.setDarkMode(true) }
+
+        // When
+        every { themeManager.isDarkModeEnabled() } returns true
+        openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        onView(withText(R.string.title_dark_mode))
+            .perform(click())
+
+        // Then
+        verify { themeManager.setDarkMode(false) }
     }
 }

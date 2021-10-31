@@ -8,11 +8,6 @@ import androidx.annotation.NavigationRes
 interface MainNavigator {
 
     /**
-     * Open settings screen.
-     */
-    fun openSettings()
-
-    /**
      * Get the pictures browser features navigation graph resource.
      */
     @NavigationRes

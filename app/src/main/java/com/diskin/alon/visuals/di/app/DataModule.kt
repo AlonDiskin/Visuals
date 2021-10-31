@@ -2,6 +2,9 @@ package com.diskin.alon.visuals.di.app
 
 import android.app.Application
 import android.content.ContentResolver
+import android.content.SharedPreferences
+import android.content.res.Resources
+import android.preference.PreferenceManager
 import androidx.room.Room
 import com.diskin.alon.common.data.AppDatabase
 import com.diskin.alon.common.data.DeviceMediaProvider
@@ -22,6 +25,18 @@ abstract class DataModule {
         @Provides
         fun provideContentResolver(application: Application): ContentResolver {
             return application.contentResolver
+        }
+
+        @JvmStatic
+        @Provides
+        fun provideSharedPreferences(application: Application): SharedPreferences {
+            return PreferenceManager.getDefaultSharedPreferences(application)
+        }
+
+        @JvmStatic
+        @Provides
+        fun provideContentResources(application: Application): Resources {
+            return application.resources
         }
 
         @JvmStatic
